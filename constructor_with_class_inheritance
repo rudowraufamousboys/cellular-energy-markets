@@ -34,11 +34,11 @@ class cellTypeA:
         
         self.dfload = pd.read_csv(self.name + '/' + 'load.csv')
         self.dfload.set_index('snapshot', inplace=True)
-        self.dfload.sort_values('price', axis=1)
+        self.dfload.sort_values('price', axis=1, ascending=False, inplace=True)
         
         self.dfsupply = pd.read_csv(self.name + '/' + 'supply.csv')
         self.dfsupply.set_index('snapshot', inplace=True)
-        self.dfsupply.sort_values('price', axis=1, ascending=True)
+        self.dfsupply.sort_values('price', axis=1, ascending=True, inplace=True)
         
 
 class cellTypeB(cellTypeA):
@@ -55,4 +55,4 @@ class cellTypeC(cellTypeA):
     
     def __init__(self,name):
         
-        super().__init_(name)
+        super().__init__(name)
