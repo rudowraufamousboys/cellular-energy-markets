@@ -1,0 +1,58 @@
+'''
+constructor with class inheritance
+'''
+import pandas as pd
+import numpy as np
+
+
+class grid:
+    
+    level=0
+    
+    def __init__(self, energyPrice):
+        
+        self.energyPrice=energyPrice
+        
+
+class powerLine:
+    
+    def __init__(self, name, bonus, tax, capacity):
+        
+        self.name=name
+        self.bonus=bonus
+        self.tax=tax
+        self.capacity=capacity
+        
+
+class cellTypeA:
+    
+    level=1
+    
+    def __init__(self, name):
+        
+        self.name=name
+        
+        self.dfload = pd.read_csv(self.name + '/' + 'load.csv')
+        self.dfload.set_index('snapshot', inplace=True)
+        self.dfload.sort_values('price', axis=1)
+        
+        self.dfsupply = pd.read_csv(self.name + '/' + 'supply.csv')
+        self.dfsupply.set_index('snapshot', inplace=True)
+        self.dfsupply.sort_values('price', axis=1, ascending=True)
+        
+
+class cellTypeB(cellTypeA):
+    
+    level=2
+    
+    def __init__(self, name):
+        
+        super().__init__(name)
+        
+class cellTypeC(cellTypeA):
+    
+    level=3
+    
+    def __init__(self,name):
+        
+        super().__init_(name)
