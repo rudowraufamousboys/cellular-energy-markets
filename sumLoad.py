@@ -5,7 +5,7 @@ zum Testen mit Liste
 
 sumLoad=[]
 
-for index in dfLoad:
+for index in dfLoad[1]:
 
   sum=dfload.sum(axis=0, level=1)
   sumLoad.append(sum)
