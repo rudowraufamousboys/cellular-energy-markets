@@ -1,8 +1,6 @@
 '''
 zum Testen mit Liste
 '''
-
-
 sumLoad=[]
 
 for i in dfLoad[1]:
