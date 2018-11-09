@@ -1,5 +1,5 @@
 '''
-zum Testen mit Liste
+zum Testen mit Liste / für Programm values in einen data frame einfügen mit Zeitstempel
 '''
 sumLoad=[]
 
