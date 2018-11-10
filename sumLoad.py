@@ -1,23 +1,14 @@
-'''
-zum Testen mit Liste / für Programm values in einen data frame einfügen mit Zeitstempel
-'''
-sumLoad=[]
+sumLoad=[] #empty list to store series (index, sum)
 
-for i in dfLoad[1]:
+load=cellC4.dfload #getting cellC4.dfload global
 
-  sum=dfload.sum(axis=0, level=1)
-  sumLoad.append(sum)
+dropPriceofLoad=load.drop('price', axis=0) #.drop('price', axis=0) deletes the row with the index 'price'
+
+for index, row in dropPriceofLoad.iterrows(): # iterration
+    
+    sum=dropPriceofLoad.sum(axis=1)
+    sumLoad.append(sum)
 
 print(sumLoad)
-
-'''
-iterrows() allows you to efficiently loop over your DataFrame rows as (index, Series) pairs. 
-In other words, it gives you (index, row) tuples as a result:
-'''
-
-for index, row in dfload.iterrows():
-  
-  sum=dfload.sum(axis=0, level=1)
-  sumLoad.append(sum)
 
   
