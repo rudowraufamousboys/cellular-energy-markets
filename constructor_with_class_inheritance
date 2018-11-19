@@ -3,6 +3,7 @@ constructor with class inheritance
 '''
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 
 from itertools import islice
 
@@ -42,22 +43,43 @@ class cellTypeA:
         self.dfsupply.set_index('snapshot', inplace=True)
         self.dfsupply.sort_values('price', axis=1, ascending=True, inplace=True)
         
+      
+        self.dfsupplycumsum=self.dfsupply.iloc[1:].cumsum(axis=1, skipna=True)
+        self.dfsupplydropped=self.dfsupply.drop(self.dfsupply.index[1:])
+        self.dfsupplyacc=self.dfsupplydropped.append(self.dfsupplycumsum)      # accumulated supply curve with price in last row!!!
+        
         self.sumLoad=[]
         self.dropPriceofLoad=self.dfload.drop('price', axis=0)
         
         
         for index, row in self.dropPriceofLoad.iterrows():
             
-            self.sum=self.dropPriceofLoad.sum(axis=1)
-            self.sumLoad.append(self.sum)
+            self.sumL=self.dropPriceofLoad.sum(axis=1)
+            self.sumLoad.append(self.sumL)
             
             break
                 
         self.k=pd.Series(self.sumLoad)
         self.r=self.k.to_dict()
         
-        self.sumLoaddf=pd.DataFrame.from_dict(self.r, orient='columns')
-        self.sumLoaddf.rename(columns={0:'sumLoad'+'_'+self.name}, inplace=True)                
+        self.dfsumLoad=pd.DataFrame.from_dict(self.r, orient='columns')
+        self.dfsumLoad.rename(columns={0:'sumLoad'+'_'+self.name}, inplace=True)
+        
+        self.sumSupply=[]
+        self.dropPriceofSupply=self.dfsupply.drop('price', axis=0)
+
+        for index, row in self.dropPriceofSupply.iterrows():
+            
+            self.sumS=self.dropPriceofSupply.sum(axis=1)
+            self.sumSupply.append(self.sumS)
+            
+            break
+                
+        self.j=pd.Series(self.sumSupply)
+        self.s=self.j.to_dict()
+        
+        self.dfsumSupply=pd.DataFrame.from_dict(self.s, orient='columns')
+        self.dfsumSupply.rename(columns={0:'sumSupply'+'_'+self.name}, inplace=True)                
 
 class cellTypeB(cellTypeA):
     
@@ -74,4 +96,22 @@ class cellTypeC(cellTypeA):
     def __init__(self,name):
         
         super().__init__(name)
+    
+
+
+cellA1=cellTypeA('A1')
+cellB1=cellTypeB('B1')
+cellB2=cellTypeB('B2')
+cellC1=cellTypeC('C1')
+cellC2=cellTypeC('C2')
+cellC3=cellTypeC('C3')
+cellC4=cellTypeC('C4')
+
+'''
+dfsumSupply = sum of supply for each row of the dfsupply data frame
+dfsumLoad = sum of load for each row of the dfload data frame
+
+dfsupplyacc= accumulated supply curve 
+
+'''
     
