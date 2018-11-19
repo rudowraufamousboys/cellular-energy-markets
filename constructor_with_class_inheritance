@@ -112,6 +112,36 @@ dfsumSupply = sum of supply for each row of the dfsupply data frame
 dfsumLoad = sum of load for each row of the dfload data frame
 
 dfsupplyacc= accumulated supply curve 
+'''
 
 '''
-    
+form local to global
+'''
+
+sumLoadA1=cellA1.dfsumLoad
+sumSupplyA1=cellA1.dfsumSupply
+supplyaccA1=cellA1.dfsupplyacc
+
+sumLoadB1=cellB1.dfsumLoad
+sumSupplyB1=cellB1.dfsumSupply
+supplyaccB1=cellB1.dfsupplyacc
+
+sumLoadB2=cellB2.dfsumLoad
+sumSupplyB2=cellB2.dfsumSupply
+supplyaccB2=cellB2.dfsupplyacc
+
+sumLoadC1=cellC1.dfsumLoad
+sumSupplyC1=cellC1.dfsumSupply
+supplyaccC1=cellC1.dfsupplyacc
+
+sumLoadC2=cellC2.dfsumLoad
+sumSupplyC2=cellC2.dfsumSupply
+supplyaccC2=cellC2.dfsupplyacc
+
+sumLoadC3=cellC3.dfsumLoad
+sumSupplyC3=cellC3.dfsumSupply
+supplyaccC3=cellC3.dfsupplyacc
+
+sumLoadC4=cellC4.dfsumLoad
+sumSupplyC4=cellC4.dfsumSupply
+supplyaccC4=cellC4.dfsupplyacc
