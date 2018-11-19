@@ -4,6 +4,8 @@ constructor with class inheritance
 import pandas as pd
 import numpy as np
 
+from itertools import islice
+
 
 class grid:
     
@@ -40,6 +42,22 @@ class cellTypeA:
         self.dfsupply.set_index('snapshot', inplace=True)
         self.dfsupply.sort_values('price', axis=1, ascending=True, inplace=True)
         
+        self.sumLoad=[]
+        self.dropPriceofLoad=self.dfload.drop('price', axis=0)
+        
+        
+        for index, row in self.dropPriceofLoad.iterrows():
+            
+            self.sum=self.dropPriceofLoad.sum(axis=1)
+            self.sumLoad.append(self.sum)
+            
+            break
+                
+        self.k=pd.Series(self.sumLoad)
+        self.r=self.k.to_dict()
+        
+        self.sumLoaddf=pd.DataFrame.from_dict(self.r, orient='columns')
+        self.sumLoaddf.rename(columns={0:'sumLoad'+'_'+self.name}, inplace=True)                
 
 class cellTypeB(cellTypeA):
     
@@ -56,3 +74,4 @@ class cellTypeC(cellTypeA):
     def __init__(self,name):
         
         super().__init__(name)
+    
