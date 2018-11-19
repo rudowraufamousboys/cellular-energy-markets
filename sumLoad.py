@@ -1,14 +1,24 @@
-sumLoad=[] #empty list to store series (index, sum)
+sumLoad=[]
 
-load=cellC4.dfload #getting cellC4.dfload global
+load=cellC4.dfload
 
-dropPriceofLoad=load.drop('price', axis=0) #.drop('price', axis=0) deletes the row with the index 'price'
+dropPriceofLoad=load.drop('price', axis=0)
 
-for index, row in dropPriceofLoad.iterrows(): # iterration
+i=len(dropPriceofLoad)
+
+for index, row in dropPriceofLoad.iterrows():
     
     sum=dropPriceofLoad.sum(axis=1)
     sumLoad.append(sum)
+    
+    if i == len(dropPriceofLoad):
+        break
+    
+k=pd.Series(sumLoad)
+ 
+r=k.to_dict() 
 
-print(sumLoad)
+sumLoaddf=pd.DataFrame.from_dict(r, orient='columns')
+sumLoaddf=sumLoaddf.rename()
 
   
