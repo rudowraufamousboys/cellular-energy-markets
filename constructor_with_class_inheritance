@@ -95,7 +95,11 @@ class cellTypeA:
         
         self.dfenergyBalance=self.dfsumSupply - self.dfsumLoad.values
         
-# excess Load
+# excess supply
+        
+        self.indexS=self.dfload.index.tolist()
+        
+        self.indexS.pop(0)
         
         self.tempS=self.dfenergyBalance[0].tolist()
         
@@ -107,7 +111,15 @@ class cellTypeA:
             
             self.excessSupply.append(item)
             
-# excess Supply
+        self.dfexcessSupply=pd.DataFrame({'col':self.excessSupply}).set_index([self.indexS])
+
+        
+            
+# excess load
+        
+        self.indexL=self.dfsupply.index.tolist()
+        
+        self.indexL.pop(0)
             
         self.tempL=self.dfenergyBalance[0].tolist()
             
@@ -122,39 +134,10 @@ class cellTypeA:
                 item=0
                     
             self.excessLoad.append(item)
-                
-
-        
-        
-        
             
-            
-            
-            
-                
-# excess demand
-'''       
-        for row in self.dfenergyBalance:
-            
-            if self.dfenergyBalance['0'] < 0:
-                
-                self.excessLoad.append(self.dfenergyBalance['0'])
-            
-            else:
-                
-                self.excessLoad.append(1)
-            
+        self.dfexcessLoad=pd.DataFrame({'col':self.excessLoad}).set_index([self.indexL])
                         
-
-# excess load
-            
-        for row in self.dfenergyBalance:
-            
-            
-            pass
-        
-'''                
-
+                
 class cellTypeB(cellTypeA):
     
     level=2
