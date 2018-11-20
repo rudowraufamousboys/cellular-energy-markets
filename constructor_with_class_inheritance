@@ -25,6 +25,7 @@ class powerLine:
         self.bonus=bonus
         self.tax=tax
         self.capacity=capacity
+
         
 
 class cellTypeA:
@@ -34,7 +35,12 @@ class cellTypeA:
     def __init__(self, name):
         
         self.name=name
-        
+        self.excessLoad=[]
+        self.excessSupply=[]
+
+ 
+# loading csvs
+       
         self.dfload = pd.read_csv(self.name + '/' + 'load.csv')
         self.dfload.set_index('snapshot', inplace=True)
         self.dfload.sort_values('price', axis=1, ascending=False, inplace=True)
@@ -43,14 +49,16 @@ class cellTypeA:
         self.dfsupply.set_index('snapshot', inplace=True)
         self.dfsupply.sort_values('price', axis=1, ascending=True, inplace=True)
         
+# accumulated supply curve with price in last row
       
         self.dfsupplycumsum=self.dfsupply.iloc[1:].cumsum(axis=1, skipna=True)
         self.dfsupplydropped=self.dfsupply.drop(self.dfsupply.index[1:])
-        self.dfsupplyacc=self.dfsupplydropped.append(self.dfsupplycumsum)      # accumulated supply curve with price in last row!!!
+        self.dfsupplyacc=self.dfsupplydropped.append(self.dfsupplycumsum)      
         
         self.sumLoad=[]
         self.dropPriceofLoad=self.dfload.drop('price', axis=0)
         
+# sum of load
         
         for index, row in self.dropPriceofLoad.iterrows():
             
@@ -58,15 +66,17 @@ class cellTypeA:
             self.sumLoad.append(self.sumL)
             
             break
-                
+               
         self.k=pd.Series(self.sumLoad)
         self.r=self.k.to_dict()
         
         self.dfsumLoad=pd.DataFrame.from_dict(self.r, orient='columns')
-        self.dfsumLoad.rename(columns={0:'sumLoad'+'_'+self.name}, inplace=True)
+        #self.dfsumLoad.rename(columns={0:'sumLoad'+'_'+self.name}, inplace=True)
         
         self.sumSupply=[]
         self.dropPriceofSupply=self.dfsupply.drop('price', axis=0)
+
+# sum of supply
 
         for index, row in self.dropPriceofSupply.iterrows():
             
@@ -79,7 +89,71 @@ class cellTypeA:
         self.s=self.j.to_dict()
         
         self.dfsumSupply=pd.DataFrame.from_dict(self.s, orient='columns')
-        self.dfsumSupply.rename(columns={0:'sumSupply'+'_'+self.name}, inplace=True)                
+        #self.dfsumSupply.rename(columns={0:'sumSupply'+'_'+self.name}, inplace=True)
+        
+# energy balance
+        
+        self.dfenergyBalance=self.dfsumSupply - self.dfsumLoad.values
+        
+# excess Load
+        
+        self.tempS=self.dfenergyBalance[0].tolist()
+        
+        for item in self.tempS:
+            
+            if item < 0:
+                
+                item=0
+            
+            self.excessSupply.append(item)
+            
+# excess Supply
+            
+        self.tempL=self.dfenergyBalance[0].tolist()
+            
+        for item in self.tempL:
+                
+            if item < 0:
+                    
+                item=item
+                    
+            else:
+                    
+                item=0
+                    
+            self.excessLoad.append(item)
+                
+
+        
+        
+        
+            
+            
+            
+            
+                
+# excess demand
+'''       
+        for row in self.dfenergyBalance:
+            
+            if self.dfenergyBalance['0'] < 0:
+                
+                self.excessLoad.append(self.dfenergyBalance['0'])
+            
+            else:
+                
+                self.excessLoad.append(1)
+            
+                        
+
+# excess load
+            
+        for row in self.dfenergyBalance:
+            
+            
+            pass
+        
+'''                
 
 class cellTypeB(cellTypeA):
     
@@ -120,28 +194,35 @@ form local to global
 
 sumLoadA1=cellA1.dfsumLoad
 sumSupplyA1=cellA1.dfsumSupply
-supplyaccA1=cellA1.dfsupplyacc
+supplyaccA1=cellA1.dfsupplyacc.drop(cellA1.dfsupplyacc.index[0])
+pricesA1=cellA1.dfsupplyacc.drop(cellA1.dfsupplyacc.index[1:])
 
 sumLoadB1=cellB1.dfsumLoad
 sumSupplyB1=cellB1.dfsumSupply
-supplyaccB1=cellB1.dfsupplyacc
+supplyaccB1=cellB1.dfsupplyacc.drop(cellB1.dfsupplyacc.index[0])
+pricesB1=cellB1.dfsupplyacc.drop(cellB1.dfsupplyacc.index[1:])
 
 sumLoadB2=cellB2.dfsumLoad
 sumSupplyB2=cellB2.dfsumSupply
-supplyaccB2=cellB2.dfsupplyacc
+supplyaccB2=cellB2.dfsupplyacc.drop(cellB2.dfsupplyacc.index[0])
+pricesB2=cellB2.dfsupplyacc.drop(cellB2.dfsupplyacc.index[1:])
 
 sumLoadC1=cellC1.dfsumLoad
 sumSupplyC1=cellC1.dfsumSupply
-supplyaccC1=cellC1.dfsupplyacc
+supplyaccC1=cellC1.dfsupplyacc.drop(cellC1.dfsupplyacc.index[0])
+pricesC1=cellC1.dfsupplyacc.drop(cellC1.dfsupplyacc.index[1:])
 
 sumLoadC2=cellC2.dfsumLoad
 sumSupplyC2=cellC2.dfsumSupply
-supplyaccC2=cellC2.dfsupplyacc
+supplyaccC2=cellC2.dfsupplyacc.drop(cellC2.dfsupplyacc.index[0])
+pricesC1=cellC2.dfsupplyacc.drop(cellC2.dfsupplyacc.index[1:])
 
 sumLoadC3=cellC3.dfsumLoad
 sumSupplyC3=cellC3.dfsumSupply
-supplyaccC3=cellC3.dfsupplyacc
+supplyaccC3=cellC3.dfsupplyacc.drop(cellC3.dfsupplyacc.index[0])
+pricesC3=cellC3.dfsupplyacc.drop(cellC3.dfsupplyacc.index[1:])
 
 sumLoadC4=cellC4.dfsumLoad
 sumSupplyC4=cellC4.dfsumSupply
-supplyaccC4=cellC4.dfsupplyacc
+supplyaccC4=cellC4.dfsupplyacc.drop(cellC4.dfsupplyacc.index[0])
+pricesC4=cellC4.dfsupplyacc.drop(cellC4.dfsupplyacc.index[1:])
