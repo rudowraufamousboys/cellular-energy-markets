@@ -39,7 +39,22 @@ class cellTypeA:
         self.excessSupply=[]
 
  
-# loading csvs
+# LOADING CSVs:
+        
+# self.dfload is a pandas DataFrame which contains the load profiles 
+# for every single consumer in the cell
+# each consumer has an associated price
+# the index consists of date and time (YYYY:MM:DD hh:mm:ss)
+        
+# self.dfsupply is a pandas DataFrame which contains the supply profiles for
+# every single producer in the cell
+# each producer has an associated price
+# the index consists of date and time (YYY:MM:DD hh:mm:ss)
+        
+# self.load.sort_values sorts the columns by the value of the price index
+        
+# self.supply.sort_values sorts the columns by the value of the price index
+
        
         self.dfload = pd.read_csv(self.name + '/' + 'load.csv')
         self.dfload.set_index('snapshot', inplace=True)
@@ -48,17 +63,39 @@ class cellTypeA:
         self.dfsupply = pd.read_csv(self.name + '/' + 'supply.csv')
         self.dfsupply.set_index('snapshot', inplace=True)
         self.dfsupply.sort_values('price', axis=1, ascending=True, inplace=True)
+
+# ACCUMULATED SUPPLY CURVE:
         
-# accumulated supply curve with price in last row
+# following code accumulates the supply values in ascending order by the method
+# .cumsum .iloc[1:] makes sure that the price (which is in row 0) is skipped
+# self.dfsupplydropped drops every row except the price row for appending to
+# dfsupplycumsum which in return gives the self.dfsupplyacc, the accumulated 
+# supply curve with the price in the first row.
       
         self.dfsupplycumsum=self.dfsupply.iloc[1:].cumsum(axis=1, skipna=True)
         self.dfsupplydropped=self.dfsupply.drop(self.dfsupply.index[1:])
         self.dfsupplyacc=self.dfsupplydropped.append(self.dfsupplycumsum)      
-        
+
+# SUM OF LOAD:
+
+# here we're creating the sum of load for each cell in order to intersect the 
+# resulting curve with the supply curve of a higher level cell.
+# First of all we're creating the empty list self.sumLoad=[].
+# This list will be filled with the sum of values for the rows or indexes
+# in the self.dfload DataFrame. The price row will be dropped by
+# self.dropPriceofLoad=self.dfload.drop('price', axis=0).
+# self.sumL is a helping variable and the sum of each row
+# in the self.dfdroppedPriceofLoad DataFrame, which subsequently will be 
+# appended to self.sumLoad=[] list.
+
+# iterrows(): generates index value pairs (e. g. 2011-06-21 00:00:00 136)
+# that is in fact a nested list self.k which will be changed to a dictionary
+# self.r=self.k.to_dict() just to get a new DateFrame with self.dfsumLoad
+# =pd.DataFrame.from_dict(self.r, orient='columns')
+
         self.sumLoad=[]
         self.dropPriceofLoad=self.dfload.drop('price', axis=0)
         
-# sum of load
         
         for index, row in self.dropPriceofLoad.iterrows():
             
@@ -72,11 +109,14 @@ class cellTypeA:
         
         self.dfsumLoad=pd.DataFrame.from_dict(self.r, orient='columns')
         #self.dfsumLoad.rename(columns={0:'sumLoad'+'_'+self.name}, inplace=True)
+
+# SUM OF SUPPLY:
+
+# see: SUM OF LOAD
         
         self.sumSupply=[]
         self.dropPriceofSupply=self.dfsupply.drop('price', axis=0)
 
-# sum of supply
 
         for index, row in self.dropPriceofSupply.iterrows():
             
@@ -91,11 +131,14 @@ class cellTypeA:
         self.dfsumSupply=pd.DataFrame.from_dict(self.s, orient='columns')
         #self.dfsumSupply.rename(columns={0:'sumSupply'+'_'+self.name}, inplace=True)
         
-# energy balance
+# ENERGY BALANCE:
+
+# self.dfenergyBalance is a DataFrame that consits the supply values which are
+# subtracted by the load values of the cell
         
         self.dfenergyBalance=self.dfsumSupply - self.dfsumLoad.values
         
-# excess supply
+# EXCESS SUPPLY:
         
         self.indexS=self.dfload.index.tolist()
         
@@ -115,7 +158,7 @@ class cellTypeA:
 
         
             
-# excess load
+# EXCESS LOAD:
         
         self.indexL=self.dfsupply.index.tolist()
         
