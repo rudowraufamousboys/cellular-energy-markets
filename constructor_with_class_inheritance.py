@@ -139,6 +139,13 @@ class cellTypeA:
         self.dfenergyBalance=self.dfsumSupply - self.dfsumLoad.values
         
 # EXCESS SUPPLY:
+
+# self.indexS is getting the index of one of the DataFrames which have 
+# the date and time as index. The so generated list has the price at first 
+# position and will be dropped by self.indexL.pop(0).
+# To seperate the positive of the negative values in the self.dfenergyBalance
+# there will be a for loop for the items in self.tempL, which is a temporary
+# list containing the energyBalance values in column [0].
         
         self.indexS=self.dfload.index.tolist()
         
@@ -159,6 +166,14 @@ class cellTypeA:
         
             
 # EXCESS LOAD:
+        
+# self.indexL is getting the index of one of the DataFrames which have 
+# the date and time as index. The so generated list has the price at first 
+# position and will be dropped by self.indexL.pop(0).
+# To seperate the positive of the negative values in the self.dfenergyBalance
+# there will be a for loop for the items in self.tempL, which is a temporary
+# list containing the energyBalance values in column [0].
+
         
         self.indexL=self.dfsupply.index.tolist()
         
@@ -206,49 +221,3 @@ cellC1=cellTypeC('C1')
 cellC2=cellTypeC('C2')
 cellC3=cellTypeC('C3')
 cellC4=cellTypeC('C4')
-
-'''
-dfsumSupply = sum of supply for each row of the dfsupply data frame
-dfsumLoad = sum of load for each row of the dfload data frame
-
-dfsupplyacc= accumulated supply curve 
-'''
-
-'''
-form local to global
-'''
-
-sumLoadA1=cellA1.dfsumLoad
-sumSupplyA1=cellA1.dfsumSupply
-supplyaccA1=cellA1.dfsupplyacc.drop(cellA1.dfsupplyacc.index[0])
-pricesA1=cellA1.dfsupplyacc.drop(cellA1.dfsupplyacc.index[1:])
-
-sumLoadB1=cellB1.dfsumLoad
-sumSupplyB1=cellB1.dfsumSupply
-supplyaccB1=cellB1.dfsupplyacc.drop(cellB1.dfsupplyacc.index[0])
-pricesB1=cellB1.dfsupplyacc.drop(cellB1.dfsupplyacc.index[1:])
-
-sumLoadB2=cellB2.dfsumLoad
-sumSupplyB2=cellB2.dfsumSupply
-supplyaccB2=cellB2.dfsupplyacc.drop(cellB2.dfsupplyacc.index[0])
-pricesB2=cellB2.dfsupplyacc.drop(cellB2.dfsupplyacc.index[1:])
-
-sumLoadC1=cellC1.dfsumLoad
-sumSupplyC1=cellC1.dfsumSupply
-supplyaccC1=cellC1.dfsupplyacc.drop(cellC1.dfsupplyacc.index[0])
-pricesC1=cellC1.dfsupplyacc.drop(cellC1.dfsupplyacc.index[1:])
-
-sumLoadC2=cellC2.dfsumLoad
-sumSupplyC2=cellC2.dfsumSupply
-supplyaccC2=cellC2.dfsupplyacc.drop(cellC2.dfsupplyacc.index[0])
-pricesC1=cellC2.dfsupplyacc.drop(cellC2.dfsupplyacc.index[1:])
-
-sumLoadC3=cellC3.dfsumLoad
-sumSupplyC3=cellC3.dfsumSupply
-supplyaccC3=cellC3.dfsupplyacc.drop(cellC3.dfsupplyacc.index[0])
-pricesC3=cellC3.dfsupplyacc.drop(cellC3.dfsupplyacc.index[1:])
-
-sumLoadC4=cellC4.dfsumLoad
-sumSupplyC4=cellC4.dfsumSupply
-supplyaccC4=cellC4.dfsupplyacc.drop(cellC4.dfsupplyacc.index[0])
-pricesC4=cellC4.dfsupplyacc.drop(cellC4.dfsupplyacc.index[1:])
