@@ -181,12 +181,11 @@ print(y1)
 D=sumLoadC1['sumLoad_C1']                                                       #Demand of the cell
 
 
-i = len(x)
+i = len(x)-1
 print(i)
-z=0
-print(x[z])
-'''
-for z in range(1,10):                                                            #loop for plots
+
+
+for z in range(1,i):                                                            #loop for plots
     xi=[0,0,x[z],x[z],x1[z]]
     yi=[0,y,y,y1,y1]
     Di=[D[z],D[z]]
@@ -231,8 +230,7 @@ print(y1)
 D=sumLoadC2['sumLoad_C2']                                                       #Demand of the cell
 
 
-i = len(x)
-z=0
+i = len(x)-1
 
 for z in range(1,i):                                                            #loop for plots
     xi=[0,0,x[z],x[z],x1[z]]
@@ -250,5 +248,6 @@ for z in range(1,i):                                                            
     plt.show()
     print (xi)
     print (yi)
-    #print (Differencei)'''
+    #print (Differencei)
+    
     
