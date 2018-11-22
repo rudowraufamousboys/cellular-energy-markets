@@ -307,12 +307,13 @@ pricesC4=cellC4.dfsupplyacc.drop(cellC4.dfsupplyacc.index[1:])
 
 
 #Plotten
-                                                      #Demand of the cell
+#Für die Übersichtlichkeit müssen die Farben zugeordnet werden                                                   #Demand of the cell
 x=supplyaccC1['Wind']
 i = len(x)-1
 
 #Start Loop for Plotting
 for z in range(0,i):
+    
     name='C1'
     x=supplyaccC1['Wind']
     x1=supplyaccC1['PV']
@@ -364,7 +365,7 @@ for z in range(0,i):
     print (yi)
     
    #print (Differencei)
-   
+    
     name='B1'
     x=supplyaccB1['Wind']
     x1=supplyaccB1['PV']
@@ -389,7 +390,7 @@ for z in range(0,i):
     print (xi)
     print (yi)
     
-   #print (Differencei)
+   #print (Differencei)'''
    
     name='B1 mit Demand C1 und C2'
     x=supplyaccB1['Wind']
@@ -411,9 +412,14 @@ for z in range(0,i):
     Y2i=[0,y1*1.2]
     #Differencei=[Difference[i]]
     plt.plot(xi,yi)
-    plt.plot(Di,Yi)
-    plt.plot(D1i,Yi)
-    plt.plot(D2i,Yi)
+    plt.plot(Di,Yi,'y')
+    
+    if D1[z]>D[z]:
+        plt.plot(D1i,Yi,'g')
+    
+    if D2[z]>D[z]:
+        plt.plot(D2i,Yi,'r')
+        
     plt.xlabel('Energy')    
     plt.ylabel('Price')
     plt.title(name)
@@ -425,7 +431,7 @@ for z in range(0,i):
     
     
    #print (Differencei)
- 
+    
     name='C3'
     x=supplyaccC3['Wind']
     x1=supplyaccC3['PV']
@@ -477,7 +483,7 @@ for z in range(0,i):
     print (yi)
     
    #print (Differencei)
-   
+    
     name='B2'
     x=supplyaccB2['Wind']
     x1=supplyaccB2['PV']
@@ -504,21 +510,34 @@ for z in range(0,i):
     
    #print (Differencei)
    
-    name='A1'
-    x=supplyaccA1['Wind']
-    x1=supplyaccA1['PV']
-    y=pricesA1['Wind']
+    name='B2 mit Demand C3 und C4'
+    x=supplyaccB2['Wind']
+    x1=supplyaccB2['PV']
+    y=pricesB2['Wind']
     y=y[0]
-    y1=pricesA1['PV']
+    y1=pricesB2['PV']
     y1=y1[0]
-    D=sumLoadA1['sumLoad_A1']
+    D=sumLoadB2['sumLoad_B2']
+    D1=sumLoadB2['sumLoad_B2']+excessLoadC3['excess_Load']*-1
+    D2=sumLoadB2['sumLoad_B2']+excessLoadC3['excess_Load']*-1+excessLoadC4['excess_Load']*-1
     xi=[0,0,x[z],x[z],x1[z]]
     yi=[0,y,y,y1,y1]
     Di=[D[z],D[z]]
     Yi=[0,y1*1.2]
+    D1i=[D1[z],D1[z]]
+    Y1i=[0,y1*1.2]
+    D2i=[D2[z],D2[z]]
+    Y2i=[0,y1*1.2]
     #Differencei=[Difference[i]]
     plt.plot(xi,yi)
-    plt.plot(Di,Yi)
+    plt.plot(Di,Yi,'y')
+    
+    if D1[z]>D[z]:
+        plt.plot(D1i,Yi,'g')
+    
+    if D2[z]>D[z]:
+        plt.plot(D2i,Yi,'r')
+        
     plt.xlabel('Energy')    
     plt.ylabel('Price')
     plt.title(name)
@@ -527,5 +546,44 @@ for z in range(0,i):
     plt.show()
     print (xi)
     print (yi)
+    
+    name='A1'
+    x=supplyaccA1['Wind']
+    x1=supplyaccA1['PV']
+    y=pricesA1['Wind']
+    y=y[0]
+    y1=pricesA1['PV']
+    y1=y1[0]
+    D=sumLoadA1['sumLoad_A1']
+    D1=sumLoadA1['sumLoad_A1']+sumLoadB1['sumLoad_B1']+excessLoadC1['excess_Load']*-1+excessLoadC2['excess_Load']*-1-sumSupplyB1['sumSupply_B1']
+    D2=sumLoadA1['sumLoad_A1']+sumLoadB2['sumLoad_B2']+excessLoadC3['excess_Load']*-1+excessLoadC4['excess_Load']*-1-sumSupplyB2['sumSupply_B2']
+    
+    xi=[0,0,x[z],x[z],x1[z]]
+    yi=[0,y,y,y1,y1]
+    Di=[D[z],D[z]]
+    Yi=[0,y1*1.2]
+    D1i=[D1[z],D1[z]]
+    Y1i=[0,y1*1.2]
+    D2i=[D2[z],D2[z]]
+    Y2i=[0,y1*1.2]
+    #Differencei=[Difference[i]]
+    plt.plot(xi,yi)
+    plt.plot(Di,Yi,'y')
+    
+    if D1[z]>D[z]:
+        plt.plot(D1i,Yi,'g')
+    
+    if D2[z]>D[z]:
+        plt.plot(D2i,Yi,'r')
+        
+    plt.xlabel('Energy')    
+    plt.ylabel('Price')
+    plt.title(name)
+    plt.axis([0,1000, \
+              0,y1*1.2])
+    plt.show()
+    print (xi)
+    print (yi)
+    
     
    #print (Differencei)
