@@ -108,7 +108,7 @@ class cellTypeA:
         self.r=self.k.to_dict()
         
         self.dfsumLoad=pd.DataFrame.from_dict(self.r, orient='columns')
-        #self.dfsumLoad.rename(columns={0:'sumLoad'+'_'+self.name}, inplace=True)
+        self.dfsumLoad.rename(columns={0:'sumLoad'+'_'+self.name}, inplace=True)
 
 # SUM OF SUPPLY:
 
@@ -129,7 +129,7 @@ class cellTypeA:
         self.s=self.j.to_dict()
         
         self.dfsumSupply=pd.DataFrame.from_dict(self.s, orient='columns')
-        #self.dfsumSupply.rename(columns={0:'sumSupply'+'_'+self.name}, inplace=True)
+        self.dfsumSupply.rename(columns={0:'sumSupply'+'_'+self.name}, inplace=True)
         
 # ENERGY BALANCE:
 
@@ -140,7 +140,7 @@ class cellTypeA:
         
 # EXCESS SUPPLY:
 
-# self.indexS is getting the index of one of the DataFrames which has 
+# self.indexS is getting the index of one of the DataFrames which have 
 # the date and time as index. The so generated list has the price at first 
 # position and will be dropped by self.indexL.pop(0).
 # To seperate the positive of the negative values in the self.dfenergyBalance
@@ -151,7 +151,7 @@ class cellTypeA:
         
         self.indexS.pop(0)
         
-        self.tempS=self.dfenergyBalance[0].tolist()
+        self.tempS=self.dfenergyBalance['sumSupply'+'_'+self.name].tolist()
         
         for item in self.tempS:
             
@@ -167,7 +167,7 @@ class cellTypeA:
             
 # EXCESS LOAD:
         
-# self.indexL is getting the index of one of the DataFrames which have 
+# self.indexL is getting the index of one of the DataFrames which has 
 # the date and time as index. The so generated list has the price at first 
 # position and will be dropped by self.indexL.pop(0).
 # To seperate the positive of the negative values in the self.dfenergyBalance
@@ -179,7 +179,7 @@ class cellTypeA:
         
         self.indexL.pop(0)
             
-        self.tempL=self.dfenergyBalance[0].tolist()
+        self.tempL=self.dfenergyBalance['sumSupply'+'_'+self.name].tolist()
             
         for item in self.tempL:
                 
@@ -213,6 +213,8 @@ class cellTypeC(cellTypeA):
         super().__init__(name)
     
 # CREATING OBJECTS:
+        
+# cells
 
 cellA1=cellTypeA('A1')
 cellB1=cellTypeB('B1')
@@ -222,8 +224,25 @@ cellC2=cellTypeC('C2')
 cellC3=cellTypeC('C3')
 cellC4=cellTypeC('C4')
 
+# lines
+
+LineC1B1=powerLine('C1B1',0,0,0)
+LineC2B1=powerLine('C2B1',0,0,0)
+LineC3B2=powerLine('C3B2',0,0,0)
+LineC4B2=powerLine('C4B2',0,0,0)
+LineB1A1=powerLine('B1A1',0,0,0)
+LineB2A1=powerLine('B2A1',0,0,0)
+LineA1G=powerLine('A1G',0,0,0)
+
+# grid
+
+grid=grid(30)
 
 # CREATING GLOBAL VARIABLES:
+
+# grid price
+
+gridPrice=grid.energyPrice
 
 # sumLoad
 
