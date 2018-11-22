@@ -161,7 +161,7 @@ class cellTypeA:
             
             self.excessSupply.append(item)
             
-        self.dfexcessSupply=pd.DataFrame({'col':self.excessSupply}).set_index([self.indexS])
+        self.dfexcessSupply=pd.DataFrame({'excess_Supply':self.excessSupply}).set_index([self.indexS])
 
         
             
@@ -193,7 +193,7 @@ class cellTypeA:
                     
             self.excessLoad.append(item)
             
-        self.dfexcessLoad=pd.DataFrame({'col':self.excessLoad}).set_index([self.indexL])
+        self.dfexcessLoad=pd.DataFrame({'excess_Load':self.excessLoad}).set_index([self.indexL])
                         
                 
 class cellTypeB(cellTypeA):
@@ -212,7 +212,7 @@ class cellTypeC(cellTypeA):
         
         super().__init__(name)
     
-
+# CREATING OBJECTS:
 
 cellA1=cellTypeA('A1')
 cellB1=cellTypeB('B1')
@@ -221,3 +221,70 @@ cellC1=cellTypeC('C1')
 cellC2=cellTypeC('C2')
 cellC3=cellTypeC('C3')
 cellC4=cellTypeC('C4')
+
+
+# CREATING GLOBAL VARIABLES:
+
+# sumLoad
+
+sumLoadA1=cellA1.dfsumLoad
+sumLoadB1=cellB1.dfsumLoad
+sumLoadB2=cellB2.dfsumLoad
+sumLoadC1=cellC1.dfsumLoad
+sumLoadC2=cellC2.dfsumLoad
+sumLoadC3=cellC3.dfsumLoad
+sumLoadC4=cellC4.dfsumLoad
+
+# excessLoad
+
+excessLoadA1=cellA1.dfexcessLoad
+excessLoadB1=cellB1.dfexcessLoad
+excessLoadB2=cellB2.dfexcessLoad
+excessLoadC1=cellC1.dfexcessLoad
+excessLoadC2=cellC2.dfexcessLoad
+excessLoadC3=cellC3.dfexcessLoad
+excessLoadC4=cellC4.dfexcessLoad
+
+# sumSupply
+
+sumSupplyA1=cellA1.dfsumSupply
+sumSupplyB1=cellB1.dfsumSupply
+sumSupplyB2=cellB2.dfsumSupply
+sumSupplyC1=cellC1.dfsumSupply
+sumSupplyC2=cellC2.dfsumSupply
+sumSupplyC3=cellC3.dfsumSupply
+sumSupplyC4=cellC4.dfsumSupply
+
+# excessSupply
+
+excessSupplyA1=cellA1.dfexcessSupply
+excessSupplyB1=cellB1.dfexcessSupply
+excessSupplyB2=cellB2.dfexcessSupply
+excessSupplyC1=cellC1.dfexcessSupply
+excessSupplyC2=cellC2.dfexcessSupply
+excessSupplyC3=cellC3.dfexcessSupply
+excessSupplyC4=cellC4.dfexcessSupply
+
+# supplyacc
+
+supplyaccA1=cellA1.dfsupplyacc.drop(cellA1.dfsupplyacc.index[0])
+supplyaccB1=cellB1.dfsupplyacc.drop(cellB1.dfsupplyacc.index[0])
+supplyaccB2=cellB2.dfsupplyacc.drop(cellB2.dfsupplyacc.index[0])
+supplyaccC1=cellC1.dfsupplyacc.drop(cellC1.dfsupplyacc.index[0])
+supplyaccC2=cellC2.dfsupplyacc.drop(cellC2.dfsupplyacc.index[0])
+supplyaccC3=cellC3.dfsupplyacc.drop(cellC3.dfsupplyacc.index[0])
+supplyaccC4=cellC4.dfsupplyacc.drop(cellC4.dfsupplyacc.index[0])
+
+# prices sorted
+
+pricesA1=cellA1.dfsupplyacc.drop(cellA1.dfsupplyacc.index[1:])
+pricesA1=cellB1.dfsupplyacc.drop(cellB1.dfsupplyacc.index[1:])
+pricesA1=cellB2.dfsupplyacc.drop(cellB2.dfsupplyacc.index[1:])
+pricesA1=cellC1.dfsupplyacc.drop(cellC1.dfsupplyacc.index[1:])
+pricesA1=cellC2.dfsupplyacc.drop(cellC2.dfsupplyacc.index[1:])
+pricesA1=cellC3.dfsupplyacc.drop(cellC3.dfsupplyacc.index[1:])
+pricesA1=cellC4.dfsupplyacc.drop(cellC4.dfsupplyacc.index[1:])
+
+
+
+   
