@@ -140,7 +140,7 @@ class cellTypeA:
         
 # EXCESS SUPPLY:
 
-# self.indexS is getting the index of one of the DataFrames which have 
+# self.indexS is getting the index of one of the DataFrames which has 
 # the date and time as index. The so generated list has the price at first 
 # position and will be dropped by self.indexL.pop(0).
 # To seperate the positive of the negative values in the self.dfenergyBalance
