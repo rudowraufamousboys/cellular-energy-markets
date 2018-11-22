@@ -297,13 +297,17 @@ supplyaccC4=cellC4.dfsupplyacc.drop(cellC4.dfsupplyacc.index[0])
 # prices sorted
 
 pricesA1=cellA1.dfsupplyacc.drop(cellA1.dfsupplyacc.index[1:])
-pricesA1=cellB1.dfsupplyacc.drop(cellB1.dfsupplyacc.index[1:])
-pricesA1=cellB2.dfsupplyacc.drop(cellB2.dfsupplyacc.index[1:])
-pricesA1=cellC1.dfsupplyacc.drop(cellC1.dfsupplyacc.index[1:])
-pricesA1=cellC2.dfsupplyacc.drop(cellC2.dfsupplyacc.index[1:])
-pricesA1=cellC3.dfsupplyacc.drop(cellC3.dfsupplyacc.index[1:])
-pricesA1=cellC4.dfsupplyacc.drop(cellC4.dfsupplyacc.index[1:])
+pricesB1=cellB1.dfsupplyacc.drop(cellB1.dfsupplyacc.index[1:])
+pricesB2=cellB2.dfsupplyacc.drop(cellB2.dfsupplyacc.index[1:])
+pricesC1=cellC1.dfsupplyacc.drop(cellC1.dfsupplyacc.index[1:])
+pricesC2=cellC2.dfsupplyacc.drop(cellC2.dfsupplyacc.index[1:])
+pricesC3=cellC3.dfsupplyacc.drop(cellC3.dfsupplyacc.index[1:])
+pricesC4=cellC4.dfsupplyacc.drop(cellC4.dfsupplyacc.index[1:])
 
+# PRICE DETERMINATION:
 
+# C1B1
 
-   
+for i, j in enumerate(sumLoadC1.itertuples()):
+    
+    if j[1] > sumSupplyC1['sumSupply_C1'].iloc[i]:
