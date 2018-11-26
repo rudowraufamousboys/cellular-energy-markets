@@ -161,7 +161,8 @@ class cellTypeA:
             
             self.excessSupply.append(item)
             
-        self.dfexcessSupply=pd.DataFrame({'excess_Supply':self.excessSupply}).set_index([self.indexS])
+        self.dfexcessSupply=pd.DataFrame({'excessSupply'+self.name:self.excessSupply}).set_index([self.indexS])
+        
 
         
             
@@ -193,7 +194,7 @@ class cellTypeA:
                     
             self.excessLoad.append(item)
             
-        self.dfexcessLoad=pd.DataFrame({'excess_Load':self.excessLoad}).set_index([self.indexL])
+        self.dfexcessLoad=pd.DataFrame({'excessLoad'+self.name:self.excessLoad}).set_index([self.indexL])
                         
                 
 class cellTypeB(cellTypeA):
@@ -304,10 +305,43 @@ pricesC2=cellC2.dfsupplyacc.drop(cellC2.dfsupplyacc.index[1:])
 pricesC3=cellC3.dfsupplyacc.drop(cellC3.dfsupplyacc.index[1:])
 pricesC4=cellC4.dfsupplyacc.drop(cellC4.dfsupplyacc.index[1:])
 
+# supply cell level B
+
+supplyB1=cellB1.dfsupply
+supplyB2=cellB2.dfsupply
+
+# last prices cell level C
+
+lastPriceC1=cellC1.dfsupply.iloc[0][-1]
+lastPriceC2=cellC2.dfsupply.iloc[0][-1]
+lastPriceC3=cellC3.dfsupply.iloc[0][-1]
+lastPriceC4=cellC4.dfsupply.iloc[0][-1]
+
 # PRICE DETERMINATION:
 
-# C1B1
 
-for i, j in enumerate(sumLoadC1.itertuples()):
+# C1C2B1
+
+supplyC1C2B1=pd.concat([supplyB1, excessSupplyC1, excessSupplyC2], axis=1)
+supplyC1C2B1.iloc[-1,supplyC1C2B1.columns.get_loc('excessSupplyC2')]=lastPriceC2
+supplyC1C2B1.iloc[-1,supplyC1C2B1.columns.get_loc('excessSupplyC1')]=lastPriceC1
+supplyC1C2B1.sort_values('price', axis=1, ascending=True, inplace=True)
+
+# C3C4B2
+
+supplyC3C4B2=pd.concat([supplyB2, excessSupplyC3, excessSupplyC4], axis=1)
+supplyC3C4B2.iloc[-1,supplyC3C4B2.columns.get_loc('excessSupplyC4')]=lastPriceC4
+supplyC3C4B2.iloc[-1,supplyC3C4B2.columns.get_loc('excessSupplyC3')]=lastPriceC3
+supplyC3C4B2.sort_values('price', axis=1, ascending=True, inplace=True)
+
+
+
+
+
+        
+
+
+  
     
-    if j[1] > sumSupplyC1['sumSupply_C1'].iloc[i]:
+
+   
