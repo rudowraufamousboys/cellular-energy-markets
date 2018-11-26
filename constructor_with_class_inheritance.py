@@ -245,6 +245,16 @@ grid=grid(30)
 
 gridPrice=grid.energyPrice
 
+# load
+
+loadA1=cellA1.dfload.drop(cellA1.dfload.index[0])
+loadB1=cellB1.dfload.drop(cellB1.dfload.index[0])
+loadB2=cellB2.dfload.drop(cellB2.dfload.index[0])
+loadC1=cellC1.dfload.drop(cellC1.dfload.index[0])
+loadC2=cellC2.dfload.drop(cellC2.dfload.index[0])
+loadC3=cellC3.dfload.drop(cellC3.dfload.index[0])
+loadC4=cellC4.dfload.drop(cellC4.dfload.index[0])
+
 # sumLoad
 
 sumLoadA1=cellA1.dfsumLoad
@@ -312,7 +322,7 @@ supplyB2=cellB2.dfsupply
 
 # last prices cell level C
 
-lastPriceC1=cellC1.dfsupply.iloc[0][-1]
+lastPriceC1=cellC1.dfsupply.iloc[0][-1] 
 lastPriceC2=cellC2.dfsupply.iloc[0][-1]
 lastPriceC3=cellC3.dfsupply.iloc[0][-1]
 lastPriceC4=cellC4.dfsupply.iloc[0][-1]
@@ -320,20 +330,68 @@ lastPriceC4=cellC4.dfsupply.iloc[0][-1]
 # PRICE DETERMINATION:
 
 
-# C1C2B1
+# supplyC1C2B1
 
 supplyC1C2B1=pd.concat([supplyB1, excessSupplyC1, excessSupplyC2], axis=1)
 supplyC1C2B1.iloc[-1,supplyC1C2B1.columns.get_loc('excessSupplyC2')]=lastPriceC2
 supplyC1C2B1.iloc[-1,supplyC1C2B1.columns.get_loc('excessSupplyC1')]=lastPriceC1
 supplyC1C2B1.sort_values('price', axis=1, ascending=True, inplace=True)
 
-# C3C4B2
+# supplyC3C4B2
 
 supplyC3C4B2=pd.concat([supplyB2, excessSupplyC3, excessSupplyC4], axis=1)
 supplyC3C4B2.iloc[-1,supplyC3C4B2.columns.get_loc('excessSupplyC4')]=lastPriceC4
 supplyC3C4B2.iloc[-1,supplyC3C4B2.columns.get_loc('excessSupplyC3')]=lastPriceC3
 supplyC3C4B2.sort_values('price', axis=1, ascending=True, inplace=True)
 
+# set value of supply in each column by value of line capacity
+# excessSupplyC1 is limited by line capacity LineC1B1
+# excessSupplyC2 is limited by line capacity LineC2B2
+# excessSupplyC3 is limited by line capacity LineC3B2
+# excessSupplyC4 is limited by line capacity LineC4B2
+# excessSupplyB1 is limited by line capacity LineB1A1
+# excessSupplyB2 is limited by line capacity LineB2A1
+# excessSupplyA1 is limited by line capacity LineA1grid
+
+# energy balance cell level B
+
+# concatenation dfloadC1, dfloadC2, dfloadB1
+
+sumLoadB1l=[]
+
+loadC1C2B1=pd.concat([loadC1, loadC2, loadB1], axis=1)
+
+for index, row in loadC1C2B1.iterrows():
+    
+    sumLB1=loadC1C2B1.sum(axis=1)
+    sumLoadB1l.append(sumLB1)
+            
+    break
+               
+    kB1=pd.Series(sumLoadB1)
+    rB1=kB1.to_dict()
+        
+    sumLoadB1=pd.DataFrame.from_dict(rB1, orient='columns')
+    sumLoadB1.rename(columns={0:'sumLoadB1'}, inplace=True)
+
+# concatenation dfloadC3, dfloadC4, dfloadB2
+
+sumLoadB2l=[]
+
+loadC3C4B2=pd.concat([loadC3, loadC4, loadB2], axis=1)
+
+for index, row in loadC3C4B2.iterrows():
+    
+    sumLB2=loadC3C4B2.sum(axis=1)
+    sumLoadB2l.append(sumLB2)
+            
+    break
+               
+    kB2=pd.Series(sumLoadB2)
+    rB2=kB2.to_dict()
+        
+    sumLoadB2=pd.DataFrame.from_dict(rB2, orient='columns')
+    sumLoadB2.rename(columns={0:'sumLoadB2'}, inplace=True)
 
 
 
