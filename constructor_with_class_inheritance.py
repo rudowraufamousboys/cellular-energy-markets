@@ -1,6 +1,35 @@
 '''
 constructor with class inheritance
 '''
+# TO_DO --> Funktionen für Standardprozesse
+# Wieviel wird abgeregelt und bei welcher Zelle
+# Autarkiegrad
+# Preis von excessSupply darf nicht höher sein als der von der höheren Zellebene
+
+# Was passiert zwischen A1 und Netz ??
+# Netzpreis variieren
+# Preis vom Netz muss zurückgegeben werden
+
+# action items:
+
+# erstmal Programm bis zum grid zuende schreiben
+# dann muss die Information des Netzpreises an die untergeordneten Zellen 
+# gegeben werden. Wer muss wann wieviel abregeln wenn der Netzpreis unter dem letzten
+# Preis liegt.
+# Danach müssen die Schnittpunkte der Preisfindung dargestellt werden.
+# def für Funktion wie z. B. merit order in CellA und dann vererben.
+# Programm entrümpeln durch Funktionen.
+
+# Flexibilitäten
+
+# abhängige Preisprofile. z. B. Preisvelrauf abhängig vom State of Charge
+# wenn voll dann gibt sie gerne Energie ab, nimmt aber nicht gerne auf
+# bei halben SOC nimmt sie gerne soviel auf, wie sie abgeben würde.
+
+# neue Klasse "flexibility" oder "storage" mit mitlaufendem State of charge (SOC)
+# Biogasanlage: Preisabhängigkeit von Biogasspeicherstand. Fester Leistungswert?
+# Wie soll die Biogasanlage geregelt werden?
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -136,9 +165,9 @@ class cellTypeA:
 # self.dfenergyBalance is a DataFrame that consits the supply values which are
 # subtracted by the load values of the cell
         
-        self.dfenergyBalance=self.dfsumSupply - self.dfsumLoad.values
-        
-# EXCESS SUPPLY:
+        self.dfenergyBalance=self.dfsumSupply - self.dfsumLoad.values        
+
+# EXCESS LOAD:
 
 # self.indexS is getting the index of one of the DataFrames which have 
 # the date and time as index. The so generated list has the price at first 
@@ -166,7 +195,7 @@ class cellTypeA:
 
         
             
-# EXCESS LOAD:
+# EXCESS SUPPLY:
         
 # self.indexL is getting the index of one of the DataFrames which has 
 # the date and time as index. The so generated list has the price at first 
@@ -344,6 +373,22 @@ supplyC3C4B2.iloc[-1,supplyC3C4B2.columns.get_loc('excessSupplyC4')]=lastPriceC4
 supplyC3C4B2.iloc[-1,supplyC3C4B2.columns.get_loc('excessSupplyC3')]=lastPriceC3
 supplyC3C4B2.sort_values('price', axis=1, ascending=True, inplace=True)
 
+# supplyaccC1C2B1
+
+supplyC1C2B1droppedPrice=supplyC1C2B1.drop(supplyC1C2B1.index[-1])
+supplyC1C2B1acc=supplyC1C2B1droppedPrice.iloc[0:].cumsum(axis=1, skipna=True)
+
+supplyC1C2B1droppedValues=supplyC1C2B1.drop(supplyC1C2B1.index[:-1])
+supplyC1C2B1acc=pd.concat([supplyC1C2B1acc,supplyC1C2B1droppedValues])
+
+# supplyaccC3C4B2
+
+supplyC3C4B2droppedPrice=supplyC3C4B2.drop(supplyC3C4B2.index[-1])
+supplyC3C4B2acc=supplyC3C4B2droppedPrice.iloc[0:].cumsum(axis=1, skipna=True)
+
+supplyC3C4B2droppedValues=supplyC3C4B2.drop(supplyC3C4B2.index[:-1])
+supplyC3C4B2acc=pd.concat([supplyC3C4B2acc,supplyC3C4B2droppedValues])
+
 # set value of supply in each column by value of line capacity
 # excessSupplyC1 is limited by line capacity LineC1B1
 # excessSupplyC2 is limited by line capacity LineC2B2
@@ -353,13 +398,11 @@ supplyC3C4B2.sort_values('price', axis=1, ascending=True, inplace=True)
 # excessSupplyB2 is limited by line capacity LineB2A1
 # excessSupplyA1 is limited by line capacity LineA1grid
 
-# energy balance cell level B
-
-# concatenation dfloadC1, dfloadC2, dfloadB1
+# concatenation loadC1, loadC2, loadB1 and sum of laod
 
 sumLoadB1l=[]
 
-loadC1C2B1=pd.concat([loadC1, loadC2, loadB1], axis=1)
+loadC1C2B1=pd.concat([excessLoadC1, excessLoadC2, loadB1], axis=1)
 
 for index, row in loadC1C2B1.iterrows():
     
@@ -374,11 +417,11 @@ for index, row in loadC1C2B1.iterrows():
     sumLoadB1=pd.DataFrame.from_dict(rB1, orient='columns')
     sumLoadB1.rename(columns={0:'sumLoadB1'}, inplace=True)
 
-# concatenation dfloadC3, dfloadC4, dfloadB2
+# concatenation loadC3, loadC4, loadB2
 
 sumLoadB2l=[]
 
-loadC3C4B2=pd.concat([loadC3, loadC4, loadB2], axis=1)
+loadC3C4B2=pd.concat([excessLoadC3, excessLoadC4, loadB2], axis=1)
 
 for index, row in loadC3C4B2.iterrows():
     
@@ -392,8 +435,132 @@ for index, row in loadC3C4B2.iterrows():
         
     sumLoadB2=pd.DataFrame.from_dict(rB2, orient='columns')
     sumLoadB2.rename(columns={0:'sumLoadB2'}, inplace=True)
+    
+# sum supply cell level B
+
+sumSupplyB1l=[]
+
+for index, row in supplyC1C2B1.iterrows():
+    
+    sumSB1=supplyC1C2B1.sum(axis=1)
+    sumSupplyB1l.append(sumSB1)
+    
+    break
+
+    jB1=pd.Series(sumSupplyB1l)
+    sB1=jB1.to_dict()
+    
+    sumSupplyB1=pd.DataFrame.from_dict(sB1, orient='columns')
+    sumSupplyB1.rename(columns={0:'sumSupplyB1'}, inplace=True)
 
 
+sumSupplyB2l=[]
+
+for index, row in supplyC3C4B2.iterrows():
+    
+    sumSB2=supplyC3C4B2.sum(axis=1)
+    sumSupplyB2l.append(sumSB2)
+    
+    break
+
+    jB2=pd.Series(sumSupplyB2l)
+    sB2=jB2.to_dict()
+    
+    sumSupplyB2=pd.DataFrame.from_dict(sB2, orient='columns')
+    sumSupplyB2.rename(columns={0:'sumSupplyB2'}, inplace=True)
+    
+# energy balance cell level B
+    
+energyBalanceB1=sumSupplyB1 - sumLoadB1.values
+energyBalanceB2=sumSupplyB2 - sumLoadB2.values
+
+# excessLoadB1
+
+excessLoadB1l=[]
+
+indexYB1=loadC1C2B1.index.tolist()
+
+tempLB1=energyBalanceB1['sumSupply_B1'].tolist()
+
+for item in tempLB1:
+    
+    if item < 0:
+        
+        item=item
+        
+    else:
+        
+        item=0
+            
+    excessLoadB1l.append(item)
+    
+excessLoadB1=pd.DataFrame({'excessLoadB1':excessLoadB1l}).set_index([indexYB1])
+
+# excessSupplyB1
+
+excessSupplyB1l=[]
+
+indexZB1=loadC1C2B1.index.tolist()
+
+tempSB1=energyBalanceB1['sumSupply_B1'].tolist()
+
+for item in tempSB1:
+    
+    if item > 0:
+        
+        item=item
+        
+    else:
+        
+        item=0
+        
+    excessSupplyB1l.append(item)
+    
+excessSupplyB1=pd.DataFrame({'excessSupplyB1':excessSupplyB1l}).set_index([indexZB1])
+
+# excessLoadB2
+
+excessLoadB2l=[]
+
+indexYB2=loadC3C4B2.index.tolist()
+
+tempLB2=energyBalanceB2['sumSupply_B2'].tolist()
+
+for item in tempLB2:
+    
+    if item < 0:
+        
+        item=item
+        
+    else:
+        
+        item=0
+            
+    excessLoadB2l.append(item)
+    
+excessLoadB2=pd.DataFrame({'excessLoadB2':excessLoadB2l}).set_index([indexYB2])
+
+# excessSupplyB2
+
+excessSupplyB2l=[]
+
+indexZB2=loadC3C4B2.index.tolist()
+
+tempSB2=energyBalanceB2['sumSupply_B2'].tolist()
+
+for item in tempSB2:
+    
+    if item > 0:
+        
+        item=item
+        
+    else:
+        
+        item=0
+        
+    excessSupplyB2l.append(item)
+    
+excessSupplyB2=pd.DataFrame({'excessSupplyB2':excessSupplyB2l}).set_index([indexZB2])
 
 
         
