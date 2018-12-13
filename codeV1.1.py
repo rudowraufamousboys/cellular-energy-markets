@@ -479,19 +479,56 @@ firstPriceloadC3C4B2=loadC3C4B2.iloc[0][0]
 # value to dict:
 
 firstPriceloadC1C2B1d={'price':firstPriceloadC1C2B1}
-firstPriceloadC3C4B2d={'price':firstPriceloadC3C4B2}
+firstPriceloadC1C2B1d={'price':firstPriceloadC3C4B2}
 
 # dict to df:
 
-firstPriceloadC1C2B1df=pd.DataFrame.from_dict(lastPricesupplyC1C2B1d, orient='index')
-firstPriceloadC1C2B1df.rename(columns={0:'excessSupply_C1C2B1'}, inplace=True)
+firstPriceloadC1C2B1df=pd.DataFrame.from_dict(firstPriceloadC1C2B1d, orient='index')
+firstPriceloadC1C2B1df.rename(columns={0:'excessLoad_C1C2B1'}, inplace=True)
 
-lastPricesupplyC3C4B2df=pd.DataFrame.from_dict(lastPricesupplyC3C4B2d, orient='index')
-lastPricesupplyC3C4B2df.rename(columns={0:'excessSupply_C3C4B2'}, inplace=True)
+firstPriceloadC3C4B2df=pd.DataFrame.from_dict(firstPriceloadC1C2B1d, orient='index')
+firstPriceloadC3C4B2df.rename(columns={0:'excessLoad_C3C4B2'}, inplace=True)
 
 # append prices to supply and load on cell level B:
 
 excessSupplyC1C2B1=lastPricesupplyC1C2B1df.append(excessSupplyC1C2B1)
+excessSupplyC3C4B2=lastPricesupplyC3C4B2df.append(excessSupplyC3C4B2)
+
+excessLoadC1C2B1=firstPriceloadC1C2B1df.append(excessLoadC1C2B1)
+excessLoadC3C4B2=firstPriceloadC3C4B2df.append(excessLoadC3C4B2)
+
+# CELL LEVEL A
+
+# ADDING EXCESS SUPPLY C1C2B1 & C3C4B2 TO SUPPLY A1 AND SORT BY 'PRICE':
+
+supplyC1C2C3C4B1B2A1=pd.concat([cellA1.dfsupply,excessSupplyC1C2B1,excessSupplyC3C4B2], axis=1)
+supplyC1C2C3C4B1B2A1.sort_values('price', axis=1, ascending=True, inplace=True)
+
+# ACCUMULATE SUPPLY VALUES:
+
+supplyC1C2C3C4B1B2A1acc=supplyC1C2C3C4B1B2A1.iloc[1:].cumsum(axis=1, skipna=True)
+
+# since the price is getting lost it has to be added seperatly
+# dropping values in supplyC1C2C3C4B1B2:
+
+supplyPricesC1C2C3C4B1B2A1=supplyC1C2C3C4B1B2A1.drop(supplyC1C2C3C4B1B2A1.index[1:])
+
+# append supplyPricesC1C2C3C4B1B2A1 to supplyC1C2C3C4B1B2A1acc:
+
+supplyC1C2C3C4B1B2A1acc=supplyPricesC1C2C3C4B1B2A1.append(supplyC1C2C3C4B1B2A1acc)
+
+# ADDING EXCESS LOAD C1C2B1 & C3C4B2 TO LOAD A1 AND SORT BY 'PRICE':
+
+loadC1C2C3C4B1B2A1=pd.concat([cellA1.dfload,excessLoadC1C2B1,excessLoadC3C4B2], axis=1)
+loadC1C2C3C4B1B2A1.sort_values('price', axis=1, ascending=False, inplace=True)
+
+
+
+
+
+
+
+
     
     
 
