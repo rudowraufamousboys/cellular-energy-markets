@@ -374,8 +374,12 @@ excessLoadC4=lastPriceloadC4df.append(cellC4.dfexcessLoad)
 loadC1C2B1=pd.concat([excessLoadC1,excessLoadC2,cellB1.dfload],axis=1)
 loadC1C2B1.sort_values('price', axis=1, ascending=False, inplace=True)
 
+loadC1C2B1acc=loadC1C2B1.iloc[1:].cumsum(axis=1, skipna=True)
+
 loadC3C4B2=pd.concat([excessLoadC3,excessLoadC4,cellB2.dfload],axis=1)
 loadC3C4B2.sort_values('price', axis=1, ascending=False, inplace=True)
+
+loadC3C4B2acc=loadC3C4B2.iloc[1:].cumsum(axis=1, skipna=True)
 
 
 # energyBalanceC1C2B1 / energyBalanceC3C4B2
@@ -522,12 +526,19 @@ supplyC1C2C3C4B1B2A1acc=supplyPricesC1C2C3C4B1B2A1.append(supplyC1C2C3C4B1B2A1ac
 loadC1C2C3C4B1B2A1=pd.concat([cellA1.dfload,excessLoadC1C2B1,excessLoadC3C4B2], axis=1)
 loadC1C2C3C4B1B2A1.sort_values('price', axis=1, ascending=False, inplace=True)
 
+#loadacc for cell level A:
+
+loadC1C2C3C4B1B2A1acc=loadC1C2C3C4B1B2A1.iloc[1:].cumsum(axis=1, skipna=True)
+
+# energy balance cell level A:
+
+#energyBalanceC1C2C3C4B1B2A1=supplyC1C2C3C4B1B2A1.iloc[1:]-loadC1C2C3C4B1B2A1.iloc[1:].values
 
 
-
-
-
-
+   
+    
+    
+    
 
     
     
