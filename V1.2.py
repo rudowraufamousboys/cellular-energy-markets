@@ -578,14 +578,19 @@ print([gridpricesl])
 
 #for z in range(len(gridPricesdf['price'])):
 
-for z in range (30,33):
+for z in range (10,15):
    
     Linecapacitydf.iloc[0,0]=gridpricesl[z]
     
-    SupplyB1B2A1df=pd.concat((SupplyB1B2A1df, Linecapacitydf), axis=1)
-    SupplyB1B2A1df.sort_values('price', axis=1, ascending=True, inplace=True)
+    SupplyB1B2A1dfi=pd.concat((SupplyB1B2A1df, Linecapacitydf), axis=1)
+    SupplyB1B2A1dfi.sort_values('price', axis=1, ascending=True, inplace=True)
     
-print(SupplyB1B2A1df)
+    SupplyB1B2A1dfi=SupplyB1B2A1dfi.iloc[1:].cumsum(axis=1, skipna=True)
+    
+    print(SupplyB1B2A1dfi)
+    
+    SupplyB1B2A1dfi=SupplyB1B2A1df
+
 
     
     
