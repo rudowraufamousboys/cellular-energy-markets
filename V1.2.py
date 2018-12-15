@@ -16,9 +16,14 @@ class grid:
     
     level=0
     
-    def __init__(self, Energyprice):
+    def __init__(self, name):
         
-        self.Energyprice=Energyprice
+        self.name=name
+        self.Energyprices=pd.read_csv(self.name + '/' + 'gridprice.csv')
+        self.Energyprices.set_index('snapshot', inplace=True)
+        
+        self.Linecapacity=pd.read_csv(self.name+'/'+'gridsupply.csv')
+        self.Linecapacity.set_index('snapshot', inplace=True)
         
 
 class powerLine:
@@ -286,7 +291,11 @@ LineC3B2=powerLine('C3B2',0,0,1000)
 LineC4B2=powerLine('C4B2',0,0,1000)
 LineB1A1=powerLine('B1A1',0,0,1000)
 LineB2A1=powerLine('B2A1',0,0,1000)
-LineA1G=powerLine('A1G',0,0,1000) 
+LineA1G=powerLine('A1G',0,0,1000)
+
+# grid
+
+grid=grid('grid') 
 
 
 # CELL LEVEL B
@@ -558,11 +567,26 @@ SumloadB1B2A1df=pd.DataFrame.from_dict(s, orient='columns')
 SumloadB1B2A1df.rename(columns={0:'SumofLoad'}, inplace=True)
 
 
-# ENERGYBALANCEDF
+# ALTERNATING GRID PRICE
 
-# EXCESSSUPPLY / EXCESS DEMAND
+gridPricesdf=grid.Energyprices
+Linecapacitydf=grid.Linecapacity
 
-# LASTPRICESUPPLY / LASTPRICELOAD
+gridpricesl=gridPricesdf.iloc[:,0].tolist()
 
-# APPEND EXCESSLOAD / EXCESSSUPPLY TO FIRSTPRICELOAD / LASTPRICESUPPLY
+print([gridpricesl])
+
+#for z in range(len(gridPricesdf['price'])):
+
+for z in range (30,33):
+   
+    Linecapacitydf.iloc[0,0]=gridpricesl[z]
+    
+    SupplyB1B2A1df=pd.concat((SupplyB1B2A1df, Linecapacitydf), axis=1)
+    SupplyB1B2A1df.sort_values('price', axis=1, ascending=True, inplace=True)
+    
+print(SupplyB1B2A1df)
+
+    
+    
 
