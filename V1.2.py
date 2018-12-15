@@ -515,14 +515,48 @@ ExcessloadC1C2B1df=FirstpriceLoadC1C2B1df.append(ExcessloadC1C2B1df)
 ExcessloadC3C4B2df=FirstpriceLoadC3C4B2df.append(ExcessloadC3C4B2df)
 
 
-
 # CELL LEVEL A
 
 # LOADDF / SUPPLY DF
 
+LoadB1B2A1df=pd.concat([ExcessloadC1C2B1df,ExcessloadC3C4B2df,cellA1.Loaddf], axis=1)
+LoadB1B2A1df.sort_values('price', axis=1, ascending=False, inplace=True)
+
+SupplyB1B2A1df=pd.concat([ExcesssupplyC1C2B1df, ExcesssupplyC3C4B2df, cellA1.Supplydf], axis=1)
+SupplyB1B2A1df.sort_values('price', axis=1, ascending=True, inplace=True)
+
+# PRICES FOR CUMSUM
+
+LoadB1B2A1Pricesdf=LoadB1B2A1df.drop(LoadC1C2B1df.index[1:])
+SupplyB1B2A1Pricesdf=SupplyB1B2A1df.drop(SupplyC1C2B1df.index[1:])
+
 # LOADACCDF / SUPPLYACCDF
 
+LoadB1B2A1accdf=LoadB1B2A1df.iloc[1:].cumsum(axis=1)
+LoadB1B2A1accdf=LoadB1B2A1Pricesdf.append(LoadB1B2A1accdf)
+
+SupplyB1B2A1accdf=SupplyB1B2A1df.iloc[1:].cumsum(axis=1)
+SupplyB1B2A1accdf=SupplyB1B2A1Pricesdf.append(SupplyB1B2A1accdf)
+
 # SUMOFLOAD
+
+sumLoadB1B2A1l=[]
+dropPriceofLoadB1B2A1df=LoadB1B2A1df.drop('price', axis=0)
+
+
+for index, row in dropPriceofLoadB1B2A1df.iterrows():
+            
+    sumS=dropPriceofLoadB1B2A1df.sum(axis=1)
+    sumLoadB1B2A1l.append(sumS)
+            
+    break
+                
+j=pd.Series(sumLoadB1B2A1l)
+s=j.to_dict()
+        
+SumloadB1B2A1df=pd.DataFrame.from_dict(s, orient='columns')
+SumloadB1B2A1df.rename(columns={0:'SumofLoad'}, inplace=True)
+
 
 # ENERGYBALANCEDF
 
