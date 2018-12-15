@@ -123,7 +123,7 @@ class cellTypeA:
         self.r=self.k.to_dict()
         
         self.Sumloaddf=pd.DataFrame.from_dict(self.r, orient='columns')
-        self.Sumloaddf.rename(columns={0:'sumLoad'+'_'+self.name}, inplace=True)
+        self.Sumloaddf.rename(columns={0:'Sumload'+'_'+self.name}, inplace=True)
 
 # SUM OF SUPPLY & LOAD:
 
@@ -144,7 +144,7 @@ class cellTypeA:
         self.s=self.j.to_dict()
         
         self.SumSupplydf=pd.DataFrame.from_dict(self.s, orient='columns')
-        self.SumSupplydf.rename(columns={0:'sumSupply'+'_'+self.name}, inplace=True)
+        self.SumSupplydf.rename(columns={0:'Sumsupply'+'_'+self.name}, inplace=True)
         
 # ENERGY BALANCE:
 
@@ -153,7 +153,7 @@ class cellTypeA:
         
         self.Energybalance=self.Supplyaccdf.iloc[1:,-1]-self.Loadaccdf.iloc[1:,-1].values
         self.Energybalancedf=self.Energybalance.to_frame()
-        self.Energybalancedf.rename(columns={self.Energybalancedf.columns[-1]:'EnergyBalance'+self.name}, inplace=True)
+        self.Energybalancedf.rename(columns={self.Energybalancedf.columns[-1]:'Energybalance'+self.name}, inplace=True)
         
         
         
@@ -367,9 +367,109 @@ SumloadC3C4B2df.rename(columns={0:'SumofLoad'}, inplace=True)
 
 # ENERGYBALANCEDF
 
+EnergybalanceC1C2B1=SupplyC1C2B1accdf.iloc[1:,-1]-LoadC1C2B1accdf.iloc[1:,-1].values
+EnergybalanceC1C2B1df=EnergybalanceC1C2B1.to_frame()
+EnergybalanceC1C2B1df.rename(columns={EnergybalanceC1C2B1df.columns[-1]:'EnergybalanceC1C2B1'}, inplace=True)
 
+EnergybalanceC3C4B2=SupplyC3C4B2accdf.iloc[1:,-1]-LoadC3C4B2accdf.iloc[1:,-1].values
+EnergybalanceC3C4B2df=EnergybalanceC3C4B2.to_frame()
+EnergybalanceC3C4B2df.rename(columns={EnergybalanceC3C4B2df.columns[-1]:'EnergybalanceC3C4B2'}, inplace=True)
 
-# EXCESSSUPPLY / EXCESS DEMAND
+# EXCESSSUPPLY
+
+ExcesssupplyC1C2B1l=[]
+
+indexS=SupplyC1C2B1df.index.tolist()
+        
+indexS.pop(0)
+        
+tempS=EnergybalanceC1C2B1df[EnergybalanceC1C2B1df.columns[-1]].tolist()
+        
+for item in tempS:
+            
+    if item > 0:
+                
+        item=item
+                
+    else:
+        
+        item=0
+            
+    ExcesssupplyC1C2B1l.append(item)
+            
+ExcesssupplyC1C2B1df=pd.DataFrame({'ExcesssupplyC1C2B1':ExcesssupplyC1C2B1l}).set_index([indexS])
+
+###############################################################################
+
+ExcesssupplyC3C4B2l=[]
+
+indexS=SupplyC3C4B2df.index.tolist()
+        
+indexS.pop(0)
+        
+tempS=EnergybalanceC3C4B2df[EnergybalanceC3C4B2df.columns[-1]].tolist()
+        
+for item in tempS:
+            
+    if item > 0:
+                
+        item=item
+                
+    else:
+        
+        item=0
+            
+    ExcesssupplyC3C4B2l.append(item)
+            
+ExcesssupplyC3C4B2df=pd.DataFrame({'ExcesssupplyC3C4B2':ExcesssupplyC3C4B2l}).set_index([indexS])
+
+# EXCESS LOAD
+
+ExcessloadC1C2B1l=[]
+
+indexS=LoadC1C2B1df.index.tolist()
+        
+indexS.pop(0)
+        
+tempS=EnergybalanceC1C2B1df[EnergybalanceC1C2B1df.columns[-1]].tolist()
+        
+for item in tempS:
+            
+    if item < 0:
+                
+        item=item*-1
+                
+    else:
+        
+        item=0
+            
+    ExcessloadC1C2B1l.append(item)
+            
+ExcessloadC1C2B1df=pd.DataFrame({'ExcessloadC1C2B1':ExcessloadC1C2B1l}).set_index([indexS])
+
+###############################################################################
+
+ExcessloadC3C4B2l=[]
+
+indexS=LoadC3C4B2df.index.tolist()
+        
+indexS.pop(0)
+        
+tempS=EnergybalanceC3C4B2df[EnergybalanceC3C4B2df.columns[-1]].tolist()
+        
+for item in tempS:
+            
+    if item < 0:
+                
+        item=item*-1
+                
+    else:
+        
+        item=0
+            
+    ExcessloadC3C4B2l.append(item)
+            
+ExcessloadC3C4B2df=pd.DataFrame({'ExcessloadC3C4B2':ExcessloadC3C4B2l}).set_index([indexS])
 
 # LASTPRICESUPPLY / LASTPRICELOAD
 
