@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Mon Dec 10 15:00:32 2018
-
 @author: Dennis
 """
 
@@ -287,15 +286,41 @@ LineC3B2=powerLine('C3B2',0,0,1000)
 LineC4B2=powerLine('C4B2',0,0,1000)
 LineB1A1=powerLine('B1A1',0,0,1000)
 LineB2A1=powerLine('B2A1',0,0,1000)
-LineA1G=powerLine('A1G',0,0,1000)        
-        
+LineA1G=powerLine('A1G',0,0,1000) 
 
-EnergybalanceA1=cellA1.Energybalancedf
-ExcesssupplyA1=cellA1.Excesssupplydf
-ExessLoadA1=cellA1.Excessloaddf
 
-y=cellA1.Loaddf
-x=cellA1.Supplydf
-        
-        
-        
+# CELL LEVEL B
+
+# LOADDF / SUPPLY DF
+
+
+# LOADACCDF / SUPPLYACCDF
+
+
+
+# SUMOFLOAD
+
+# ENERGYBALANCEDF
+
+# EXCESSSUPPLY / EXCESS DEMAND
+
+# LASTPRICESUPPLY / LASTPRICELOAD
+
+# APPEND EXCESSLOAD / EXCESSSUPPLY TO FIRSTPRICELOAD / LASTPRICESUPPLY
+
+# CELL LEVEL A
+
+# LOADDF / SUPPLY DF
+
+# LOADACCDF / SUPPLYACCDF
+
+# SUMOFLOAD
+
+# ENERGYBALANCEDF
+
+# EXCESSSUPPLY / EXCESS DEMAND
+
+# LASTPRICESUPPLY / LASTPRICELOAD
+
+# APPEND EXCESSLOAD / EXCESSSUPPLY TO FIRSTPRICELOAD / LASTPRICESUPPLY
+
