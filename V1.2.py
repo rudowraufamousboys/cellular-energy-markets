@@ -293,14 +293,81 @@ LineA1G=powerLine('A1G',0,0,1000)
 
 # LOADDF / SUPPLY DF
 
+LoadC1C2B1df=pd.concat([cellC1.Excessloaddf,cellC2.Excessloaddf,cellB1.Loaddf], axis=1)
+LoadC1C2B1df.sort_values('price', axis=1, ascending=False, inplace=True)
+
+LoadC3C4B2df=pd.concat([cellC3.Excessloaddf, cellC4.Excessloaddf, cellB2.Loaddf], axis=1)
+LoadC3C4B2df.sort_values('price', axis=1, ascending=False, inplace=True)
+
+SupplyC1C2B1df=pd.concat([cellC1.Excesssupplydf, cellC2.Excesssupplydf, cellB1.Supplydf], axis=1)
+SupplyC1C2B1df.sort_values('price', axis=1, ascending=True, inplace=True)
+
+SupplyC3C4B2df=pd.concat([cellC3.Excesssupplydf, cellC4.Excesssupplydf, cellB2.Supplydf], axis=1)
+SupplyC3C4B2df.sort_values('price', axis=1, ascending=True, inplace=True)
+
+# PRICES FOR CUMSUM
+
+LoadC1C2B1Pricesdf=LoadC1C2B1df.drop(LoadC1C2B1df.index[1:])
+SupplyC1C2B1Pricesdf=SupplyC1C2B1df.drop(SupplyC1C2B1df.index[1:])
+
+LoadC3C4B2Pricesdf=LoadC3C4B2df.drop(LoadC3C4B2df.index[1:])
+SupplyC3C4B2Pricesdf=SupplyC3C4B2df.drop(SupplyC3C4B2df.index[1:])
 
 # LOADACCDF / SUPPLYACCDF
 
+LoadC1C2B1accdf=LoadC1C2B1df.iloc[1:].cumsum(axis=1)
+LoadC3C4B2accdf=LoadC3C4B2df.iloc[1:].cumsum(axis=1)
 
+SupplyC1C2B1accdf=SupplyC1C2B1df.iloc[1:].cumsum(axis=1)
+SupplyC3C4B2accdf=SupplyC3C4B2df.iloc[1:].cumsum(axis=1)
+
+LoadC1C2B1accdf=LoadC1C2B1Pricesdf.append(LoadC1C2B1accdf)
+LoadC3C4B2accdf=LoadC3C4B2Pricesdf.append(LoadC3C4B2accdf)
+
+SupplyC1C2B1accdf=SupplyC1C2B1Pricesdf.append(SupplyC1C2B1accdf)
+SupplyC3C4B2accdf=SupplyC3C4B2Pricesdf.append(SupplyC3C4B2accdf)
 
 # SUMOFLOAD
 
+sumLoadC1C2B1l=[]
+dropPriceofLoadC1C2B1df=LoadC1C2B1df.drop('price', axis=0)
+
+
+for index, row in dropPriceofLoadC1C2B1df.iterrows():
+            
+    sumS=dropPriceofLoadC1C2B1df.sum(axis=1)
+    sumLoadC1C2B1l.append(sumS)
+            
+    break
+                
+j=pd.Series(sumLoadC1C2B1l)
+s=j.to_dict()
+        
+SumloadC1C2B1df=pd.DataFrame.from_dict(s, orient='columns')
+SumloadC1C2B1df.rename(columns={0:'SumofLoad'}, inplace=True)
+
+###############################################################################
+
+sumLoadC3C4B2l=[]
+dropPriceofLoadC3C4B2df=LoadC3C4B2df.drop('price', axis=0)
+
+
+for index, row in dropPriceofLoadC3C4B2df.iterrows():
+            
+    sumT=dropPriceofLoadC3C4B2df.sum(axis=1)
+    sumLoadC3C4B2l.append(sumT)
+            
+    break
+                
+k=pd.Series(sumLoadC3C4B2l)
+t=k.to_dict()
+        
+SumloadC3C4B2df=pd.DataFrame.from_dict(t, orient='columns')
+SumloadC3C4B2df.rename(columns={0:'SumofLoad'}, inplace=True)
+
 # ENERGYBALANCEDF
+
+
 
 # EXCESSSUPPLY / EXCESS DEMAND
 
