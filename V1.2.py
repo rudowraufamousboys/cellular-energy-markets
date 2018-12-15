@@ -1,8 +1,9 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Spyder Editor
+Created on Mon Dec 10 15:00:32 2018
 
-This is a temporary script file.
+@author: Dennis
 """
 
 import pandas as pd
@@ -150,9 +151,102 @@ class cellTypeA:
 
 # self.dfenergyBalance is a DataFrame that consits the supply values which are
 # subtracted by the load values of the cell
-#energyBalancedf1=Supplyaccdf.iloc[1:]-Loadaccdf.iloc[1:].values
         
-        self.Energybalancedf=self.Supplyaccdf.iloc[1:,-1]-self.Loadaccdf.iloc[1:,-1].values
+        self.Energybalance=self.Supplyaccdf.iloc[1:,-1]-self.Loadaccdf.iloc[1:,-1].values
+        self.Energybalancedf=self.Energybalance.to_frame()
+        self.Energybalancedf.rename(columns={self.Energybalancedf.columns[-1]:'EnergyBalance'+self.name}, inplace=True)
+        
+        
+        
+# EXCESS SUPPLY / EXCESS DEMAND:
+        
+# EXCESS SUPPLY:
+
+# self.indexS is getting the index of one of the DataFrames which have 
+# the date and time as index. The so generated list has the price at first 
+# position and will be dropped by self.indexL.pop(0).
+# To seperate the positive of the negative values in the self.dfenergyBalance
+# there will be a for loop for the items in self.tempL, which is a temporary
+# list containing the energyBalance values in column [0].
+        
+        self.indexS=self.Supplydf.index.tolist()
+        
+        self.indexS.pop(0)
+        
+        self.tempS=self.Energybalancedf[self.Energybalancedf.columns[-1]].tolist()
+        
+        for item in self.tempS:
+            
+            if item > 0:
+                
+                item=item
+                
+            else:
+                
+                item=0
+            
+            self.excessSupply.append(item)
+            
+        self.Excesssupplydf=pd.DataFrame({'Excesssupply'+self.name:self.excessSupply}).set_index([self.indexS])
+        
+
+
+# EXCESS LOAD:
+        
+# self.indexL is getting the index of one of the DataFrames which has 
+# the date and time as index. The so generated list has the price at first 
+# position and will be dropped by self.indexL.pop(0).
+# To seperate the positive of the negative values in the self.dfenergyBalance
+# there will be a for loop for the items in self.tempL, which is a temporary
+# list containing the energyBalance values in column [0].
+
+        
+        self.indexL=self.Loaddf.index.tolist()
+        
+        self.indexL.pop(0)
+            
+        self.tempL=self.Energybalancedf[self.Energybalancedf.columns[-1]].tolist()
+            
+        for item in self.tempL:
+                
+            if item < 0:
+                    
+                item=item*-1
+                    
+            else:
+                    
+                item=0
+                    
+            self.excessLoad.append(item)
+            
+        self.Excessloaddf=pd.DataFrame({'Excessload'+self.name:self.excessLoad}).set_index([self.indexL])
+
+# LAST PRICE SUPPLY / FIRST PRICE LOAD
+
+# to value
+        
+        self.LastpriceSupplyv=self.Supplyaccdf.iloc[0][-1]
+        self.FirstpriceLoadv=self.Loadaccdf.iloc[0][0]
+
+# to dict
+        
+        self.LastpriceSupplyd={'price':self.LastpriceSupplyv}
+        self.FirstpriceLoadd={'price':self.FirstpriceLoadv}
+
+# to df
+        
+        self.LastpriceSupplydf=pd.DataFrame.from_dict(self.LastpriceSupplyd ,orient='index')
+        self.FirstpriceLoaddf=pd.DataFrame.from_dict(self.FirstpriceLoadd, orient='index')
+        
+# rename column '0' to Excessload and Excesssupply
+        
+        self.LastpriceSupplydf.rename(columns={0:'Excesssupply'+self.name}, inplace=True)
+        self.FirstpriceLoaddf.rename(columns={0:'Excessload'+self.name}, inplace=True)
+        
+ # append Excessloaddf / Excesssupplydf to FirstpriceLoaddf / LastpriceSupplydf
+
+        self.Excesssupplydf=self.LastpriceSupplydf.append(self.Excesssupplydf)
+        self.Excessloaddf=self.FirstpriceLoaddf.append(self.Excessloaddf)
 
 
 class cellTypeB(cellTypeA):
@@ -196,7 +290,12 @@ LineB2A1=powerLine('B2A1',0,0,1000)
 LineA1G=powerLine('A1G',0,0,1000)        
         
 
+EnergybalanceA1=cellA1.Energybalancedf
+ExcesssupplyA1=cellA1.Excesssupplydf
+ExessLoadA1=cellA1.Excessloaddf
 
+y=cellA1.Loaddf
+x=cellA1.Supplydf
         
         
         
