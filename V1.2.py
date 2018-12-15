@@ -473,7 +473,48 @@ ExcessloadC3C4B2df=pd.DataFrame({'ExcessloadC3C4B2':ExcessloadC3C4B2l}).set_inde
 
 # LASTPRICESUPPLY / LASTPRICELOAD
 
-# APPEND EXCESSLOAD / EXCESSSUPPLY TO FIRSTPRICELOAD / LASTPRICESUPPLY
+# to value
+        
+LastpriceSupplyC1C2B1v=SupplyC1C2B1accdf.iloc[0][-1]
+LastpriceSupplyC3C4B2v=SupplyC3C4B2accdf.iloc[0][-1]
+
+FirstpriceLoadC1C2B1v=LoadC1C2B1accdf.iloc[0][0]
+FirstpriceLoadC3C4B2v=LoadC3C4B2accdf.iloc[0][0]
+
+# to dict
+        
+LastpriceSupplyC1C2B1d={'price':LastpriceSupplyC1C2B1v}
+LastpriceSupplyC3C4B2d={'price':LastpriceSupplyC3C4B2v}
+
+FirstpriceLoadC1C2B1d={'price':FirstpriceLoadC1C2B1v}
+FirstpriceLoadC3C4B2d={'price':FirstpriceLoadC3C4B2v}
+
+# to df
+        
+LastpriceSupplyC1C2B1df=pd.DataFrame.from_dict(LastpriceSupplyC1C2B1d ,orient='index')
+LastpriceSupplyC3C4B2df=pd.DataFrame.from_dict(LastpriceSupplyC3C4B2d ,orient='index')
+
+FirstpriceLoadC1C2B1df=pd.DataFrame.from_dict(FirstpriceLoadC1C2B1d, orient='index')
+FirstpriceLoadC3C4B2df=pd.DataFrame.from_dict(FirstpriceLoadC3C4B2d, orient='index')
+
+        
+# rename column '0' to Excessload and Excesssupply
+        
+LastpriceSupplyC1C2B1df.rename(columns={0:'ExcesssupplyC1C2B1'}, inplace=True)
+LastpriceSupplyC3C4B2df.rename(columns={0:'ExcesssupplyC3C4B2'}, inplace=True)
+
+FirstpriceLoadC1C2B1df.rename(columns={0:'ExcessloadC1C2B1'}, inplace=True)
+FirstpriceLoadC3C4B2df.rename(columns={0:'ExcessloadC3C4B2'}, inplace=True)
+        
+# append Excessloaddf / Excesssupplydf to FirstpriceLoaddf / LastpriceSupplydf
+
+ExcesssupplyC1C2B1df=LastpriceSupplyC1C2B1df.append(ExcesssupplyC1C2B1df)
+ExcesssupplyC3C4B2df=LastpriceSupplyC3C4B2df.append(ExcesssupplyC3C4B2df)
+
+ExcessloadC1C2B1df=FirstpriceLoadC1C2B1df.append(ExcessloadC1C2B1df)
+ExcessloadC3C4B2df=FirstpriceLoadC3C4B2df.append(ExcessloadC3C4B2df)
+
+
 
 # CELL LEVEL A
 
