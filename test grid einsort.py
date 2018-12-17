@@ -615,12 +615,12 @@ for z in range (0,96):
     #Gyi=[y1[0],15,15]
     Dxi=[D[z],D[z]]
     Dyi=[0,y4*2]
-    Fxi=[D[z],D[z]+50-0.5*z,D[z]+50-0.5*z]
-    Fyi=[20-0.1*z,20-0.1*z,0]
+    Fxi=[D[z],D[z]+50-1.5*z,D[z]+50-1.5*z]
+    Fyi=[20-1.1*z,20-1.1*z,0]
 
         
         
-    if Fyi[1]> y4 and Fxi[1]> x3[z] and Fxi[1]< x4[z]:
+    if Fyi[1]> y4 and Fxi[1]< x4[z] and Fxi[1]> x3[z]:
         y100 = y4
         x100 = Fxi[1]
         print(y100)
@@ -628,7 +628,7 @@ for z in range (0,96):
         
         eqilplot, =plt.plot(x100,y100,'yo')
         
-    elif Fyi[1]> y3 and Fxi[1]> x2[z]:
+    elif Fyi[1]> y3 and Fxi[1]< x3[z] and Fxi[1]> x2[z]:
         y100 = y3
         x100 = Fxi[1]
         print(y100)
@@ -636,7 +636,7 @@ for z in range (0,96):
         
         eqilplot, =plt.plot(x100,y100,'yo')
         
-    elif Fyi[1]> y2 and Fxi[1]> x1[z]:
+    elif Fyi[1]> y2 and Fxi[1]< x2[z] and Fxi[1]> x1[z]:
         y100 = y2
         x100 = Fxi[1]
         print(y100)
@@ -644,7 +644,7 @@ for z in range (0,96):
         
         eqilplot, =plt.plot(x100,y100,'yo')
         
-    elif Fyi[1]> y1 and Fxi[1]> x[z]:
+    elif Fyi[1]> y1 and Fxi[1]< x1[z] and Fxi[1]> x[z]:
         y100 = y1
         x100 = Fxi[1]
         print(y100)
@@ -652,7 +652,7 @@ for z in range (0,96):
         
         eqilplot, =plt.plot(x100,y100,'yo')
         
-    elif Fyi[1]> y and Fxi[1]>0:
+    elif Fyi[1]> y and Fxi[1]< x[z] and Fxi[1]>0:
         y100 = y
         x100 = Fxi[1]
         print(y100)
@@ -661,14 +661,38 @@ for z in range (0,96):
         eqilplot, =plt.plot(x100,y100,'yo')
         
         
-    elif D[z]> x1[z]:
-        y100 = Syi[-1]
+    elif D[z]> x4[z]:
+        y100 = y4
+        x100 = D[z]
+        print(y100)
+        print(x100)
+
+        eqilplot, =plt.plot(x100,y100,'yo')
+        
+    elif D[z]> x3[z] and D[z] <= x4[z]:
+        y100 = y4
+        x100 = D[z]
+        print(y100)
+        print(x100)
+
+        eqilplot, =plt.plot(x100,y100,'yo')
+        
+    elif D[z]> x2[z] and D[z] <= x3[z]:
+        y100 = y3
         x100 = D[z]
         print(y100)
         print(x100)
 
         eqilplot, =plt.plot(x100,y100,'yo')
     
+    elif D[z]> x1[z] and D[z] <= x2[z]:
+        y100 = y2
+        x100 = D[z]
+        print(y100)
+        print(x100)
+
+        eqilplot, =plt.plot(x100,y100,'yo')
+        
     elif D[z]> x[z] and D[z] <= x1[z]:
         y100 = y1
         x100 = D[z]
@@ -676,12 +700,14 @@ for z in range (0,96):
         print(x100)
 
         eqilplot, =plt.plot(x100,y100,'yo')
+        
             
     elif D[z]> 0 and D[z] <= x[z]:
         y100 = y
         x100 = D[z]                
         print(y100)
         print(x100)
+        
         eqilplot, =plt.plot(x100,y100,'yo')
         
     else:
@@ -689,7 +715,10 @@ for z in range (0,96):
         
     supplyplot, =plt.plot(Sxi,Syi)
     demandplot, =plt.plot(Dxi,Dyi)
-    flexplot, =plt.plot(Fxi,Fyi,"--")
+    
+    if Fyi[1] >=0 and Fxi[1] >=0:
+      flexplot, =plt.plot(Fxi,Fyi,"--") 
+
     #gridplot, =plt.plot(Gxi,Gyi)
     plt.legend([supplyplot, demandplot, flexplot, (eqilplot)],['Supply','Demand','Flexible Demand','Market Equilibrium'],loc='center left', bbox_to_anchor=(1, 0.5))
 
@@ -708,7 +737,7 @@ for z in range (0,96):
     
     #input("Press Enter to continue...")
     time.sleep(1.3)
-    
+
     SupplyB1B2A1dfi=SupplyB1B2A1df
 
 
