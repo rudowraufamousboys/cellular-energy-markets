@@ -5,13 +5,16 @@ Created on Mon Dec 10 15:00:32 2018
 @author: Dennis
 """
 
+
+from __future__ import print_function
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
+from shapely.geometry import LineString
+
 from matplotlib.pyplot import figure
 
-from itertools import islice
 
 
 class grid:
@@ -638,20 +641,19 @@ for z in range(SupplyB1B2A1df.index.size-1):
           
         y_values=SupplypricesB1B2A1i.iloc[0].values.tolist()
         
-        y_supplacc=y_values*2
-        y_supplacc.sort()
-        y_supplacc.insert(0,0)
+        y_supplyacc=y_values*2
+        y_supplyacc.sort()
+        y_supplyacc.insert(0,0)
         
-        x_load=SumloadB1B2A1df[z]
-        y_load=25
+        x_load=SumloadB1B2A1df.iloc[z].tolist()
+        y_load=[0,40]*len(x_load)
+        x_load=x_load*2
+    
         
         
-        #plt.subplot(x_load,y_load)
-        plt.plot(x_supplyacc,y_supplacc)
+        plt.plot(x_load,y_load,x_supplyacc,y_supplyacc)
         plt.pause(0.5)
-        
-        #plt.show()
-        
+                
         SupplyB1B2A1dfi=SupplyB1B2A1df
     
     except:
