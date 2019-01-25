@@ -657,18 +657,26 @@ for z in range(SupplyB1B2A1df.index.size-1):
                     x_me=x_load[0]
                     break
                         
-             
                 
-        plt.plot(x_load,y_load,x_supplyacc,y_supplyacc,x_me,y_me,'yo')
+        supplyplot, =plt.plot(x_supplyacc,y_supplyacc)
+        demandplot, =plt.plot(x_load,y_load)
+        meplot, =plt.plot(x_me,y_me,'yo')
+        #flexplot, =plt.plot(Fxi,Fyi,"--")
+        #gridplot, =plt.plot(Gxi,Gyi)
+        plt.legend([supplyplot, demandplot,(meplot)],['Supply','Demand','Market Equilibrium'],loc='center left', bbox_to_anchor=(1, 0.5))
+    
         plt.xlabel('Energy')    
         plt.ylabel('Price')
         plt.title(name+' '+ SupplyB1B2A1accdf.index[z+1])
                         # plt.axis([0,300, \
                         #       0,y1[0]*1.2])
         plt.show()
-                        #print(SupplyB1B2A1accdf.index[z+1])
-                
-                #plt.pause(2.5)
+        #print(SupplyB1B2A1accdf.index[z+1])
+        
+        #plt.savefig('plot'+str(z)+'.pdf')   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+        #plt.pause(2.5)
+        
                 
         
             
