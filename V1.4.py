@@ -603,7 +603,6 @@ point=x_counter_meritorder + y_counter_meritorder
 point.sort()
 '''
 
-control=[]
 
 #index.size -1 to skip price index
 
@@ -614,11 +613,15 @@ control=[]
 listname = ['C1','C2','B1','C3','C4','B2','A1']
 name= listname[6]
 
+# list of market equilibrium price:
+priceMarketequilibriuml=[]
+# list of market equilibrium energy:
+energyMarketequilibriuml=[0]
+
 #for z in range (SupplyB1B2A1df.index.size)--> 0;95
 for z in range(SupplyB1B2A1df.index.size-1):
-    
-        
-        control.append(z)   
+
+
         # first value of line capacity is a dyanmic price that will be replaced
         # each time step in order to add the grid to the supplyacc of cell level:
         Linecapacitydf.iloc[0,0]=gridpricesl[z]
@@ -661,43 +664,54 @@ for z in range(SupplyB1B2A1df.index.size-1):
         
         SupplyB1B2A1dfi=SupplyB1B2A1df
         
-
         #loop for plot
         for Z in range (1,len(x_supplyacc)):
                 
                 #condition for intersection between supply and demand curve
                 if x_load[0]> x_supplyacc[-Z]:
-                    y_me=y_supplyacc[-Z]
-                    x_me=x_load[0]
-                    x_offer=x_supplyacc[-Z+1]-x_load[0]
+                    priceMarketequilibrium=y_supplyacc[-Z]
+                    energyMarketequilibrium=x_load[0]
+                    energy_offerA=x_supplyacc[-Z+1]-x_load[0]
                     #if a condition is met, the loop stops
                     break
-                        
-        #plotting the graphs        
-        supplyplot, =plt.plot(x_supplyacc,y_supplyacc)
-        demandplot, =plt.plot(x_load,y_load)
-        meplot, =plt.plot(x_me,y_me,'yo')
-        #flexplot, =plt.plot(Fxi,Fyi,"--")
-        #gridplot, =plt.plot(Gxi,Gyi)
+        # appending market equilibrium price to a list:
+        priceMarketequilibriuml.append(priceMarketequilibrium)
+        # appending market equilibrium energy to a list:
+        energyMarketequilibriuml.append(energyMarketequilibrium)
+# creating new data frame out of market equilibrium data sets (amount of energy / price):
         
-        #legend for the plots
-        plt.legend([supplyplot, demandplot,(meplot)],['Supply','Demand','Market Equilibrium'],loc='center left', bbox_to_anchor=(1, 0.5))
-        
-        #label for the axes
-        plt.xlabel('Energy')    
-        plt.ylabel('Price')
-        
-        #name of the graphs with name of the cell and time
-        plt.title(name+' '+ SupplyB1B2A1accdf.index[z+1])
-                        # plt.axis([0,300, \
-                        #       0,y1[0]*1.2])
-        plt.show()
-        
-        #name=listname[+1]
-        #print(SupplyB1B2A1accdf.index[z+1])
-        
-        #plt.savefig('plot'+str(z)+'.pdf')   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+energyofferCelllevelA=pd.DataFrame(index=ExcesssupplyC1C2B1df.index)
+energyofferCelllevelA['energyofferCelllevelA']=energyMarketequilibriuml
 
-        #plt.pause(2.5)
+
+#energyofferCelllevelA.iloc[0]=pricedict
+
         
+#        #plotting the graphs        
+#        supplyplot, =plt.plot(x_supplyacc,y_supplyacc)
+#        demandplot, =plt.plot(x_load,y_load)
+#        meplot, =plt.plot( energyMarketequilibrium,priceMarketequilibrium,'yo')
+#        #flexplot, =plt.plot(Fxi,Fyi,"--")
+#        #gridplot, =plt.plot(Gxi,Gyi)
+#        
+#        #legend for the plots
+#        plt.legend([supplyplot, demandplot,(meplot)],['Supply','Demand','Market Equilibrium'],loc='center left', bbox_to_anchor=(1, 0.5))
+#        
+#        #label for the axes
+#        plt.xlabel('Energy')    
+#        plt.ylabel('Price')
+#        
+#        #name of the graphs with name of the cell and time
+#        plt.title(name+' '+ SupplyB1B2A1accdf.index[z+1])
+#                        # plt.axis([0,300, \
+#                        #       0,y1[0]*1.2])
+#        plt.show()
+#        
+#        #name=listname[+1]
+#        #print(SupplyB1B2A1accdf.index[z+1])
+#        
+#        #plt.savefig('plot'+str(z)+'.pdf')   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#
+#        plt.pause(2.5)
+    
 
