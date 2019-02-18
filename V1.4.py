@@ -678,15 +678,7 @@ for z in range(SupplyB1B2A1df.index.size-1):
         priceMarketequilibriuml.append(priceMarketequilibrium)
         # appending market equilibrium energy to a list:
         energyMarketequilibriuml.append(energyMarketequilibrium)
-# creating new data frame out of market equilibrium data sets (amount of energy / price):
-        
-energyofferCelllevelA=pd.DataFrame(index=ExcesssupplyC1C2B1df.index)
-energyofferCelllevelA['energyofferCelllevelA']=energyMarketequilibriuml
-
-
-#energyofferCelllevelA.iloc[0]=pricedict
-
-        
+                
 #        #plotting the graphs        
 #        supplyplot, =plt.plot(x_supplyacc,y_supplyacc)
 #        demandplot, =plt.plot(x_load,y_load)
@@ -712,6 +704,199 @@ energyofferCelllevelA['energyofferCelllevelA']=energyMarketequilibriuml
 #        
 #        #plt.savefig('plot'+str(z)+'.pdf')   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 #
-#        plt.pause(2.5)
+#        #plt.pause(2.5)
+#        
+        
+# creating new data frame out of market equilibrium data sets (amount of energy / price):
+        
+energyofferCelllevelA=pd.DataFrame(index=ExcesssupplyC1C2B1df.index)
+energyofferCelllevelA['energyofferCelllevelA']=energyMarketequilibriuml
+
+# list of market equilibrium price:
+priceMarketequilibriumB1l=[]
+# list of market equilibrium energy:
+energyMarketequilibriumB1l=[0]
+
+############MRIT ORDER CELL LEVEL B1###########################################
+###############################################################################
+
+# here if condition:
+
+for z in range(SupplyC1C2B1df.index.size-1):
+
+
+        # first value of energyOfferCelllevelA is a dyanmic price that will be replaced
+        # each time step in order to add the offer of cell level A to cell level B:
+        
+        energyofferCelllevelA.iloc[0,0]=priceMarketequilibriuml[z]
+        
+        SupplyC1C2B1dfi=pd.concat((SupplyC1C2B1df, energyofferCelllevelA), axis=1)
+        
+        SupplyC1C2B1dfi.sort_values('price', axis=1, ascending=True, inplace=True)
+        
+        SupplypricesC1C2B1i=SupplyC1C2B1dfi.drop(SupplyC1C2B1dfi.index[1])
+        
+        SupplyC1C2B1accdfi=SupplyC1C2B1dfi.iloc[z+1:].cumsum(axis=1, skipna=True)
+        
+                #double x values for steps
+        x_supplyaccB1=x_values*2
+        x_supplyaccB1.sort()
+        #insert (0,0) for start point of the supply graph
+        x_supplyaccB1.insert(0,0)
+        x_supplyaccB1.insert(1,0)
+        del x_supplyaccB1[-1]
+        
+        #y values for plot
+        y_valuesB1=SupplypricesC1C2B1i.iloc[0].values.tolist()
+        
+        #double y values for plot
+        y_supplyaccB1=y_values*2
+        y_supplyaccB1.sort()
+        #insert (0,0) for start point of the supply graph
+        y_supplyaccB1.insert(0,0)
+        
+        #Demand graph
+        x_loadB1=SumloadC1C2B1df.iloc[z].tolist()
+        y_loadB1=[0,40]*len(x_load)
+        #double x values for demand plot
+        x_loadB1=x_load*2
+        
+        SupplyC1C2B1dfi=SupplyC1C2B1df
+        
+        #loop for plot
+        for Z in range (1,len(x_supplyacc)):
+                
+                #condition for intersection between supply and demand curve
+                if x_loadB1[0]> x_supplyaccB1[-Z]:
+                    priceMarketequilibriumB1=y_supplyacc[-Z]
+                    energyMarketequilibriumB1=x_load[0]
+                    energy_offerA=x_supplyacc[-Z+1]-x_load[0]
+                    #if a condition is met, the loop stops
+                    break
+        # appending market equilibrium price to a list:
+        priceMarketequilibriumB1l.append(priceMarketequilibriumB1)
+        #appending market equilibrium energy to a list:
+        energyMarketequilibriumB1l.append(energyMarketequilibriumB1)
+        
+##plotting the graphs        
+#        supplyplot, =plt.plot(x_supplyaccB1,y_supplyaccB1)
+#        demandplot, =plt.plot(x_loadB1,y_loadB1)
+#        meplot, =plt.plot( energyMarketequilibriumB1,priceMarketequilibriumB1,'yo')
+#        #flexplot, =plt.plot(Fxi,Fyi,"--")
+#        #gridplot, =plt.plot(Gxi,Gyi)
+#        
+#        #legend for the plots
+#        plt.legend([supplyplot, demandplot,(meplot)],['Supply','Demand','Market Equilibrium'],loc='center left', bbox_to_anchor=(1, 0.5))
+#        
+#        #label for the axes
+#        plt.xlabel('Energy')    
+#        plt.ylabel('Price')
+#        
+#        #name of the graphs with name of the cell and time
+#        plt.title(name+' '+ SupplyC1C2B1accdf.index[z+1])
+#                        # plt.axis([0,300, \
+#                        #       0,y1[0]*1.2])
+#        plt.show()
+#        
+#        #name=listname[+1]
+#        #print(SupplyB1B2A1accdf.index[z+1])
+#        
+#        #plt.savefig('plot'+str(z)+'.pdf')   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#
+#        #plt.pause(2.5)
+
+# list of market equilibrium price:
+priceMarketequilibriumB2l=[]
+# list of market equilibrium energy:
+energyMarketequilibriumB2l=[0]
+
+############MRIT ORDER CELL LEVEL B2###########################################
+###############################################################################
+        
+for z in range(SupplyC1C2B1df.index.size-1):
+
+
+        # first value of energyOfferCelllevelA is a dyanmic price that will be replaced
+        # each time step in order to add the offer of cell level A to cell level B:
+        
+        energyofferCelllevelA.iloc[0,0]=priceMarketequilibriuml[z]
+        
+        SupplyC3C4B2dfi=pd.concat((SupplyC3C4B2df, energyofferCelllevelA), axis=1)
+        
+        SupplyC3C4B2dfi.sort_values('price', axis=1, ascending=True, inplace=True)
+        
+        SupplypricesC3C4B2i=SupplyC3C4B2dfi.drop(SupplyC3C4B2dfi.index[1])
+        
+        SupplyC3C4B2accdfi=SupplyC3C4B2dfi.iloc[z+1:].cumsum(axis=1, skipna=True)
+        
+                #double x values for steps
+        x_supplyaccB2=x_values*2
+        x_supplyaccB2.sort()
+        #insert (0,0) for start point of the supply graph
+        x_supplyaccB2.insert(0,0)
+        x_supplyaccB2.insert(1,0)
+        del x_supplyaccB2[-1]
+        
+        #y values for plot
+        y_valuesB1=SupplypricesC3C4B2i.iloc[0].values.tolist()
+        
+        #double y values for plot
+        y_supplyaccB2=y_values*2
+        y_supplyaccB2.sort()
+        #insert (0,0) for start point of the supply graph
+        y_supplyaccB2.insert(0,0)
+        
+        #Demand graph
+        x_loadB2=SumloadC3C4B2df.iloc[z].tolist()
+        y_loadB2=[0,40]*len(x_load)
+        #double x values for demand plot
+        x_loadB2=x_load*2
+        
+        SupplyC3C4B2dfi=SupplyC3C4B2df
+        
+        #loop for plot
+        for Z in range (1,len(x_supplyacc)):
+                
+                #condition for intersection between supply and demand curve
+                if x_loadB2[0]> x_supplyaccB2[-Z]:
+                    priceMarketequilibriumB2=y_supplyacc[-Z]
+                    energyMarketequilibriumB2=x_load[0]
+                    energy_offerA=x_supplyacc[-Z+1]-x_load[0]
+                    #if a condition is met, the loop stops
+                    break
+        # appending market equilibrium price to a list:
+        priceMarketequilibriumB1l.append(priceMarketequilibriumB2)
+        #appending market equilibrium energy to a list:
+        energyMarketequilibriumB1l.append(energyMarketequilibriumB2)
+        
+#plotting the graphs        
+        supplyplot, =plt.plot(x_supplyaccB2,y_supplyaccB2)
+        demandplot, =plt.plot(x_loadB2,y_loadB2)
+        meplot, =plt.plot( energyMarketequilibriumB1,priceMarketequilibriumB1,'yo')
+        #flexplot, =plt.plot(Fxi,Fyi,"--")
+        #gridplot, =plt.plot(Gxi,Gyi)
+        
+        #legend for the plots
+        plt.legend([supplyplot, demandplot,(meplot)],['Supply','Demand','Market Equilibrium'],loc='center left', bbox_to_anchor=(1, 0.5))
+        
+        #label for the axes
+        plt.xlabel('Energy')    
+        plt.ylabel('Price')
+        
+        #name of the graphs with name of the cell and time
+        plt.title(name+' '+ SupplyC1C2B1accdf.index[z+1])
+                        # plt.axis([0,300, \
+                        #       0,y1[0]*1.2])
+        plt.show()
+        
+        #name=listname[+1]
+        #print(SupplyB1B2A1accdf.index[z+1])
+        
+        #plt.savefig('plot'+str(z)+'.pdf')   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+        #plt.pause(2.5)
+
+
+
     
 
