@@ -616,7 +616,7 @@ name= listname[6]
 # list of market equilibrium price:
 priceMarketequilibriumA1l=[]
 # list of market equilibrium energy:
-energyMarketequilibriumA1l=[0]
+energyOfferA1l=[0]
 
 #for z in range (SupplyB1B2A1df.index.size)--> 0;95
 for z in range(SupplyB1B2A1df.index.size-1):
@@ -671,13 +671,13 @@ for z in range(SupplyB1B2A1df.index.size-1):
                 if x_load[0]> x_supplyacc[-Z]:
                     priceMarketequilibrium=y_supplyacc[-Z]
                     energyMarketequilibrium=x_load[0]
-                    energy_offerA=x_supplyacc[-Z+1]-x_load[0]
+                    energy_offerA1=x_supplyacc[-Z+1]-x_load[0]
                     #if a condition is met, the loop stops
                     break
         # appending market equilibrium price to a list:
         priceMarketequilibriumA1l.append(priceMarketequilibrium)
         # appending market equilibrium energy to a list:
-        energyMarketequilibriumA1l.append(energyMarketequilibrium)
+        energyOfferA1l.append(energy_offerA1)
                 
 #        #plotting the graphs        
 #        supplyplot, =plt.plot(x_supplyacc,y_supplyacc)
@@ -709,13 +709,13 @@ for z in range(SupplyB1B2A1df.index.size-1):
         
 # creating new data frame out of market equilibrium data sets (amount of energy / price):
         
-energyofferCelllevelA=pd.DataFrame(index=ExcesssupplyC1C2B1df.index)
-energyofferCelllevelA['energyofferCelllevelA']=energyMarketequilibriumA1l
+energyofferCelllevelA1=pd.DataFrame(index=ExcesssupplyC1C2B1df.index)
+energyofferCelllevelA1['energyofferCelllevelA1']=energyOfferA1l
 
 # list of market equilibrium price:
 priceMarketequilibriumB1l=[]
 # list of market equilibrium energy:
-energyMarketequilibriumB1l=[0]
+energyofferB1l=[0]
 
 ############MRIT ORDER CELL LEVEL B1###########################################
 ###############################################################################
@@ -728,9 +728,9 @@ for z in range(SupplyC1C2B1df.index.size-1):
         # first value of energyOfferCelllevelA is a dyanmic price that will be replaced
         # each time step in order to add the offer of cell level A to cell level B:
         
-        energyofferCelllevelA.iloc[0,0]=priceMarketequilibriumA1l[z]
+        energyofferCelllevelA1.iloc[0,0]=priceMarketequilibriumA1l[z]
         
-        SupplyC1C2B1dfi=pd.concat((SupplyC1C2B1df, energyofferCelllevelA), axis=1)
+        SupplyC1C2B1dfi=pd.concat((SupplyC1C2B1df, energyofferCelllevelA1), axis=1)
         
         SupplyC1C2B1dfi.sort_values('price', axis=1, ascending=True, inplace=True)
         
@@ -738,8 +738,12 @@ for z in range(SupplyC1C2B1df.index.size-1):
         
         SupplyC1C2B1accdfi=SupplyC1C2B1dfi.iloc[z+1:].cumsum(axis=1, skipna=True)
         
-                #double x values for steps
-        x_supplyaccB1=x_values*2
+        #Supply graph
+        #x values for plot 
+        x_valuesB1=SupplyC1C2B1accdfi.iloc[0].values.tolist()
+        
+        #double x values for steps
+        x_supplyaccB1=x_valuesB1*2
         x_supplyaccB1.sort()
         #insert (0,0) for start point of the supply graph
         x_supplyaccB1.insert(0,0)
@@ -750,16 +754,16 @@ for z in range(SupplyC1C2B1df.index.size-1):
         y_valuesB1=SupplypricesC1C2B1i.iloc[0].values.tolist()
         
         #double y values for plot
-        y_supplyaccB1=y_values*2
+        y_supplyaccB1=y_valuesB1*2
         y_supplyaccB1.sort()
         #insert (0,0) for start point of the supply graph
         y_supplyaccB1.insert(0,0)
         
         #Demand graph
         x_loadB1=SumloadC1C2B1df.iloc[z].tolist()
-        y_loadB1=[0,40]*len(x_load)
+        y_loadB1=[0,40]*len(x_loadB1)
         #double x values for demand plot
-        x_loadB1=x_load*2
+        x_loadB1=x_loadB1*2
         
         SupplyC1C2B1dfi=SupplyC1C2B1df
         
@@ -768,15 +772,15 @@ for z in range(SupplyC1C2B1df.index.size-1):
                 
                 #condition for intersection between supply and demand curve
                 if x_loadB1[0]> x_supplyaccB1[-Z]:
-                    priceMarketequilibriumB1=y_supplyacc[-Z]
-                    energyMarketequilibriumB1=x_load[0]
-                    energy_offerA=x_supplyacc[-Z+1]-x_load[0]
+                    priceMarketequilibriumB1=y_supplyaccB1[-Z]
+                    energyMarketequilibriumB1=x_loadB1[0]
+                    energy_offerB1=x_supplyaccB1[-Z+1]-x_loadB1[0]
                     #if a condition is met, the loop stops
                     break
         # appending market equilibrium price to a list:
         priceMarketequilibriumB1l.append(priceMarketequilibriumB1)
         #appending market equilibrium energy to a list:
-        energyMarketequilibriumB1l.append(energyMarketequilibriumB1)
+        energyofferB1l.append(energy_offerB1)
         
 ##plotting the graphs        
 #        supplyplot, =plt.plot(x_supplyaccB1,y_supplyaccB1)
@@ -802,16 +806,18 @@ for z in range(SupplyC1C2B1df.index.size-1):
 #        #print(SupplyB1B2A1accdf.index[z+1])
 #        
 #        #plt.savefig('plot'+str(z)+'.pdf')   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-#
-#        #plt.pause(2.5)
+
+        #plt.pause(2.5)
+energyofferCelllevelB1=pd.DataFrame(index=ExcesssupplyC1C2B1df.index)
+energyofferCelllevelB1['energyofferCelllevelB1']=energyofferB1l
 
 # list of market equilibrium price:
 priceMarketequilibriumB2l=[]
 # list of market equilibrium energy:
-energyMarketequilibriumB2l=[0]
+energy_offerB2l=[0]
 
-############MRIT ORDER CELL LEVEL B2###########################################
-###############################################################################
+#############MRIT ORDER CELL LEVEL B2###########################################
+################################################################################
         
 for z in range(SupplyC1C2B1df.index.size-1):
 
@@ -819,9 +825,9 @@ for z in range(SupplyC1C2B1df.index.size-1):
         # first value of energyOfferCelllevelA is a dyanmic price that will be replaced
         # each time step in order to add the offer of cell level A to cell level B:
         
-        energyofferCelllevelA.iloc[0,0]=priceMarketequilibriumA1l[z]
+        energyofferCelllevelA1.iloc[0,0]=priceMarketequilibriumA1l[z]
         
-        SupplyC3C4B2dfi=pd.concat((SupplyC3C4B2df, energyofferCelllevelA), axis=1)
+        SupplyC3C4B2dfi=pd.concat((SupplyC3C4B2df, energyofferCelllevelA1), axis=1)
         
         SupplyC3C4B2dfi.sort_values('price', axis=1, ascending=True, inplace=True)
         
@@ -829,8 +835,12 @@ for z in range(SupplyC1C2B1df.index.size-1):
         
         SupplyC3C4B2accdfi=SupplyC3C4B2dfi.iloc[z+1:].cumsum(axis=1, skipna=True)
         
-                #double x values for steps
-        x_supplyaccB2=x_values*2
+        #Supply graph
+        #x values for plot 
+        x_valuesB2=SupplyC3C4B2accdfi.iloc[0].values.tolist()
+
+        #double x values for steps
+        x_supplyaccB2=x_valuesB2*2
         x_supplyaccB2.sort()
         #insert (0,0) for start point of the supply graph
         x_supplyaccB2.insert(0,0)
@@ -838,19 +848,19 @@ for z in range(SupplyC1C2B1df.index.size-1):
         del x_supplyaccB2[-1]
         
         #y values for plot
-        y_valuesB1=SupplypricesC3C4B2i.iloc[0].values.tolist()
+        y_valuesB2=SupplypricesC3C4B2i.iloc[0].values.tolist()
         
         #double y values for plot
-        y_supplyaccB2=y_values*2
+        y_supplyaccB2=y_valuesB2*2
         y_supplyaccB2.sort()
         #insert (0,0) for start point of the supply graph
         y_supplyaccB2.insert(0,0)
         
         #Demand graph
         x_loadB2=SumloadC3C4B2df.iloc[z].tolist()
-        y_loadB2=[0,40]*len(x_load)
+        y_loadB2=[0,40]*len(x_loadB2)
         #double x values for demand plot
-        x_loadB2=x_load*2
+        x_loadB2=x_loadB2*2
         
         SupplyC3C4B2dfi=SupplyC3C4B2df
         
@@ -859,20 +869,20 @@ for z in range(SupplyC1C2B1df.index.size-1):
                 
                 #condition for intersection between supply and demand curve
                 if x_loadB2[0]> x_supplyaccB2[-Z]:
-                    priceMarketequilibriumB2=y_supplyacc[-Z]
-                    energyMarketequilibriumB2=x_load[0]
-                    energy_offerA=x_supplyacc[-Z+1]-x_load[0]
+                    priceMarketequilibriumB2=y_supplyaccB2[-Z]
+                    energyMarketequilibriumB2=x_loadB2[0]
+                    energy_offerB2=x_supplyaccB2[-Z+1]-x_load[0]
                     #if a condition is met, the loop stops
                     break
         # appending market equilibrium price to a list:
-        priceMarketequilibriumB1l.append(priceMarketequilibriumB2)
+        priceMarketequilibriumB2l.append(priceMarketequilibriumB2)
         #appending market equilibrium energy to a list:
-        energyMarketequilibriumB1l.append(energyMarketequilibriumB2)
+        energy_offerB2l.append(energyMarketequilibriumB2)
         
 #plotting the graphs        
         supplyplot, =plt.plot(x_supplyaccB2,y_supplyaccB2)
         demandplot, =plt.plot(x_loadB2,y_loadB2)
-        meplot, =plt.plot( energyMarketequilibriumB1,priceMarketequilibriumB1,'yo')
+        meplot, =plt.plot( energyMarketequilibriumB2,priceMarketequilibriumB2,'yo')
         #flexplot, =plt.plot(Fxi,Fyi,"--")
         #gridplot, =plt.plot(Gxi,Gyi)
         
@@ -884,7 +894,7 @@ for z in range(SupplyC1C2B1df.index.size-1):
         plt.ylabel('Price')
         
         #name of the graphs with name of the cell and time
-        plt.title(name+' '+ SupplyC1C2B1accdf.index[z+1])
+        plt.title(name+' '+ SupplyC3C4B2accdf.index[z+1])
                         # plt.axis([0,300, \
                         #       0,y1[0]*1.2])
         plt.show()
