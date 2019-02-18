@@ -614,9 +614,9 @@ listname = ['C1','C2','B1','C3','C4','B2','A1']
 name= listname[6]
 
 # list of market equilibrium price:
-priceMarketequilibriuml=[]
+priceMarketequilibriumA1l=[]
 # list of market equilibrium energy:
-energyMarketequilibriuml=[0]
+energyMarketequilibriumA1l=[0]
 
 #for z in range (SupplyB1B2A1df.index.size)--> 0;95
 for z in range(SupplyB1B2A1df.index.size-1):
@@ -675,9 +675,9 @@ for z in range(SupplyB1B2A1df.index.size-1):
                     #if a condition is met, the loop stops
                     break
         # appending market equilibrium price to a list:
-        priceMarketequilibriuml.append(priceMarketequilibrium)
+        priceMarketequilibriumA1l.append(priceMarketequilibrium)
         # appending market equilibrium energy to a list:
-        energyMarketequilibriuml.append(energyMarketequilibrium)
+        energyMarketequilibriumA1l.append(energyMarketequilibrium)
                 
 #        #plotting the graphs        
 #        supplyplot, =plt.plot(x_supplyacc,y_supplyacc)
@@ -710,7 +710,7 @@ for z in range(SupplyB1B2A1df.index.size-1):
 # creating new data frame out of market equilibrium data sets (amount of energy / price):
         
 energyofferCelllevelA=pd.DataFrame(index=ExcesssupplyC1C2B1df.index)
-energyofferCelllevelA['energyofferCelllevelA']=energyMarketequilibriuml
+energyofferCelllevelA['energyofferCelllevelA']=energyMarketequilibriumA1l
 
 # list of market equilibrium price:
 priceMarketequilibriumB1l=[]
@@ -728,7 +728,7 @@ for z in range(SupplyC1C2B1df.index.size-1):
         # first value of energyOfferCelllevelA is a dyanmic price that will be replaced
         # each time step in order to add the offer of cell level A to cell level B:
         
-        energyofferCelllevelA.iloc[0,0]=priceMarketequilibriuml[z]
+        energyofferCelllevelA.iloc[0,0]=priceMarketequilibriumA1l[z]
         
         SupplyC1C2B1dfi=pd.concat((SupplyC1C2B1df, energyofferCelllevelA), axis=1)
         
@@ -819,7 +819,7 @@ for z in range(SupplyC1C2B1df.index.size-1):
         # first value of energyOfferCelllevelA is a dyanmic price that will be replaced
         # each time step in order to add the offer of cell level A to cell level B:
         
-        energyofferCelllevelA.iloc[0,0]=priceMarketequilibriuml[z]
+        energyofferCelllevelA.iloc[0,0]=priceMarketequilibriumA1l[z]
         
         SupplyC3C4B2dfi=pd.concat((SupplyC3C4B2df, energyofferCelllevelA), axis=1)
         
