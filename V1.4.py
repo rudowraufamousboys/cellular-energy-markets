@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+
 """
 Created on Mon Dec 10 15:00:32 2018
 @author: Dennis
@@ -618,14 +619,17 @@ for z in range(SupplyB1B2A1df.index.size-1):
     
         
         control.append(z)   
-        
+        # first value of line capacity is a dyanmic price that will be replaced
+        # each time step in order to add the grid to the supplyacc of cell level:
         Linecapacitydf.iloc[0,0]=gridpricesl[z]
-                
+        # the lince capacity plus dynamic price is added to the supply of cell level A:        
         SupplyB1B2A1dfi=pd.concat((SupplyB1B2A1df, Linecapacitydf), axis=1)
+        # sorting the columns by price:
         SupplyB1B2A1dfi.sort_values('price', axis=1, ascending=True, inplace=True)
-        SupplypricesB1B2A1i=SupplyB1B2A1dfi.drop(SupplyB1B2A1dfi.index[1:])
-            
-        SupplyB1B2A1accdfi=SupplyB1B2A1dfi.iloc[z:].cumsum(axis=1, skipna=True)
+        # creating price df by dropping the supply values:
+        SupplypricesB1B2A1i=SupplyB1B2A1dfi.drop(SupplyB1B2A1dfi.index[1])
+        # accumulate supply including line capacity between cell level A and grid:
+        SupplyB1B2A1accdfi=SupplyB1B2A1dfi.iloc[z+1:].cumsum(axis=1, skipna=True)
         #SupplyB1B2A1accdfi=SupplypricesB1B2A1i.append(SupplyB1B2A1accdfi)
         
         #Supply graph
@@ -657,8 +661,7 @@ for z in range(SupplyB1B2A1df.index.size-1):
         
         SupplyB1B2A1dfi=SupplyB1B2A1df
         
-        
-        
+
         #loop for plot
         for Z in range (1,len(x_supplyacc)):
                 
@@ -666,6 +669,7 @@ for z in range(SupplyB1B2A1df.index.size-1):
                 if x_load[0]> x_supplyacc[-Z]:
                     y_me=y_supplyacc[-Z]
                     x_me=x_load[0]
+                    x_offer=x_supplyacc[-Z+1]-x_load[0]
                     #if a condition is met, the loop stops
                     break
                         
@@ -688,6 +692,7 @@ for z in range(SupplyB1B2A1df.index.size-1):
                         # plt.axis([0,300, \
                         #       0,y1[0]*1.2])
         plt.show()
+        
         #name=listname[+1]
         #print(SupplyB1B2A1accdf.index[z+1])
         
@@ -695,7 +700,4 @@ for z in range(SupplyB1B2A1df.index.size-1):
 
         #plt.pause(2.5)
         
-                
-        
-            
-        
+
