@@ -608,9 +608,12 @@ control=[]
 
 ###############################################################################
 
-#for z in range (SupplyB1B2A1df.index.size):
-name = 'A1'
 
+#name is name of the cell
+listname = ['C1','C2','B1','C3','C4','B2','A1']
+name= listname[6]
+
+#for z in range (SupplyB1B2A1df.index.size)--> 0;95
 for z in range(SupplyB1B2A1df.index.size-1):
     
         
@@ -625,52 +628,67 @@ for z in range(SupplyB1B2A1df.index.size-1):
         SupplyB1B2A1accdfi=SupplyB1B2A1dfi.iloc[z:].cumsum(axis=1, skipna=True)
         #SupplyB1B2A1accdfi=SupplypricesB1B2A1i.append(SupplyB1B2A1accdfi)
         
-        
-    
+        #Supply graph
+        #x values for plot 
         x_values=SupplyB1B2A1accdfi.iloc[0].values.tolist()
         
+        #double x values for steps
         x_supplyacc=x_values*2
         x_supplyacc.sort()
+        #insert (0,0) for start point of the supply graph
         x_supplyacc.insert(0,0)
         x_supplyacc.insert(1,0)
         del x_supplyacc[-1]
-          
+        
+        #y values for plot
         y_values=SupplypricesB1B2A1i.iloc[0].values.tolist()
         
+        #double y values for plot
         y_supplyacc=y_values*2
         y_supplyacc.sort()
+        #insert (0,0) for start point of the supply graph
         y_supplyacc.insert(0,0)
         
+        #Demand graph
         x_load=SumloadB1B2A1df.iloc[z].tolist()
         y_load=[0,40]*len(x_load)
+        #double x values for demand plot
         x_load=x_load*2
         
         SupplyB1B2A1dfi=SupplyB1B2A1df
         
         
         
-        
+        #loop for plot
         for Z in range (1,len(x_supplyacc)):
-                           
+                
+                #condition for intersection between supply and demand curve
                 if x_load[0]> x_supplyacc[-Z]:
                     y_me=y_supplyacc[-Z]
                     x_me=x_load[0]
+                    #if a condition is met, the loop stops
                     break
                         
-                
+        #plotting the graphs        
         supplyplot, =plt.plot(x_supplyacc,y_supplyacc)
         demandplot, =plt.plot(x_load,y_load)
         meplot, =plt.plot(x_me,y_me,'yo')
         #flexplot, =plt.plot(Fxi,Fyi,"--")
         #gridplot, =plt.plot(Gxi,Gyi)
+        
+        #legend for the plots
         plt.legend([supplyplot, demandplot,(meplot)],['Supply','Demand','Market Equilibrium'],loc='center left', bbox_to_anchor=(1, 0.5))
-    
+        
+        #label for the axes
         plt.xlabel('Energy')    
         plt.ylabel('Price')
+        
+        #name of the graphs with name of the cell and time
         plt.title(name+' '+ SupplyB1B2A1accdf.index[z+1])
                         # plt.axis([0,300, \
                         #       0,y1[0]*1.2])
         plt.show()
+        #name=listname[+1]
         #print(SupplyB1B2A1accdf.index[z+1])
         
         #plt.savefig('plot'+str(z)+'.pdf')   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
