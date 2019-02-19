@@ -680,8 +680,7 @@ energyofferCelllevelA1['energyofferCelllevelA1']=energyOfferA1l
 SupplyC1C2B1df=pd.concat((SupplyC1C2B1df, energyofferCelllevelA1), axis=1)
 SupplyC3C4B2df=pd.concat((SupplyC3C4B2df, energyofferCelllevelA1), axis=1)
 
-helpVariablesB1l=[]
-helpVariablesB2l=[]
+
 
 for z in range(SupplyB1B2A1df.index.size-1):
 
@@ -691,44 +690,25 @@ for z in range(SupplyB1B2A1df.index.size-1):
         
         SupplyC1C2B1df.iloc[z,-1]=(SupplyC1C2B1df.iloc[z,-1]/2)
         SupplyC3C4B2df.iloc[z,-1]=(SupplyC3C4B2df.iloc[z,-1]/2)
+        print('1') 
         
-       
-        
+     
                                         
     elif LastpriceSupplyC1C2B1df.iloc[0,0] > priceMarketequilibrium and \
     ExcesssupplyC1C2B1l[z] > 0:
         
         SupplyC1C2B1df.iloc[z,-1]=(SupplyC1C2B1df.iloc[z,-1])
         SupplyC3C4B2df.iloc[z,-1]=(SupplyC3C4B2df.iloc[z,-1]*0)
-        
+        print('2')
+       
+    
     elif LastpriceSupplyC3C4B2df.iloc[0,0] > priceMarketequilibrium and \
     ExcesssupplyC3C4B2l[z] > 0:
         
         SupplyC3C4B2df.iloc[z,-1]=(SupplyC3C4B2df.iloc[z,-1])
-        SupplyC1C2B1df.iloc[z,-1]=(SupplyC1C2B1df.iloc[z,-1]*0)
-        
-        
-        
-        
-        
-        
-        
-        
+        SupplyC1C2B1df.iloc[z,-1]=(SupplyC1C2B1df.iloc[z,-1]*0)       
+        print('3')
         
     else:
-        ('Keine Iteration notwendig!')
-        
-        
-        
-        
-#        
-#                    
-#    elif LastpriceSupplyC3C4B2df.iloc[0,0] > priceMarketequilibrium and \
-#    ExcesssupplyC3C4B2l[z] > 0:
-#        
-#        helpVariablesB2l.append(1)
-#        helpVariablesB1l.append(0)
-#                    
-#                    
-#    else:
-#        print ('Dei Modda!')
+        print('Keine Iteration notwendig!') 
+    
