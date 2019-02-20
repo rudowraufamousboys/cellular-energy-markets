@@ -678,28 +678,32 @@ for z in range(SupplyB1B2A1df.index.size-1):
         
 
 
+energyofferCelllevelA1=pd.DataFrame(index=ExcesssupplyC1C2B1df.index)
+energyofferCelllevelA1['energyofferCelllevelA1']=energyOfferA1l
 
-
-for z in range(SupplyB1B2A1df.index.size-1):
+for z in range (SupplyB1B2A1df.index.size-1):
+        
+    SupplyC1C2B1dfi=pd.concat((SupplyC1C2B1df, energyofferCelllevelA1), axis=1)
+    SupplyC3C4B2dfi=pd.concat((SupplyC3C4B2df, energyofferCelllevelA1), axis=1)
     
-    
-    energyofferCelllevelA1=pd.DataFrame(index=ExcesssupplyC1C2B1df.index)
-    energyofferCelllevelA1['energyofferCelllevelA1']=energyOfferA1l
-    
-    SupplyC1C2B1df=pd.concat((SupplyC1C2B1df, energyofferCelllevelA1), axis=1)
-    SupplyC3C4B2df=pd.concat((SupplyC3C4B2df, energyofferCelllevelA1), axis=1)
-    
-    SupplyC1C2B1df.iloc[0,-1]=priceMarketequilibriumA1l[z] #In die letzte Spalte und erste Zeile wird der ME drangehangen
-    SupplyC3C4B2df.iloc[0,-1]=priceMarketequilibriumA1l[z]
+    SupplyC1C2B1dfi.iloc[0,-1]=priceMarketequilibriumA1l[z] #In die letzte Spalte und erste Zeile wird der ME drangehangen
+    SupplyC3C4B2dfi.iloc[0,-1]=priceMarketequilibriumA1l[z]
    
-    SupplyC1C2B1df.sort_values('price', axis=1, ascending=True, inplace=True) #sortieren nach Preis
-    SupplyC3C4B2df.sort_values('price', axis=1, ascending=True, inplace=True)
+    SupplyC1C2B1dfi.sort_values('price', axis=1, ascending=True, inplace=True)
+    SupplyC3C4B2dfi.sort_values('price', axis=1, ascending=True, inplace=True)
     
-    SupplyC1C2B1dfi=SupplyC1C2B1df #umbenennen als weitere Variabel
-    SupplyC3C4B2dfi=SupplyC3C4B2df
+    SupplypricesC1C2B1i=SupplyC1C2B1dfi.drop(SupplyC1C2B1dfi.index[1:])
+    SupplypricesC3C4B2i=SupplyC3C4B2dfi.drop(SupplyC3C4B2dfi.index[1:])
     
-    SupplyC1C2B1df=SupplyC1C2B1dfi.drop('energyofferCelllevelA1',1) #Spalte (nicht das was du meinst) wird wieder rausgeschmissen
-    SupplyC3C4B2df=SupplyC3C4B2dfi.drop('energyofferCelllevelA1',1) 
+    SupplyC1C2B1accdfi=SupplyC1C2B1dfi.iloc[z+1:].cumsum(axis=1, skipna=True)
+    SupplyC3C4B2accdfi=SupplyC3C4B2dfi.iloc[z+1:].cumsum(axis=1, skipna=True)
+    
+    
+#    SupplyC1C2B1dfi=SupplyC1C2B1df #umbenennen als weitere Variabel
+#    SupplyC3C4B2dfi=SupplyC3C4B2df
+    
+    #SupplyC1C2B1df=SupplyC1C2B1dfi.drop('energyofferCelllevelA1',1)
+    #SupplyC3C4B2df=SupplyC3C4B2dfi.drop('energyofferCelllevelA1',1) 
     
     
 
@@ -730,4 +734,7 @@ for z in range(SupplyB1B2A1df.index.size-1):
 
     else:
         print('Keine Iteration notwendig!') 
+    
+    SupplyC1C2B1dfi=SupplyC1C2B1df
+    SupplyC3C4B2dfi=SupplyC3C4B2df
         
