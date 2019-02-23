@@ -1,0 +1,92 @@
+ #loop for plot
+        for Z in range (1,len(x_supplyacc)):
+                
+                #condition for intersection between supply and demand curve
+                if x_load[0]> x_supplyacc[-Z]:
+                    
+                    y_me=y_supplyacc[-Z]
+                    x_me=x_load[0]
+                    x_offer=x_supplyacc[-Z+1]-x_load[0] 
+                    
+                #condition for intersection between supply and flexible demand curve
+                    break
+                
+        for Z in range (1,len(x_supplyacc)):
+                
+                if Fxi[1]>x_supplyacc[-Z] and Fyi[1]>=y_supplyacc[-Z+1]:
+                   
+                    y_me1=y_supplyacc[-Z+1]
+                    x_me1=Fxi[1]
+                    x_offer1=x_supplyacc[-Z+1]-Fxi[1]
+                    
+                    
+                    
+                    #if a condition is met, the loop stops
+                    
+                
+                    if y_me1==y_me:
+                        y_me1=y_me
+                        x_me1=x_me=Fxi[1]
+                        x_offer1=x_offer=x_supplyacc[-Z+1]-Fxi[1]
+                        i=i+1
+                    
+                    if i>=5:
+                        i=5                        
+                        
+                        
+            
+            
+                    break
+                
+                
+                
+                
+                
+                
+                
+        
+        print(x_offer)
+        print(x_values)
+        print(SupplyB1B2A1accdfi.columns)
+        zuordnung=dict(zip(SupplyB1B2A1accdfi.columns,x_values))
+        print(zuordnung)
+                
+        #plotting the graphs
+        supplyplot1, =plt.plot(x_supplyacc[0:3],y_supplyacc[0:3])
+        supplyplot2, =plt.plot(x_supplyacc[2:5],y_supplyacc[2:5])
+        supplyplot3, =plt.plot(x_supplyacc[4:7],y_supplyacc[4:7])
+        supplyplot4, =plt.plot(x_supplyacc[6:9],y_supplyacc[6:9])
+        supplyplot5, =plt.plot(x_supplyacc[8:11],y_supplyacc[8:11])
+            
+            
+        #supplyplot, =plt.plot(x_supplyacc,y_supplyacc)
+        demandplot, =plt.plot(x_load,y_load)
+        meplot, =plt.plot(x_me,y_me,'yo')
+        flexplot, =plt.plot(Fxi,Fyi,"--")
+       
+        
+        #legend for the plots
+        plt.legend([supplyplot1,supplyplot2,supplyplot3,supplyplot4,supplyplot5, demandplot,(meplot)],[SupplyB1B2A1accdfi.columns[0],SupplyB1B2A1accdfi.columns[1],SupplyB1B2A1accdfi.columns[2],SupplyB1B2A1accdfi.columns[3],SupplyB1B2A1accdfi.columns[4],'Demand','Market Equilibrium'],loc='center left', bbox_to_anchor=(1, 0.5))
+        
+        #label for the axes
+        plt.xlabel('Energy')    
+        plt.ylabel('Price')
+        
+        #name of the graphs with name of the cell and time
+        plt.title(name+' '+ SupplyB1B2A1accdf.index[z+1])
+                        # plt.axis([0,300, \
+                        #       0,y1[0]*1.2])
+        plt.show()
+        
+   
+        pricecurve.append(y_me)
+        #print(pricecurve)
+        
+plt.plot(pricecurve)
+        
+        #name=listname[+1]
+        #print(SupplyB1B2A1accdf.index[z+1])
+        
+        #plt.savefig('plot'+str(z)+'.pdf')   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+        #plt.pause(2.5)
