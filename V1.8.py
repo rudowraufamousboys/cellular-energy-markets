@@ -644,6 +644,8 @@ price_offerC1=float(0)
 price_offerC2=float(0)
 price_offerC3=float(0)
 price_offerC4=float(0)
+
+
  
 for z in range (len(gridPrices)):
     
@@ -737,6 +739,7 @@ for z in range (len(gridPrices)):
         for Z in range (1,len(x_supplyacc)):
                     
         #condition for intersection between supply and demand curve
+        
             if x_load[0]> x_supplyacc[-Z]:
                 price_offerA1=y_supplyacc[-Z]
                 energyMarketequilibrium=x_load[0]
@@ -754,20 +757,57 @@ for z in range (len(gridPrices)):
             
             pass
         
-        energy_offerA1reset=energy_offerA1
-        price_offerA1reset=price_offerA1
+###############################flexible demand#################################
+         
+        i=0
+        
+        Fxi=[x_load[0],x_load[0]+50-i,x_load[0]+50-i]
+        Fyi=[20-0.1*i,20-0.1*i,0]
+
+        for Z in range (1,len(x_supplyacc)):
+                
+                if Fxi[1]>x_supplyacc[-Z] and Fyi[1]>=y_supplyacc[-Z+1]:
+                   
+                    y_me1=y_supplyacc[-Z+1]
+                    x_me1=Fxi[1]
+                    energy_offerA1=x_supplyacc[-Z+1]-Fxi[1]
+                    
+                    
+                    
+                    #if a condition is met, the loop stops
+                    
+                
+                    if y_me1==price_offerA1:
+                        y_me1=price_offerA1
+                        x_me1=energyMarketequilibrium=Fxi[1]
+                        x_offer1=energy_offerA1=x_supplyacc[-Z+1]-Fxi[1]
+                        i=i+1
+                    
+                    if i>=50:
+                        i=50                        
+                        
+                        
+                    #if x_supplyacc[-Z] > x_me:
+                     #   print(x_supplyacc[-Z])
+            
+                    break
+
+
+        #energy_offerA1reset=energy_offerA1
+        #price_offerA1reset=price_offerA1
         
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!        
         
         plot, =plt.plot(x_supplyacc,y_supplyacc)
         plot, =plt.plot(x_load,y_load)
         plot, =plt.plot(energyMarketequilibrium,price_offerA1,'yo')
+        plot, =plt.plot(Fxi,Fyi,"--")
         
         plt.xlabel('Energy A1')    
         plt.ylabel('Price A1')
                 
         plt.show()
-               
+              
 ################################LEVEL A to B1##################################
                                 
         x_values=SupplyC1C2B1df.iloc[z+1].values.tolist()
@@ -887,18 +927,55 @@ for z in range (len(gridPrices)):
         else:
                 
             pass
+
+###############################flexible demand#################################
+         
+        i=0
+        
+        Fxi=[x_load[0],x_load[0]+50-i,x_load[0]+50-i]
+        Fyi=[20-0.1*i,20-0.1*i,0]
+
+        for Z in range (1,len(x_supplyacc)):
+                
+                if Fxi[1]>x_supplyacc[-Z] and Fyi[1]>=y_supplyacc[-Z+1]:
+                   
+                    y_me1=y_supplyacc[-Z+1]
+                    x_me1=Fxi[1]
+                    energy_offerB1=x_supplyacc[-Z+1]-Fxi[1]
+                    
+                    
+                    
+                    #if a condition is met, the loop stops
+                    
+                
+                    if y_me1==price_offerB1:
+                        y_me1=price_offerB1
+                        x_me1=energyMarketequilibrium=Fxi[1]
+                        x_offer1=energy_offerB1=x_supplyacc[-Z+1]-Fxi[1]
+                        i=i+1
+                    
+                    if i>=50:
+                        i=50                        
+                        
+                        
+                    #if x_supplyacc[-Z] > x_me:
+                     #   print(x_supplyacc[-Z])
             
-        energy_offerB1reset=energy_offerB1
-        price_offerB1reset=price_offerB1
+                    break
+
             
-        energy_offerA1=energy_offerA1reset
-        price_offerA1=price_offerA1reset
+        #energy_offerB1reset=energy_offerB1
+        #price_offerB1reset=price_offerB1
+            
+        #energy_offerA1=energy_offerA1reset
+        #price_offerA1=price_offerA1reset
         
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!        
             
         plot, =plt.plot(x_supplyacc,y_supplyacc)
         plot, =plt.plot(x_load,y_load)
         plot, =plt.plot(energyMarketequilibrium,price_offerB1,'yo')
+        plot, =plt.plot(Fxi,Fyi,"--")
             
         plt.xlabel('Energy B1')    
         plt.ylabel('Price B1')
@@ -1026,23 +1103,59 @@ for z in range (len(gridPrices)):
                 
             pass
             
-        energy_offerB2reset=energy_offerB1
-        price_offerB2reset=price_offerB1
+###############################flexible demand#################################
+         
+        i=0
+        
+        Fxi=[x_load[0],x_load[0]+50-i,x_load[0]+50-i]
+        Fyi=[20-0.1*i,20-0.1*i,0]
+
+        for Z in range (1,len(x_supplyacc)):
+                
+                if Fxi[1]>x_supplyacc[-Z] and Fyi[1]>=y_supplyacc[-Z+1]:
+                   
+                    y_me1=y_supplyacc[-Z+1]
+                    x_me1=Fxi[1]
+                    energy_offerB2=x_supplyacc[-Z+1]-Fxi[1]
+                    
+                    
+                    
+                    #if a condition is met, the loop stops
+                    
+                
+                    if y_me1==price_offerB2:
+                        y_me1=price_offerB2
+                        x_me1=energyMarketequilibrium=Fxi[1]
+                        x_offer1=energy_offerB2=x_supplyacc[-Z+1]-Fxi[1]
+                        i=i+1
+                    
+                    if i>=50:
+                        i=50                        
+                        
+                        
+                    #if x_supplyacc[-Z] > x_me:
+                     #   print(x_supplyacc[-Z])
             
-        energy_offerA1=energy_offerA1reset
-        price_offerA1=price_offerA1reset
+                    break            
+            
+        #energy_offerB2reset=energy_offerB2
+        #price_offerB2reset=price_offerB2
+            
+        #energy_offerA1=energy_offerA1reset
+        #price_offerA1=price_offerA1reset
         
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!        
             
         plot, =plt.plot(x_supplyacc,y_supplyacc)
         plot, =plt.plot(x_load,y_load)
         plot, =plt.plot(energyMarketequilibrium,price_offerB2,'yo')
+        plot, =plt.plot(Fxi,Fyi,"--")
             
         plt.xlabel('Energy B2')    
         plt.ylabel('Price B2')
                     
         plt.show()
-                  
+              
 ################################LEVEL B1 to C1#################################
         
         x_values=SupplyC1df.iloc[z+1].values.tolist()
@@ -1123,27 +1236,63 @@ for z in range (len(gridPrices)):
             
             energy_offerC1=float(0)
             price_offerC1=y_supplyacc[-1]
-            #price_offerB2=float(0)
+            #price_offerC1=float(0)
             
         else:
             
-            pass           
+            pass
+            
+###############################flexible demand#################################
+         
+        i=0
         
-        energy_offerB1=energy_offerB1reset
-        price_offerB1=price_offerB1reset
+        Fxi=[x_load[0],x_load[0]+50-i,x_load[0]+50-i]
+        Fyi=[20-0.1*i,20-0.1*i,0]
+
+        for Z in range (1,len(x_supplyacc)):
+                
+                if Fxi[1]>x_supplyacc[-Z] and Fyi[1]>=y_supplyacc[-Z+1]:
+                   
+                    y_me1=y_supplyacc[-Z+1]
+                    x_me1=Fxi[1]
+                    energy_offerC1=x_supplyacc[-Z+1]-Fxi[1]
+                    
+                    
+                    
+                    #if a condition is met, the loop stops
+                    
+                
+                    if y_me1==price_offerC1:
+                        y_me1=price_offerC1
+                        x_me1=energyMarketequilibrium=Fxi[1]
+                        x_offer1=energy_offerC1=x_supplyacc[-Z+1]-Fxi[1]
+                        i=i+1
+                    
+                    if i>=50:
+                        i=50                        
+                        
+                        
+                    #if x_supplyacc[-Z] > x_me:
+                     #   print(x_supplyacc[-Z])
+            
+                    break     
+        
+        #energy_offerB1=energy_offerB1reset
+        #price_offerB1=price_offerB1reset
         
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!        
         
         plot, =plt.plot(x_supplyacc,y_supplyacc)
         plot, =plt.plot(x_load,y_load)
         plot, =plt.plot(energyMarketequilibrium,price_offerC1,'yo')
+        plot, =plt.plot(Fxi,Fyi,"--")
         
         
         plt.xlabel('Energy C1')    
         plt.ylabel('Price C1')
                 
         plt.show()
-        
+       
 ################################LEVEL B1 to C2#################################
         
         x_values=SupplyC2df.iloc[z+1].values.tolist()
@@ -1228,16 +1377,52 @@ for z in range (len(gridPrices)):
             
         else:
             
-            pass                 
+            pass
+
+###############################flexible demand#################################
+         
+        i=0
         
-        energy_offerB1=energy_offerB1reset
-        price_offerB1=price_offerB1reset
+        Fxi=[x_load[0],x_load[0]+50-i,x_load[0]+50-i]
+        Fyi=[20-0.1*i,20-0.1*i,0]
+
+        for Z in range (1,len(x_supplyacc)):
+                
+                if Fxi[1]>x_supplyacc[-Z] and Fyi[1]>=y_supplyacc[-Z+1]:
+                   
+                    y_me1=y_supplyacc[-Z+1]
+                    x_me1=Fxi[1]
+                    energy_offerC2=x_supplyacc[-Z+1]-Fxi[1]
+                    
+                    
+                    
+                    #if a condition is met, the loop stops
+                    
+                
+                    if y_me1==price_offerC2:
+                        y_me1=price_offerC2
+                        x_me1=energyMarketequilibrium=Fxi[1]
+                        x_offer1=energy_offerC2=x_supplyacc[-Z+1]-Fxi[1]
+                        i=i+1
+                    
+                    if i>=50:
+                        i=50                        
+                        
+                        
+                    #if x_supplyacc[-Z] > x_me:
+                     #   print(x_supplyacc[-Z])
+            
+                    break                    
+        
+        #energy_offerB1=energy_offerB1reset
+        #price_offerB1=price_offerB1reset
         
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!        
         
         plot, =plt.plot(x_supplyacc,y_supplyacc)
         plot, =plt.plot(x_load,y_load)
         plot, =plt.plot(energyMarketequilibrium,price_offerC2,'yo')
+        plot, =plt.plot(Fxi,Fyi,"--")
         
         plt.xlabel('Energy C2')    
         plt.ylabel('Price C2')
@@ -1326,16 +1511,52 @@ for z in range (len(gridPrices)):
             
         else:
             
-            pass             
+            pass
+
+###############################flexible demand#################################
+         
+        i=0
         
-        energy_offerB2=energy_offerB2reset
-        price_offerB2=price_offerB2reset
+        Fxi=[x_load[0],x_load[0]+50-i,x_load[0]+50-i]
+        Fyi=[20-0.1*i,20-0.1*i,0]
+
+        for Z in range (1,len(x_supplyacc)):
+                
+                if Fxi[1]>x_supplyacc[-Z] and Fyi[1]>=y_supplyacc[-Z+1]:
+                   
+                    y_me1=y_supplyacc[-Z+1]
+                    x_me1=Fxi[1]
+                    energy_offerC3=x_supplyacc[-Z+1]-Fxi[1]
+                    
+                    
+                    
+                    #if a condition is met, the loop stops
+                    
+                
+                    if y_me1==price_offerC3:
+                        y_me1=price_offerC3
+                        x_me1=energyMarketequilibrium=Fxi[1]
+                        x_offer1=energy_offerC3=x_supplyacc[-Z+1]-Fxi[1]
+                        i=i+1
+                    
+                    if i>=50:
+                        i=50                        
+                        
+                        
+                    #if x_supplyacc[-Z] > x_me:
+                     #   print(x_supplyacc[-Z])
+            
+                    break                                 
+        
+        #energy_offerB2=energy_offerB2reset
+        #price_offerB2=price_offerB2reset
         
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!        
         
         plot, =plt.plot(x_supplyacc,y_supplyacc)
         plot, =plt.plot(x_load,y_load)
         plot, =plt.plot(energyMarketequilibrium,price_offerC3,'yo')
+        plot, =plt.plot(Fxi,Fyi,"--")
                 
         plt.xlabel('Energy C3')    
         plt.ylabel('Price C3')
@@ -1423,18 +1644,54 @@ for z in range (len(gridPrices)):
             
         else:
             
-            pass             
+            pass
+
+###############################flexible demand#################################
+         
+        i=0
         
-        energy_offerB2=energy_offerB2reset
-        price_offerB2=price_offerB2reset
+        Fxi=[x_load[0],x_load[0]+50-i,x_load[0]+50-i]
+        Fyi=[20-0.1*i,20-0.1*i,0]
+
+        for Z in range (1,len(x_supplyacc)):
+                
+                if Fxi[1]>x_supplyacc[-Z] and Fyi[1]>=y_supplyacc[-Z+1]:
+                   
+                    y_me1=y_supplyacc[-Z+1]
+                    x_me1=Fxi[1]
+                    energy_offerC4=x_supplyacc[-Z+1]-Fxi[1]
+                    
+                    
+                    
+                    #if a condition is met, the loop stops
+                    
+                
+                    if y_me1==price_offerC4:
+                        y_me1=price_offerC4
+                        x_me1=energyMarketequilibrium=Fxi[1]
+                        x_offer1=energy_offerC4=x_supplyacc[-Z+1]-Fxi[1]
+                        i=i+1
+                    
+                    if i>=50:
+                        i=50                        
+                        
+                        
+                    #if x_supplyacc[-Z] > x_me:
+                     #   print(x_supplyacc[-Z])
+            
+                    break                                 
+        
+        #energy_offerB2=energy_offerB2reset
+        #price_offerB2=price_offerB2reset
         
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!        
         
         plot, =plt.plot(x_supplyacc,y_supplyacc)
         plot, =plt.plot(x_load,y_load)
         plot, =plt.plot(energyMarketequilibrium,price_offerC4,'yo')
+        plot, =plt.plot(Fxi,Fyi,"--")
                 
-        plt.xlabel('Energy C4')    
+        plt.xlabel('Energy C4')     
         plt.ylabel('Price C4')
         
         plt.show()
@@ -1444,4 +1701,14 @@ for z in range (len(gridPrices)):
 ###############################################################################
 #####################################U P#######################################
 ###############################################################################
-###############################################################################        
+############################################################################### 
+
+###########################LEVEL C1 / C2 to B1#################################
+
+# x_values=SupplyC1C2B1df.iloc[z+1].values.tolist()
+# SupplyC1C2B1 + energy_offerC1 + energy_offcerC2 + energy_offerA1
+
+###########################LEVEL B1 / B2 to A1#################################
+
+# x_values=SupplyB1B2A1df.iloc[z+1].values.tolist()
+# energy_offerB1 + energy_offcerB2 + linecapacity + gridPrice
