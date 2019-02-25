@@ -584,6 +584,10 @@ lineCapacities=grid.Linecapacity['gridsupply'].tolist()
 
 del lineCapacities[0]
 
+for item in lineCapacities:
+    
+    float(item)
+
 # data frames cell level C:
 
 SupplyC1df=cellC1.Supplydf
@@ -641,53 +645,60 @@ price_offerC2=float(0)
 price_offerC3=float(0)
 price_offerC4=float(0)
  
-for z in range (95):#(len(gridPrices)):
+for z in range (len(gridPrices)):
     
-################################LEVEL GRID to A################################    
+############################################################################### 
+###################L O O P ####################################################
+###############################################################################
+#####################################D O W N###################################
+###############################################################################
+###############################################################################
+    
+###########################LEVEL GRID to A#####################################    
     
         x_values=SupplyB1B2A1df.iloc[z+1].values.tolist()
         
         # adding grid capacity, energyoffer_B1 and energyoffer_B2 to supply:
         
         x_values.append(lineCapacities[z])
-        
-        if energy_offerB1 > 0:
-            
-            x_values.append(energy_offerB1)
-            
-        else:
-            
-            pass
-        
-        if energy_offerB2 > 0:
-        
-            x_values.append(energy_offerB2)
-            
-        else:
-            
-            pass
+       
+#        if energy_offerB1 > 0:
+#            
+#            x_values.append(energy_offerB1)
+#            
+#        else:
+#            
+#            pass
+#        
+#        if energy_offerB2 > 0:
+#        
+#            x_values.append(energy_offerB2)
+#            
+#        else:
+#            
+#            pass
                     
-        y_values=SupplyC1C2B1df.iloc[0].values.tolist()
+        y_values=SupplyB1B2A1df.iloc[0].values.tolist()
         
         # adding grid price, price_offerB1 and price_offerB2 to supply:
         
         y_values.append(gridPrices[z])
         
-        if price_offerB1 > 0:
-            
-            y_values.append(price_offerB1)
-            
-        else:
-            
-            pass
-        
-        if price_offerB2 > 0:
-            
-            y_values.append(price_offerB2)
-            
-        else:
-            
-            pass
+#        if price_offerB1 > 0:
+#            
+#            y_values.append(price_offerB1)
+#            
+#        else:
+#            
+#            pass
+#        
+#        if price_offerB2 > 0:
+#            
+#            y_values.append(price_offerB2)
+#            
+#        else:
+#            
+#            pass
         
         x_values = [x for _,x in sorted(zip(y_values,x_values))]
         
@@ -717,255 +728,321 @@ for z in range (95):#(len(gridPrices)):
 
         x_load=x_load*2
         
-        # market equilibrium hier Schnittpunktberechnung einfügen:
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!        
-        energy_offerA1=energy_offerA1+1
-        price_offerA1=price_offerA1+1        
+
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
+        
+        #energy_offerA1=energy_offerA1+1
+        #price_offerA1=price_offerA1+1
+        
+        for Z in range (1,len(x_supplyacc)):
+                    
+        #condition for intersection between supply and demand curve
+            if x_load[0]> x_supplyacc[-Z]:
+                price_offerA1=y_supplyacc[-Z]
+                energyMarketequilibrium=x_load[0]
+                energy_offerA1=x_supplyacc[-Z+1]-x_load[0]
+                #if a condition is met, the loop stops
+                break        
+
+        if energy_offerA1 < 0:
+            
+            energy_offerA1=float(0)
+            price_offerA1=y_supplyacc[-1]
+            #price_offerA1=float(0)
+            
+        else:
+            
+            pass
+        
         energy_offerA1reset=energy_offerA1
         price_offerA1reset=price_offerA1
+        
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!        
-
         
         plot, =plt.plot(x_supplyacc,y_supplyacc)
         plot, =plt.plot(x_load,y_load)
+        plot, =plt.plot(energyMarketequilibrium,price_offerA1,'yo')
         
         plt.xlabel('Energy A1')    
         plt.ylabel('Price A1')
                 
         plt.show()
                
-  
 ################################LEVEL A to B1##################################
-        
+                                
         x_values=SupplyC1C2B1df.iloc[z+1].values.tolist()
-        
+            
         # adding energyoffer_A1 to supply /
         # manipulating energy_offerA1 depending on last price and excesssupply:
-        
+            
         ExcesssupplyC1C2B1=ExcesssupplyC1C2B1df['ExcesssupplyC1C2B1'].tolist()
         ExcesssupplyC3C4B2=ExcesssupplyC3C4B2df['ExcesssupplyC3C4B2'].tolist()
-        
+            
         if ExcesssupplyC1C2B1[z+1] > 0 and LastpriceSupplyC1C2B1v >  \
-        price_offerA1 and ExcesssupplyC3C4B2[z+1] > 0:
-            
-            energy_offerA1= energy_offerA1/2
-            
-        else:
-            
-            energy_offerA1= 0
-            
-        
-        x_values.append(energy_offerA1)
-        
-        if energy_offerC1 > 0:
-            
-            x_values.append(energy_offerC1)
-            
-        else:
-            
-            pass
-        
-        if energy_offerC2 > 0:
-            
-            x_values.append(energy_offerC2)
-            
-        else:
-            
-            pass
-        
-        x_values = [x for _,x in sorted(zip(y_values,x_values))]
-        
-        x_values=[sum(x_values[:y]) for y in range(1, len(x_values) + 1)]
-                            
-        y_values=SupplyC1C2B1df.iloc[0].values.tolist()
-        
-        # adding grid price, price_offerB1 and price_offerB2 to supply:
-        
-        if ExcesssupplyC1C2B1[z+1] == 0:
-            
-            price_offerA1= 0
-           
-        else:
-            
-            pass
-        
-        y_values.append(price_offerA1)
-        
-        if energy_offerC1 > 0:
-            
-            y_values.append(price_offerC1)
-            
-        else:
-            
-            pass
-        
-        if energy_offerC2 > 0:
-            
-            y_values.append(price_offerC2)
-            
-        else:
-            
-            pass
+            price_offerA1 and ExcesssupplyC3C4B2[z+1] > 0:
                 
-        
+            energy_offerA1= energy_offerA1/2
+                
+        else:
+                
+            energy_offerA1= 0
+                
+        x_values.append(energy_offerA1)
+            
+#        if energy_offerC1 > 0:
+#                
+#            x_values.append(energy_offerC1)
+#                
+#        else:
+#                
+#            pass
+#            
+#        if energy_offerC2 > 0:
+#                
+#            x_values.append(energy_offerC2)
+#                
+#        else:
+#                
+#            pass
+            
+        x_values = [x for _,x in sorted(zip(y_values,x_values))]
+            
+        x_values=[sum(x_values[:y]) for y in range(1, len(x_values) + 1)]
+                                
+        y_values=SupplyC1C2B1df.iloc[0].values.tolist()
+
+                        
+        if ExcesssupplyC1C2B1[z+1] == 0:
+                
+            price_offerA1= 0
+               
+        else:
+                
+            pass
+            
+        y_values.append(price_offerA1)
+            
+#        if energy_offerC1 > 0:
+#                
+#            y_values.append(price_offerC1)
+#                
+#        else:
+#                
+#            pass
+#            
+#        if energy_offerC2 > 0:
+#                
+#            y_values.append(price_offerC2)
+#                
+#        else:
+#                
+#            pass
+                    
+            
         y_values.sort()
-        
+            
         # supply curve:
-        
+            
         x_supplyacc=x_values*2
         x_supplyacc.sort()
-
+    
         x_supplyacc.insert(0,0)
         x_supplyacc.insert(1,0)
         del x_supplyacc[-1]
+                
             
-        
         y_supplyacc=y_values*2
         y_supplyacc.sort()
-
+    
         y_supplyacc.insert(0,0)
-       
+           
         # load curve:
-
+    
         x_load=SumloadC1C2B1df.iloc[z].tolist()
         y_load=[0,40]*len(x_load)
-
+    
         x_load=x_load*2
+            
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         
-        # market equilibrium hier Schnittpunktberechnung einfügen:
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!        
-        energy_offerB1=energy_offerB1+1
-        price_offerB1=price_offerB1+1
-        
+            #energy_offerB1=energy_offerB1+1
+            #price_offerB1=price_offerB1+1
+            
+        for Z in range (1,len(x_supplyacc)):
+                        
+            #condition for intersection between supply and demand curve
+            if x_load[0]> x_supplyacc[-Z]:
+                price_offerB1=y_supplyacc[-Z]
+                energyMarketequilibrium=x_load[0]
+                energy_offerB1=x_supplyacc[-Z+1]-x_load[0]
+                #if a condition is met, the loop stops
+                break
+            
+        if energy_offerB1 < 0:
+                
+            energy_offerB1=float(0)
+            price_offerB1=y_supplyacc[-1]
+            #price_offerB1=float(0)
+                
+        else:
+                
+            pass
+            
         energy_offerB1reset=energy_offerB1
         price_offerB1reset=price_offerB1
-        
+            
         energy_offerA1=energy_offerA1reset
         price_offerA1=price_offerA1reset
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!        
         
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!        
+            
         plot, =plt.plot(x_supplyacc,y_supplyacc)
         plot, =plt.plot(x_load,y_load)
-        
+        plot, =plt.plot(energyMarketequilibrium,price_offerB1,'yo')
+            
         plt.xlabel('Energy B1')    
         plt.ylabel('Price B1')
-                
+                    
         plt.show()
-    
+            
 ################################LEVEL A to B2##################################
-        
+                                
         x_values=SupplyC3C4B2df.iloc[z+1].values.tolist()
-        
+            
         # adding energyoffer_A1 to supply /
         # manipulating energy_offerA1 depending on last price and excesssupply:
-        
+            
         ExcesssupplyC1C2B1=ExcesssupplyC1C2B1df['ExcesssupplyC1C2B1'].tolist()
         ExcesssupplyC3C4B2=ExcesssupplyC3C4B2df['ExcesssupplyC3C4B2'].tolist()
-        
+            
         if ExcesssupplyC3C4B2[z+1] > 0 and LastpriceSupplyC3C4B2v >  \
-        price_offerA1 and ExcesssupplyC1C2B1[z+1] > 0:
-            
-            energy_offerA1= float(energy_offerA1/2)
-            
-        else:
-            
-            energy_offerA1= float(0)
-        
-        # adding energyoffer_A1 to supply:
-        
-        x_values.append(energy_offerA1)
-        
-        if energy_offerC3 > 0:
-            
-            x_values.append(energy_offerC3)
-            
-        else:
-            
-            pass
-        
-        if energy_offerC4 > 0:
-            
-            x_values.append(energy_offerC4)
-            
-        else:
-            
-            pass
-        
-        x_values = [x for _,x in sorted(zip(y_values,x_values))]
-        
-        x_values=[sum(x_values[:y]) for y in range(1, len(x_values) + 1)]
-                            
-        y_values=SupplyC3C4B2df.iloc[0].values.tolist()
-        
-        # adding price_offerA1 supply prices:
-        
-        if ExcesssupplyC3C4B2[z+1] == 0:
-            
-            price_offerA1= float(0)
-        
-        y_values.append(price_offerA1)
-        
-        if energy_offerC3 > 0:
-            
-            y_values.append(price_offerC3)
-            
-        else:
-            
-            pass
-        
-        if energy_offerC4 > 0:
-            
-            y_values.append(price_offerC4)
-            
-        else:
-            
-            pass
+            price_offerA1 and ExcesssupplyC1C2B1[z+1] > 0:
                 
-        
+            energy_offerA1= energy_offerA1/2
+                
+        else:
+                
+            energy_offerA1= 0
+                
+        x_values.append(energy_offerA1)
+            
+#        if energy_offerC1 > 0:
+#                
+#            x_values.append(energy_offerC1)
+#                
+#        else:
+#                
+#            pass
+#            
+#        if energy_offerC2 > 0:
+#                
+#            x_values.append(energy_offerC2)
+#                
+#        else:
+#                
+#            pass
+            
+        x_values = [x for _,x in sorted(zip(y_values,x_values))]
+            
+        x_values=[sum(x_values[:y]) for y in range(1, len(x_values) + 1)]
+                                
+        y_values=SupplyC3C4B2df.iloc[0].values.tolist()
+            
+        # adding grid price, price_offerB1 and price_offerB2 to supply:
+            
+        if ExcesssupplyC3C4B2[z+1] == 0:
+                
+            price_offerA1= 0
+               
+        else:
+                
+            pass
+            
+        y_values.append(price_offerA1)
+            
+#        if energy_offerC1 > 0:
+#                
+#            y_values.append(price_offerC1)
+#                
+#        else:
+#                
+#            pass
+#            
+#        if energy_offerC2 > 0:
+#                
+#            y_values.append(price_offerC2)
+#                
+#        else:
+#                
+#            pass
+                    
+            
         y_values.sort()
-        
+            
         # supply curve:
-        
+            
         x_supplyacc=x_values*2
         x_supplyacc.sort()
-
+    
         x_supplyacc.insert(0,0)
         x_supplyacc.insert(1,0)
         del x_supplyacc[-1]
+                
             
-        
         y_supplyacc=y_values*2
         y_supplyacc.sort()
-
+    
         y_supplyacc.insert(0,0)
-       
+           
         # load curve:
-
+    
         x_load=SumloadC3C4B2df.iloc[z].tolist()
         y_load=[0,40]*len(x_load)
-
+    
         x_load=x_load*2
+            
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         
-        # market equilibrium hier Schnittpunktberechnung einfügen:
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!        
-        energy_offerB2=energy_offerB2+1
-        price_offerB2=price_offerB2+1
-                       
-        energy_offerB2reset=energy_offerB2
-        price_offerB2reset=price_offerB2
-        
+            #energy_offerB1=energy_offerB1+1
+            #price_offerB1=price_offerB1+1
+            
+        for Z in range (1,len(x_supplyacc)):
+                        
+            #condition for intersection between supply and demand curve
+            if x_load[0]> x_supplyacc[-Z]:
+                price_offerB2=y_supplyacc[-Z]
+                energyMarketequilibrium=x_load[0]
+                energy_offerB2=x_supplyacc[-Z+1]-x_load[0]
+                #if a condition is met, the loop stops
+                break
+            
+        if energy_offerB2 < 0:
+                
+            energy_offerB2=float(0)
+            price_offerB2=y_supplyacc[-1]
+            #price_offerB2=float(0)
+                
+        else:
+                
+            pass
+            
+        energy_offerB2reset=energy_offerB1
+        price_offerB2reset=price_offerB1
+            
         energy_offerA1=energy_offerA1reset
         price_offerA1=price_offerA1reset
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!        
         
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!        
+            
         plot, =plt.plot(x_supplyacc,y_supplyacc)
         plot, =plt.plot(x_load,y_load)
-        
+        plot, =plt.plot(energyMarketequilibrium,price_offerB2,'yo')
+            
         plt.xlabel('Energy B2')    
         plt.ylabel('Price B2')
-                
+                    
         plt.show()
-
+                  
 ################################LEVEL B1 to C1#################################
         
         x_values=SupplyC1df.iloc[z+1].values.tolist()
@@ -973,19 +1050,19 @@ for z in range (95):#(len(gridPrices)):
         # adding energyoffer_B1 to supply /
         # manipulating energy_offerB1 depending on last price and excesssupply:
         
-#        ExcesssupplyC1=ExcesssupplyC1df['ExcesssupplyC1'].tolist()
-#        ExcesssupplyC2=ExcesssupplyC2df['ExcesssupplyC2'].tolist()
-#        
-#        if ExcesssupplyC1[z] > 0 and LastpriceSupplyC1 >  \
-#        price_offerB1 and ExcesssupplyC2[z] > 0:
-#            
-#            energy_offerB1= float(energy_offerB1/2)
-#            
-#        else:
-#            
-#            energy_offerB1= float(0)
+        ExcesssupplyC1=ExcesssupplyC1df['ExcesssupplyC1'].tolist()
+        ExcesssupplyC2=ExcesssupplyC2df['ExcesssupplyC2'].tolist()
+        
+        if ExcesssupplyC1[z] > 0 and LastpriceSupplyC1 >  \
+        price_offerB1 and ExcesssupplyC2[z] > 0:
+            
+            energy_offerB1= float(energy_offerB1/2)
+            
+        else:
+            
+            energy_offerB1= float(0)
        
-#         adding energyoffer_B1 to supply:
+        #adding energyoffer_B1 to supply:
         
         x_values.append(energy_offerB1)
                             
@@ -993,9 +1070,9 @@ for z in range (95):#(len(gridPrices)):
         
         # adding price_offerB1 to supply prices:
         
-#        if ExcesssupplyC1[z] == 0:
-#            
-#            price_offerB1=float(0)
+        if ExcesssupplyC1[z] == 0:
+            
+            price_offerB1=float(0)
         
         y_values.append(price_offerB1)
                 
@@ -1027,26 +1104,46 @@ for z in range (95):#(len(gridPrices)):
 
         x_load=x_load*2
         
-        # market equilibrium hier Schnittpunktberechnung einfügen:
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!        
-        energy_offerC1=energy_offerC1+1
-        price_offerC1=price_offerC1+1
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        
+        #energy_offerC1=energy_offerC1+1
+        #price_offerC1=price_offerC1+1
+        
+        for Z in range (1,len(x_supplyacc)):
+                    
+        #condition for intersection between supply and demand curve
+            if x_load[0]> x_supplyacc[-Z]:
+                price_offerC1=y_supplyacc[-Z]
+                energyMarketequilibrium=x_load[0]
+                energy_offerC1=x_supplyacc[-Z+1]-x_load[0]
+                #if a condition is met, the loop stops
+                break            
+
+        if energy_offerB2 < 0:
+            
+            energy_offerC1=float(0)
+            price_offerC1=y_supplyacc[-1]
+            #price_offerB2=float(0)
+            
+        else:
+            
+            pass           
         
         energy_offerB1=energy_offerB1reset
         price_offerB1=price_offerB1reset
+        
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!        
-
         
         plot, =plt.plot(x_supplyacc,y_supplyacc)
         plot, =plt.plot(x_load,y_load)
+        plot, =plt.plot(energyMarketequilibrium,price_offerC1,'yo')
+        
         
         plt.xlabel('Energy C1')    
         plt.ylabel('Price C1')
                 
         plt.show()
         
-        
-
 ################################LEVEL B1 to C2#################################
         
         x_values=SupplyC2df.iloc[z+1].values.tolist()
@@ -1054,19 +1151,19 @@ for z in range (95):#(len(gridPrices)):
         # adding energyoffer_B1 to supply /
         # manipulating energy_offerB1 depending on last price and excesssupply:
         
-#        ExcesssupplyC1=ExcesssupplyC1df['ExcesssupplyC1'].tolist()
-#        ExcesssupplyC2=ExcesssupplyC2df['ExcesssupplyC2'].tolist()
-#        
-#        if ExcesssupplyC2[z] > 0 and LastpriceSupplyC2 >  \
-#        price_offerB1 and ExcesssupplyC1[z] > 0:
-#            
-#            energy_offerB1= energy_offerB1/2
-#            
-#        else:
-#            
-#            energy_offerB1= 0
+        ExcesssupplyC1=ExcesssupplyC1df['ExcesssupplyC1'].tolist()
+        ExcesssupplyC2=ExcesssupplyC2df['ExcesssupplyC2'].tolist()
+        
+        if ExcesssupplyC2[z] > 0 and LastpriceSupplyC2 >  \
+        price_offerB1 and ExcesssupplyC1[z] > 0:
+            
+            energy_offerB1= energy_offerB1/2
+            
+        else:
+            
+            energy_offerB1= 0
        
-#         adding energyoffer_B1 to supply:
+        #adding energyoffer_B1 to supply:
         
         x_values.append(energy_offerB1)
                             
@@ -1074,9 +1171,9 @@ for z in range (95):#(len(gridPrices)):
         
         # adding price_offerB1 to supply prices:
         
-#        if ExcesssupplyC2[z] == 0:
-#            
-#            price_offerB1= 0
+        if ExcesssupplyC2[z] == 0:
+            
+            price_offerB1= 0
         
         y_values.append(price_offerB1)
                 
@@ -1108,18 +1205,39 @@ for z in range (95):#(len(gridPrices)):
 
         x_load=x_load*2
         
-        # market equilibrium hier Schnittpunktberechnung einfügen:
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!        
-        energy_offerC2=energy_offerC2+1
-        price_offerC2=price_offerC2+1
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        
+        #energy_offerC2=energy_offerC2+1
+        #price_offerC2=price_offerC2+1
+        
+        for Z in range (1,len(x_supplyacc)):
+                    
+        #condition for intersection between supply and demand curve
+            if x_load[0]> x_supplyacc[-Z]:
+                price_offerC2=y_supplyacc[-Z]
+                energyMarketequilibrium=x_load[0]
+                energy_offerC2=x_supplyacc[-Z+1]-x_load[0]
+                #if a condition is met, the loop stops
+                break            
+
+        if energy_offerB2 < 0:
+            
+            energy_offerC2=float(0)
+            price_offerC2=y_supplyacc[-1]
+            #price_offerB2=float(0)
+            
+        else:
+            
+            pass                 
         
         energy_offerB1=energy_offerB1reset
         price_offerB1=price_offerB1reset
+        
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!        
-
         
         plot, =plt.plot(x_supplyacc,y_supplyacc)
         plot, =plt.plot(x_load,y_load)
+        plot, =plt.plot(energyMarketequilibrium,price_offerC2,'yo')
         
         plt.xlabel('Energy C2')    
         plt.ylabel('Price C2')
@@ -1130,6 +1248,18 @@ for z in range (95):#(len(gridPrices)):
         
         x_values=SupplyC3df.iloc[z+1].values.tolist()
         
+        ExcesssupplyC3=ExcesssupplyC3df['ExcesssupplyC3'].tolist()
+        ExcesssupplyC4=ExcesssupplyC4df['ExcesssupplyC4'].tolist()
+        
+        if ExcesssupplyC3[z] > 0 and LastpriceSupplyC3 >  \
+        price_offerB2 and ExcesssupplyC4[z] > 0:
+            
+            energy_offerB2= energy_offerB2/2
+            
+        else:
+            
+            energy_offerB2= 0
+        
         # adding energyoffer_B2 to supply:
         
         x_values.append(energy_offerB2)
@@ -1137,6 +1267,10 @@ for z in range (95):#(len(gridPrices)):
         y_values=SupplyC3df.iloc[0].values.tolist()
         
         # adding price_offerB2 to supply prices:
+        
+        if ExcesssupplyC3[z] == 0:
+            
+            price_offerB2= 0        
         
         y_values.append(price_offerB2)
                 
@@ -1168,21 +1302,41 @@ for z in range (95):#(len(gridPrices)):
 
         x_load=x_load*2
         
-        # market equilibrium hier Schnittpunktberechnung einfügen:
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!        
-        energy_offerC3=energy_offerC3+1
-        price_offerC3=price_offerC3+1
+
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        
+        #energy_offerC3=energy_offerC3+1
+        #price_offerC3=price_offerC3+1
+        
+        for Z in range (1,len(x_supplyacc)):
+                    
+        #condition for intersection between supply and demand curve
+            if x_load[0]> x_supplyacc[-Z]:
+                price_offerC3=y_supplyacc[-Z]
+                energyMarketequilibrium=x_load[0]
+                energy_offerC3=x_supplyacc[-Z+1]-x_load[0]
+                #if a condition is met, the loop stops
+                break            
+
+        if energy_offerB2 < 0:
+            
+            energy_offerC3=float(0)
+            price_offerC3=y_supplyacc[-1]
+            #price_offerB2=float(0)
+            
+        else:
+            
+            pass             
         
         energy_offerB2=energy_offerB2reset
         price_offerB2=price_offerB2reset
+        
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!        
-
         
         plot, =plt.plot(x_supplyacc,y_supplyacc)
         plot, =plt.plot(x_load,y_load)
-        
-        plt.title=('C3')
-        
+        plot, =plt.plot(energyMarketequilibrium,price_offerC3,'yo')
+                
         plt.xlabel('Energy C3')    
         plt.ylabel('Price C3')
         
@@ -1192,6 +1346,18 @@ for z in range (95):#(len(gridPrices)):
         
         x_values=SupplyC4df.iloc[z+1].values.tolist()
         
+        ExcesssupplyC3=ExcesssupplyC3df['ExcesssupplyC3'].tolist()
+        ExcesssupplyC4=ExcesssupplyC4df['ExcesssupplyC4'].tolist()
+        
+        if ExcesssupplyC4[z] > 0 and LastpriceSupplyC4 >  \
+        price_offerB2 and ExcesssupplyC3[z] > 0:
+            
+            energy_offerB2= energy_offerB2/2
+            
+        else:
+            
+            energy_offerB2= 0
+        
         # adding energyoffer_B2 to supply:
         
         x_values.append(energy_offerB2)
@@ -1199,6 +1365,10 @@ for z in range (95):#(len(gridPrices)):
         y_values=SupplyC4df.iloc[0].values.tolist()
         
         # adding price_offerB2 to supply prices:
+        
+        if ExcesssupplyC4[z] == 0:
+            
+            price_offerB2= 0        
         
         y_values.append(price_offerB2)
                 
@@ -1230,21 +1400,48 @@ for z in range (95):#(len(gridPrices)):
 
         x_load=x_load*2
         
-        # market equilibrium hier Schnittpunktberechnung einfügen:
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!        
-        energy_offerC4=energy_offerC4+1
-        price_offerC4=price_offerC4+1
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        
+        #energy_offerC3=energy_offerC3+1
+        #price_offerC3=price_offerC3+1
+        
+        for Z in range (1,len(x_supplyacc)):
+                    
+        #condition for intersection between supply and demand curve
+            if x_load[0]> x_supplyacc[-Z]:
+                price_offerC4=y_supplyacc[-Z]
+                energyMarketequilibrium=x_load[0]
+                energy_offerC4=x_supplyacc[-Z+1]-x_load[0]
+                #if a condition is met, the loop stops
+                break            
+
+        if energy_offerB2 < 0:
+            
+            energy_offerC4=float(0)
+            price_offerC4=y_supplyacc[-1]
+            #price_offerB2=float(0)
+            
+        else:
+            
+            pass             
         
         energy_offerB2=energy_offerB2reset
         price_offerB2=price_offerB2reset
+        
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!        
-
         
         plot, =plt.plot(x_supplyacc,y_supplyacc)
         plot, =plt.plot(x_load,y_load)
-        
+        plot, =plt.plot(energyMarketequilibrium,price_offerC4,'yo')
+                
         plt.xlabel('Energy C4')    
         plt.ylabel('Price C4')
-                
+        
         plt.show()
-       
+
+############################################################################### 
+###################L O O P ####################################################
+###############################################################################
+#####################################U P#######################################
+###############################################################################
+###############################################################################        
