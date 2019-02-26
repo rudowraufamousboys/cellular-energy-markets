@@ -644,39 +644,46 @@ LastpriceSupplyC4=cellC4.LastpriceSupplydf.iloc[0,0]
 #price_offerC2=float(0)
 #price_offerC3=float(0)
 #price_offerC4=float(0)
+    
+# energy offer start values:
 
+energy_offerA1=float(0)
+
+energy_offerB1=float(0)
+energy_offerB2=float(0)
+
+energy_offerC1=float(0)
+energy_offerC2=float(0)
+energy_offerC3=float(0)
+energy_offerC4=float(0)
+
+# price energy offer start values:
+
+price_offerA1=float(0)
+
+price_offerB1=float(0)
+price_offerB2=float(0)
+
+price_offerC1=float(0)
+price_offerC2=float(0)
+price_offerC3=float(0)
+price_offerC4=float(0)
+
+# list for while loop
+
+marketPrice=[0,1]
+
+marketPricequilibrium=[]
+
+# counter for market price:
  
-for z in range (len(gridPrices)):
-    
-    # energy offer start values:
+q=0
 
-    energy_offerA1=float(0)
+# counter for time steps
+
+z=0
     
-    energy_offerB1=float(0)
-    energy_offerB2=float(0)
-    
-    energy_offerC1=float(0)
-    energy_offerC2=float(0)
-    energy_offerC3=float(0)
-    energy_offerC4=float(0)
-    
-    # price energy offer start values:
-    
-    price_offerA1=float(0)
-    
-    price_offerB1=float(0)
-    price_offerB2=float(0)
-    
-    price_offerC1=float(0)
-    price_offerC2=float(0)
-    price_offerC3=float(0)
-    price_offerC4=float(0)
-    
-    marketPrice=[0,1]
-        
-    q=0
-    
-    while marketPrice[q+1] != marketPrice[q]:
+while marketPrice[q+1] != marketPrice[q]:
     
     ###########################################################################
     ################### L O O P ###############################################
@@ -2223,7 +2230,21 @@ for z in range (len(gridPrices)):
             marketPrice.append(price_offerA1)
             
             q=q+1
-    
+            
+            if marketPrice[q+1] == marketPrice[q]:
+                
+                q= 0
+                
+                z+=1
+                
+                marketPricequilibrium.append(marketPrice[-1])
+                
+                marketPrice=[0,1]
+                
+            if z == len(gridPrices):
+                
+                break
+                
     ########################################################################### 
     ################## T H E ##################################################
     ###########################################################################
