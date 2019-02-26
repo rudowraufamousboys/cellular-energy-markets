@@ -618,32 +618,7 @@ LastpriceSupplyC3=cellC3.LastpriceSupplydf.iloc[0,0]
 LastpriceSupplyC4=cellC4.LastpriceSupplydf.iloc[0,0]
 
 
-# list of market equilibrium price:
-#priceMarketequilibriumA1l=[]
 
-## energy offer start values:
-#
-#energy_offerA1=float(0)
-#
-#energy_offerB1=float(0)
-#energy_offerB2=float(0)
-#
-#energy_offerC1=float(0)
-#energy_offerC2=float(0)
-#energy_offerC3=float(0)
-#energy_offerC4=float(0)
-#
-## price energy offer start values:
-#
-#price_offerA1=float(0)
-#
-#price_offerB1=float(0)
-#price_offerB2=float(0)
-#
-#price_offerC1=float(0)
-#price_offerC2=float(0)
-#price_offerC3=float(0)
-#price_offerC4=float(0)
     
 # energy offer start values:
 
@@ -1007,15 +982,15 @@ while marketPrice[q+1] != marketPrice[q]:
             
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!        
                 
-            plot, =plt.plot(x_supplyacc,y_supplyacc)
-            plot, =plt.plot(x_load,y_load)
-            plot, =plt.plot(energyMarketequilibrium,price_offerB1,'yo')
-            plot, =plt.plot(Fxi,Fyi,"--")
-                
-            plt.xlabel('Energy B1')    
-            plt.ylabel('Price B1')
-                        
-            plt.show()
+#            plot, =plt.plot(x_supplyacc,y_supplyacc)
+#            plot, =plt.plot(x_load,y_load)
+#            plot, =plt.plot(energyMarketequilibrium,price_offerB1,'yo')
+#            plot, =plt.plot(Fxi,Fyi,"--")
+#                
+#            plt.xlabel('Energy B1')    
+#            plt.ylabel('Price B1')
+#                        
+#            plt.show()
                 
     ################################LEVEL A to B2##############################
                                     
@@ -1183,15 +1158,15 @@ while marketPrice[q+1] != marketPrice[q]:
             
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!       
                 
-            plot, =plt.plot(x_supplyacc,y_supplyacc)
-            plot, =plt.plot(x_load,y_load)
-            plot, =plt.plot(energyMarketequilibrium,price_offerB2,'yo')
-            plot, =plt.plot(Fxi,Fyi,"--")
-                
-            plt.xlabel('Energy B2')    
-            plt.ylabel('Price B2')
-                        
-            plt.show()
+#            plot, =plt.plot(x_supplyacc,y_supplyacc)
+#            plot, =plt.plot(x_load,y_load)
+#            plot, =plt.plot(energyMarketequilibrium,price_offerB2,'yo')
+#            plot, =plt.plot(Fxi,Fyi,"--")
+#                
+#            plt.xlabel('Energy B2')    
+#            plt.ylabel('Price B2')
+#                        
+#            plt.show()
                   
     ################################LEVEL B1 to C1#############################
             
@@ -1319,16 +1294,16 @@ while marketPrice[q+1] != marketPrice[q]:
             
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!        
             
-            plot, =plt.plot(x_supplyacc,y_supplyacc)
-            plot, =plt.plot(x_load,y_load)
-            plot, =plt.plot(energyMarketequilibrium,price_offerC1,'yo')
-            plot, =plt.plot(Fxi,Fyi,"--")
-            
-            
-            plt.xlabel('Energy C1')    
-            plt.ylabel('Price C1')
-                    
-            plt.show()
+#            plot, =plt.plot(x_supplyacc,y_supplyacc)
+#            plot, =plt.plot(x_load,y_load)
+#            plot, =plt.plot(energyMarketequilibrium,price_offerC1,'yo')
+#            plot, =plt.plot(Fxi,Fyi,"--")
+#            
+#            
+#            plt.xlabel('Energy C1')    
+#            plt.ylabel('Price C1')
+#                    
+#            plt.show()
            
     ################################LEVEL B1 to C2#############################
             
@@ -1456,15 +1431,15 @@ while marketPrice[q+1] != marketPrice[q]:
             
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!       
             
-            plot, =plt.plot(x_supplyacc,y_supplyacc)
-            plot, =plt.plot(x_load,y_load)
-            plot, =plt.plot(energyMarketequilibrium,price_offerC2,'yo')
-            plot, =plt.plot(Fxi,Fyi,"--")
-            
-            plt.xlabel('Energy C2')    
-            plt.ylabel('Price C2')
-                    
-            plt.show()
+#            plot, =plt.plot(x_supplyacc,y_supplyacc)
+#            plot, =plt.plot(x_load,y_load)
+#            plot, =plt.plot(energyMarketequilibrium,price_offerC2,'yo')
+#            plot, =plt.plot(Fxi,Fyi,"--")
+#            
+#            plt.xlabel('Energy C2')    
+#            plt.ylabel('Price C2')
+#                    
+#            plt.show()
     
     ################################LEVEL B2 to C3#############################
             
@@ -1590,15 +1565,15 @@ while marketPrice[q+1] != marketPrice[q]:
             
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!        
             
-            plot, =plt.plot(x_supplyacc,y_supplyacc)
-            plot, =plt.plot(x_load,y_load)
-            plot, =plt.plot(energyMarketequilibrium,price_offerC3,'yo')
-            plot, =plt.plot(Fxi,Fyi,"--")
-                    
-            plt.xlabel('Energy C3')    
-            plt.ylabel('Price C3')
-            
-            plt.show()
+#            plot, =plt.plot(x_supplyacc,y_supplyacc)
+#            plot, =plt.plot(x_load,y_load)
+#            plot, =plt.plot(energyMarketequilibrium,price_offerC3,'yo')
+#            plot, =plt.plot(Fxi,Fyi,"--")
+#                    
+#            plt.xlabel('Energy C3')    
+#            plt.ylabel('Price C3')
+#            
+#            plt.show()
             
     ################################LEVEL B2 to C4#############################
             
@@ -1723,15 +1698,15 @@ while marketPrice[q+1] != marketPrice[q]:
             
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!        
             
-            plot, =plt.plot(x_supplyacc,y_supplyacc)
-            plot, =plt.plot(x_load,y_load)
-            plot, =plt.plot(energyMarketequilibrium,price_offerC4,'yo')
-            plot, =plt.plot(Fxi,Fyi,"--")
-                    
-            plt.xlabel('Energy C4')     
-            plt.ylabel('Price C4')
-            
-            plt.show()
+#            plot, =plt.plot(x_supplyacc,y_supplyacc)
+#            plot, =plt.plot(x_load,y_load)
+#            plot, =plt.plot(energyMarketequilibrium,price_offerC4,'yo')
+#            plot, =plt.plot(Fxi,Fyi,"--")
+#                    
+#            plt.xlabel('Energy C4')     
+#            plt.ylabel('Price C4')
+#            
+#            plt.show()
     
     ###########################################################################
     ################## L O O P ################################################
@@ -1896,15 +1871,15 @@ while marketPrice[q+1] != marketPrice[q]:
             
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!        
                 
-            plot, =plt.plot(x_supplyacc,y_supplyacc)
-            plot, =plt.plot(x_load,y_load)
-            plot, =plt.plot(energyMarketequilibrium,price_offerB1,'yo')
-            plot, =plt.plot(Fxi,Fyi,"--")
-                
-            plt.xlabel('Energy B1')    
-            plt.ylabel('Price B1')
-                        
-            plt.show()
+#            plot, =plt.plot(x_supplyacc,y_supplyacc)
+#            plot, =plt.plot(x_load,y_load)
+#            plot, =plt.plot(energyMarketequilibrium,price_offerB1,'yo')
+#            plot, =plt.plot(Fxi,Fyi,"--")
+#                
+#            plt.xlabel('Energy B1')    
+#            plt.ylabel('Price B1')
+#                        
+#            plt.show()
             
     ###########################LEVEL C3 / C4 to B2#############################
         
@@ -2065,15 +2040,15 @@ while marketPrice[q+1] != marketPrice[q]:
             
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!        
                 
-            plot, =plt.plot(x_supplyacc,y_supplyacc)
-            plot, =plt.plot(x_load,y_load)
-            plot, =plt.plot(energyMarketequilibrium,price_offerB1,'yo')
-            plot, =plt.plot(Fxi,Fyi,"--")
-                
-            plt.xlabel('Energy B2')    
-            plt.ylabel('Price B2')
-                        
-            plt.show()
+#            plot, =plt.plot(x_supplyacc,y_supplyacc)
+#            plot, =plt.plot(x_load,y_load)
+#            plot, =plt.plot(energyMarketequilibrium,price_offerB1,'yo')
+#            plot, =plt.plot(Fxi,Fyi,"--")
+#                
+#            plt.xlabel('Energy B2')    
+#            plt.ylabel('Price B2')
+#                        
+#            plt.show()
             
             
     ###########################LEVEL B1 / B2 to A1#############################
@@ -2242,6 +2217,27 @@ while marketPrice[q+1] != marketPrice[q]:
                 marketPrice=[0,1]
                 
             if z == len(gridPrices):
+                
+                marketPricequilibriumdf=pd.DataFrame\
+                (index=ExcesssupplyC1C2B1df.index)
+                
+                marketPricequilibriumdf.drop(marketPricequilibriumdf.index[0]\
+                                             , inplace=True)
+                
+                marketPricequilibriumdf['market_price']=marketPricequilibrium
+                
+    ################ R E S U L T  P R E S E N T A T I O N #####################
+
+                x_marketPrice=marketPricequilibriumdf.index.tolist()
+                y_marketPrice=marketPricequilibriumdf['market_price'].tolist()
+    
+                x_gridPrice=marketPricequilibriumdf.index.tolist()
+                y_gridPrice=gridPrices
+                
+                plt.plot(x_marketPrice, y_marketPrice, x_marketPrice, y_gridPrice)
+                plt.legend(['Market_Price','Grid_Price'])
+                
+                plt.show()
                 
                 break
                 
