@@ -809,15 +809,15 @@ while marketPrice[q+1] != marketPrice[q]:
             
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!       
             
-            plot, =plt.plot(x_supplyacc,y_supplyacc)
-            plot, =plt.plot(x_load,y_load)
-            plot, =plt.plot(energyMarketequilibrium,price_offerA1,'yo')
-            plot, =plt.plot(Fxi,Fyi,"--")
-            
-            plt.xlabel('Energy A1')    
-            plt.ylabel('Price A1')
-                    
-            plt.show()
+#            plot, =plt.plot(x_supplyacc,y_supplyacc)
+#            plot, =plt.plot(x_load,y_load)
+#            plot, =plt.plot(energyMarketequilibrium,price_offerA1,'yo')
+#            plot, =plt.plot(Fxi,Fyi,"--")
+#            
+#            plt.xlabel('Energy A1')    
+#            plt.ylabel('Price A1')
+#                    
+#            plt.show()
                   
     ################################LEVEL A to B1##############################
                                     
@@ -1158,15 +1158,15 @@ while marketPrice[q+1] != marketPrice[q]:
             
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!       
                 
-#            plot, =plt.plot(x_supplyacc,y_supplyacc)
-#            plot, =plt.plot(x_load,y_load)
-#            plot, =plt.plot(energyMarketequilibrium,price_offerB2,'yo')
-#            plot, =plt.plot(Fxi,Fyi,"--")
-#                
-#            plt.xlabel('Energy B2')    
-#            plt.ylabel('Price B2')
-#                        
-#            plt.show()
+            plot, =plt.plot(x_supplyacc,y_supplyacc)
+            plot, =plt.plot(x_load,y_load)
+            plot, =plt.plot(energyMarketequilibrium,price_offerB2,'yo')
+            plot, =plt.plot(Fxi,Fyi,"--")
+                
+            plt.xlabel('Energy B2')    
+            plt.ylabel('Price B2')
+                        
+            plt.show()
                   
     ################################LEVEL B1 to C1#############################
             
@@ -1921,7 +1921,7 @@ while marketPrice[q+1] != marketPrice[q]:
             
             if energy_offerC3 > 0:
                 
-                y_values.append(price_offerC1)
+                y_values.append(price_offerC3)
                 
             else:
                 
@@ -1929,7 +1929,7 @@ while marketPrice[q+1] != marketPrice[q]:
             
             if energy_offerC4 > 0:
                 
-                y_values.append(price_offerC3)
+                y_values.append(price_offerC4)
                 
             else:
                 
@@ -2032,23 +2032,23 @@ while marketPrice[q+1] != marketPrice[q]:
                         break
     
                 
-            energy_offerB1reset=energy_offerB1
-            price_offerB1reset=price_offerB1
+            #energy_offerB2reset=energy_offerB2
+            #price_offerB2reset=price_offerB2
                 
             #energy_offerA1=energy_offerA1reset
             #price_offerA1=price_offerA1reset
             
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!        
                 
-#            plot, =plt.plot(x_supplyacc,y_supplyacc)
-#            plot, =plt.plot(x_load,y_load)
-#            plot, =plt.plot(energyMarketequilibrium,price_offerB1,'yo')
-#            plot, =plt.plot(Fxi,Fyi,"--")
-#                
-#            plt.xlabel('Energy B2')    
-#            plt.ylabel('Price B2')
-#                        
-#            plt.show()
+            plot, =plt.plot(x_supplyacc,y_supplyacc)
+            plot, =plt.plot(x_load,y_load)
+            plot, =plt.plot(energyMarketequilibrium,price_offerB2,'yo')
+            plot, =plt.plot(Fxi,Fyi,"--")
+                
+            plt.xlabel('Energy B2')    
+            plt.ylabel('Price B2')
+                        
+            plt.show()
             
             
     ###########################LEVEL B1 / B2 to A1#############################
@@ -2192,15 +2192,15 @@ while marketPrice[q+1] != marketPrice[q]:
             
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!        
             
-            plot, =plt.plot(x_supplyacc,y_supplyacc)
-            plot, =plt.plot(x_load,y_load)
-            plot, =plt.plot(energyMarketequilibrium,price_offerA1,'yo')
-            plot, =plt.plot(Fxi,Fyi,"--")
-            
-            plt.xlabel('Energy A1')    
-            plt.ylabel('Price A1')
-                    
-            plt.show()  
+#            plot, =plt.plot(x_supplyacc,y_supplyacc)
+#            plot, =plt.plot(x_load,y_load)
+#            plot, =plt.plot(energyMarketequilibrium,price_offerA1,'yo')
+#            plot, =plt.plot(Fxi,Fyi,"--")
+#            
+#            plt.xlabel('Energy A1')    
+#            plt.ylabel('Price A1')
+#                    
+#            plt.show()  
             
             marketPrice.append(price_offerA1)
             
@@ -2228,16 +2228,34 @@ while marketPrice[q+1] != marketPrice[q]:
                 
     ################ R E S U L T  P R E S E N T A T I O N #####################
 
-                x_marketPrice=marketPricequilibriumdf.index.tolist()
+                
                 y_marketPrice=marketPricequilibriumdf['market_price'].tolist()
     
-                x_gridPrice=marketPricequilibriumdf.index.tolist()
                 y_gridPrice=gridPrices
                 
-                plt.plot(x_marketPrice, y_marketPrice, x_marketPrice, y_gridPrice)
+                x_time=[15]
+                x_time=x_time*len(gridPrices)
+                x_time=[sum(x_time[:y]) for y in range(1, len(x_time) + 1)]
+                
+                x_time = [i * (1/60) for i in x_time]
+                               
+                plt.plot(x_time, y_marketPrice, x_time, y_gridPrice)
                 plt.legend(['Market_Price','Grid_Price'])
+                plt.grid(True)
+                
+                plt.xlabel('Time [h]', fontsize=14)
+                plt.ylabel('Price [€Cent/ kWh]', fontsize=14)
                 
                 plt.show()
+                
+#                y_priceDifference=\
+#                [a - b for a, b in zip(y_gridPrice, y_marketPrice)]
+#                
+#                plt.plot(x_time, y_priceDifference)
+#                plt.legend(['Market_Price' + ' - ' + 'Grid_Price'])
+#                plt.grid(True)
+#                
+#                plt.show()
                 
                 break
                 
