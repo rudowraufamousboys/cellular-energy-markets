@@ -731,23 +731,7 @@ while marketPrice[q+1] != marketPrice[q]:
             # adding grid capacity, energyoffer_B1 and energyoffer_B2 to supply:
             
             x_values.append(lineCapacities[z])
-           
-    #        if energy_offerB1 > 0:
-    #            
-    #            x_values.append(energy_offerB1)
-    #            
-    #        else:
-    #            
-    #            pass
-    #        
-    #        if energy_offerB2 > 0:
-    #        
-    #            x_values.append(energy_offerB2)
-    #            
-    #        else:
-    #            
-    #            pass
-                        
+                                   
             y_values=SupplyB1B2A1df.iloc[0].values.tolist()
             
             # adding grid price, price_offerB1 and price_offerB2 to supply:
@@ -800,10 +784,7 @@ while marketPrice[q+1] != marketPrice[q]:
             
     
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            
-            #energy_offerA1=energy_offerA1+1
-            #price_offerA1=price_offerA1+1
-            
+
             for Z in range (1,len(x_supplyacc)):
                         
             #condition for intersection between supply and demand curve
@@ -863,7 +844,7 @@ while marketPrice[q+1] != marketPrice[q]:
     
             energy_offerA1reset=energy_offerA1
             price_offerA1reset=price_offerA1
-            
+#            
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!       
             
 #            plot, =plt.plot(x_supplyacc,y_supplyacc)
@@ -929,23 +910,6 @@ while marketPrice[q+1] != marketPrice[q]:
                 
             x_values=[sum(x_values[:y]) for y in range(1, len(x_values) + 1)]
                                     
-    #        if energy_offerC1 > 0:
-    #                
-    #            y_values.append(price_offerC1)
-    #                
-    #        else:
-    #                
-    #            pass
-    #            
-    #        if energy_offerC2 > 0:
-    #                
-    #            y_values.append(price_offerC2)
-    #                
-    #        else:
-    #                
-    #            pass
-                        
-                
             y_values.sort()
                 
             # supply curve:
@@ -971,10 +935,7 @@ while marketPrice[q+1] != marketPrice[q]:
             x_load=x_load*2
                 
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            
-                #energy_offerB1=energy_offerB1+1
-                #price_offerB1=price_offerB1+1
-                
+
             for Z in range (1,len(x_supplyacc)):
                             
                 #condition for intersection between supply and demand curve
@@ -1102,27 +1063,6 @@ while marketPrice[q+1] != marketPrice[q]:
                 
             x_values=[sum(x_values[:y]) for y in range(1, len(x_values) + 1)]
                                     
-    
-                
-            # adding grid price, price_offerB1 and price_offerB2 to supply:
-                            
-    #        if energy_offerC1 > 0:
-    #                
-    #            y_values.append(price_offerC1)
-    #                
-    #        else:
-    #                
-    #            pass
-    #            
-    #        if energy_offerC2 > 0:
-    #                
-    #            y_values.append(price_offerC2)
-    #                
-    #        else:
-    #                
-    #            pass
-                        
-                
             y_values.sort()
                 
             # supply curve:
@@ -1148,10 +1088,7 @@ while marketPrice[q+1] != marketPrice[q]:
             x_load=x_load*2
                 
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            
-                #energy_offerB1=energy_offerB1+1
-                #price_offerB1=price_offerB1+1
-                
+
             for Z in range (1,len(x_supplyacc)):
                             
                 #condition for intersection between supply and demand curve
@@ -1287,10 +1224,7 @@ while marketPrice[q+1] != marketPrice[q]:
             x_load=x_load*2
             
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            
-            #energy_offerC1=energy_offerC1+1
-            #price_offerC1=price_offerC1+1
-            
+
             for Z in range (1,len(x_supplyacc)):
                         
             #condition for intersection between supply and demand curve
@@ -1436,10 +1370,7 @@ while marketPrice[q+1] != marketPrice[q]:
             x_load=x_load*2
             
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            
-            #energy_offerC2=energy_offerC2+1
-            #price_offerC2=price_offerC2+1
-            
+
             for Z in range (1,len(x_supplyacc)):
                         
             #condition for intersection between supply and demand curve
@@ -1582,10 +1513,7 @@ while marketPrice[q+1] != marketPrice[q]:
             
     
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            
-            #energy_offerC3=energy_offerC3+1
-            #price_offerC3=price_offerC3+1
-            
+
             for Z in range (1,len(x_supplyacc)):
                         
             #condition for intersection between supply and demand curve
@@ -1727,10 +1655,7 @@ while marketPrice[q+1] != marketPrice[q]:
             x_load=x_load*2
             
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            
-            #energy_offerC3=energy_offerC3+1
-            #price_offerC3=price_offerC3+1
-            
+                        
             for Z in range (1,len(x_supplyacc)):
                         
             #condition for intersection between supply and demand curve
@@ -1780,10 +1705,6 @@ while marketPrice[q+1] != marketPrice[q]:
                         if i>=50:
                             i=50                        
                             
-                            
-                        #if x_supplyacc[-Z] > x_me:
-                         #   print(x_supplyacc[-Z])
-                
                         break
 
     ###############################energy cut##################################
@@ -1980,11 +1901,11 @@ while marketPrice[q+1] != marketPrice[q]:
                     energy_cutB1=float(0)
     
                 
-            energy_offerB1reset=energy_offerB1
-            price_offerB1reset=price_offerB1
-                
-            energy_offerA1=energy_offerA1reset
-            price_offerA1=price_offerA1reset
+#            energy_offerB1reset=energy_offerB1
+#            price_offerB1reset=price_offerB1
+#                
+#            energy_offerA1=energy_offerA1reset
+#            price_offerA1=price_offerA1reset
             
                                 
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!        
@@ -2323,8 +2244,8 @@ while marketPrice[q+1] != marketPrice[q]:
                         break
     
     
-            energy_offerA1reset=energy_offerA1
-            price_offerA1reset=price_offerA1
+#            energy_offerA1reset=energy_offerA1
+#            price_offerA1reset=price_offerA1
             
     ###############################energy cut##################################
 
