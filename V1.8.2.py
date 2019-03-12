@@ -2513,6 +2513,12 @@ while marketPrice[q+1] != marketPrice[q]:
                 plt.xlabel('Time [h]', fontsize=14)
                 plt.ylabel('Price [€Cent/ kWh]', fontsize=14)
                 
+                plt.savefig('plots/market_price_grid_price', dpi=None, \
+                facecolor='w', edgecolor='w',\
+                orientation='portrait', papertype=None, format=None,\
+                transparent=False, bbox_inches=None, pad_inches=0.1,\
+                frameon=None, metadata=None)
+                
                 plt.show()
                 
      ##########################################################################
@@ -2533,6 +2539,12 @@ while marketPrice[q+1] != marketPrice[q]:
                 plt.xlabel('Time [h]', fontsize=14)
                 plt.ylabel('Energy [kWh]', fontsize=14)
                 
+                plt.savefig('plots/energy cut', dpi=None, \
+                facecolor='w', edgecolor='w',\
+                orientation='portrait', papertype=None, format=None,\
+                transparent=False, bbox_inches=None, pad_inches=0.1,\
+                frameon=None, metadata=None)
+                
                 plt.show()
                                                 
      ##########################################################################
@@ -2552,6 +2564,12 @@ while marketPrice[q+1] != marketPrice[q]:
                 
                 plt.xlabel('Time [h]', fontsize=14)
                 plt.ylabel('Energy [kWh]', fontsize=14)
+                
+                plt.savefig('plots/grid supply', dpi=None, \
+                facecolor='w', edgecolor='w',\
+                orientation='portrait', papertype=None, format=None,\
+                transparent=False, bbox_inches=None, pad_inches=0.1,\
+                frameon=None, metadata=None)
                 
                 plt.show()
                 
@@ -2630,6 +2648,12 @@ while marketPrice[q+1] != marketPrice[q]:
                 plt.xlabel('Time [h]', fontsize=14)
                 plt.ylabel('self sufficiency [%]', fontsize=14)
                 
+                plt.savefig('plots/selfSufficiencyC1', dpi=None, \
+                facecolor='w', edgecolor='w',\
+                orientation='portrait', papertype=None, format=None,\
+                transparent=False, bbox_inches=None, pad_inches=0.1,\
+                frameon=None, metadata=None)
+                
                 plt.show()
 
     # plot C2                                                    
@@ -2648,6 +2672,12 @@ while marketPrice[q+1] != marketPrice[q]:
                 
                 plt.xlabel('Time [h]', fontsize=14)
                 plt.ylabel('self sufficiency [%]', fontsize=14)
+                
+                plt.savefig('plots/selfSufficiencyC2', dpi=None, \
+                facecolor='w', edgecolor='w',\
+                orientation='portrait', papertype=None, format=None,\
+                transparent=False, bbox_inches=None, pad_inches=0.1,\
+                frameon=None, metadata=None)                
                 
                 plt.show()
 
@@ -2668,6 +2698,12 @@ while marketPrice[q+1] != marketPrice[q]:
                 plt.xlabel('Time [h]', fontsize=14)
                 plt.ylabel('self sufficiency [%]', fontsize=14)
                 
+                plt.savefig('plots/selfSufficiencyC3', dpi=None, \
+                facecolor='w', edgecolor='w',\
+                orientation='portrait', papertype=None, format=None,\
+                transparent=False, bbox_inches=None, pad_inches=0.1,\
+                frameon=None, metadata=None)
+
                 plt.show()
                 
     # plot C4                                                    
@@ -2686,6 +2722,12 @@ while marketPrice[q+1] != marketPrice[q]:
                 
                 plt.xlabel('Time [h]', fontsize=14)
                 plt.ylabel('self sufficiency [%]', fontsize=14)
+                
+                plt.savefig('plots/selfSufficiencyC4', dpi=None, \
+                facecolor='w', edgecolor='w',\
+                orientation='portrait', papertype=None, format=None,\
+                transparent=False, bbox_inches=None, pad_inches=0.1,\
+                frameon=None, metadata=None)
                 
                 plt.show()
                 
@@ -2706,6 +2748,12 @@ while marketPrice[q+1] != marketPrice[q]:
                 plt.xlabel('Time [h]', fontsize=14)
                 plt.ylabel('self sufficiency [%]', fontsize=14)
                 
+                plt.savefig('plots/selfSufficiencyB1', dpi=None, \
+                facecolor='w', edgecolor='w',\
+                orientation='portrait', papertype=None, format=None,\
+                transparent=False, bbox_inches=None, pad_inches=0.1,\
+                frameon=None, metadata=None)
+                
                 plt.show()
                 
     # plot B2                                                    
@@ -2725,6 +2773,12 @@ while marketPrice[q+1] != marketPrice[q]:
                 plt.xlabel('Time [h]', fontsize=14)
                 plt.ylabel('self sufficiency [%]', fontsize=14)
                 
+                plt.savefig('plots/selfSufficiencyB2', dpi=None, \
+                facecolor='w', edgecolor='w',\
+                orientation='portrait', papertype=None, format=None,\
+                transparent=False, bbox_inches=None, pad_inches=0.1,\
+                frameon=None, metadata=None)
+                
                 plt.show()
                 
     # plot A1                                                    
@@ -2743,6 +2797,12 @@ while marketPrice[q+1] != marketPrice[q]:
                 
                 plt.xlabel('Time [h]', fontsize=14)
                 plt.ylabel('self sufficiency [%]', fontsize=14)
+                
+                plt.savefig('plots/selfSufficiencyA1', dpi=None, \
+                facecolor='w', edgecolor='w',\
+                orientation='portrait', papertype=None, format=None,\
+                transparent=False, bbox_inches=None, pad_inches=0.1,\
+                frameon=None, metadata=None)
                 
                 plt.show()
                 
