@@ -592,6 +592,12 @@ sumLoadC2df=cellC2.Sumloaddf
 sumLoadC3df=cellC3.Sumloaddf
 sumLoadC4df=cellC4.Sumloaddf
 
+sumSupplyC1df=cellC1.SumSupplydf
+sumSupplyC2df=cellC2.SumSupplydf
+sumSupplyC3df=cellC3.SumSupplydf
+sumSupplyC4df=cellC4.SumSupplydf
+
+
 ExcesssupplyC1df=cellC1.Excesssupplydf
 ExcesssupplyC1df.drop(ExcesssupplyC1df.index[0], inplace=True)
 
@@ -2391,6 +2397,10 @@ while marketPrice[q+1] != marketPrice[q]:
                 
                 marketPricequilibriumdf['market_price']=marketPricequilibrium
                 
+                marketPricequilibriumdf.to_csv\
+                ('Results/marketPricequilibriumdf.csv', \
+                 sep=',', encoding='utf-8')
+                
                 # energy cut to df:
                 
                 ###############################################################
@@ -2403,6 +2413,9 @@ while marketPrice[q+1] != marketPrice[q]:
                 
                 energy_cutA1df['energy_cutA1']=energy_cutA1l
                 energy_cutA1df['names']=energy_cutnameA1l
+                
+                energy_cutA1df.to_csv('Results/energy cut.csv',\
+                                           sep=',', encoding='utf-8')
                  
                 ###############################################################
                                 
@@ -2413,6 +2426,9 @@ while marketPrice[q+1] != marketPrice[q]:
                                              , inplace=True)
                 
                 grid_supplydf['grid_supply']=grid_supplyl
+                
+                grid_supplydf.to_csv('Results/grid supply.csv',\
+                                           sep=',', encoding='utf-8')
                 
                 ###############################################################                
 #                
@@ -2475,7 +2491,7 @@ while marketPrice[q+1] != marketPrice[q]:
 #                energy_cutC4df['energy_cutC1']=energy_cutC4l
                 
     ################ R E S U L T  P R E S E N T A T I O N #####################
-
+    # market and grid price
                 
                 y_marketPrice=marketPricequilibriumdf['market_price'].tolist()
     
@@ -2500,7 +2516,8 @@ while marketPrice[q+1] != marketPrice[q]:
                 plt.show()
                 
      ##########################################################################
-                
+     # energy cut
+          
                 y_energycut=energy_cutA1df['energy_cutA1'].tolist()
                     
                 x_time=[15]
@@ -2519,7 +2536,8 @@ while marketPrice[q+1] != marketPrice[q]:
                 plt.show()
                                                 
      ##########################################################################
-                
+     # grid supply
+           
                 y_grid_supply=grid_supplydf['grid_supply'].tolist()
                     
                 x_time=[15]
@@ -2536,7 +2554,263 @@ while marketPrice[q+1] != marketPrice[q]:
                 plt.ylabel('Energy [kWh]', fontsize=14)
                 
                 plt.show()
-                                                
+                
+     ##########################################################################
+     # self_sufficiency
+     
+     # C1
+     
+                sumLoadC1l=sumLoadC1df['Sumload_C1'].tolist()
+                sumSupplyC1l=sumSupplyC1df['Sumsupply_C1'].tolist()
+                
+                self_sufficiencyC1 = [a / b * 100 for a, b in \
+                                      zip(sumSupplyC1l, sumLoadC1l)]
+     # C2
+
+                sumLoadC2l=sumLoadC2df['Sumload_C2'].tolist()
+                sumSupplyC2l=sumSupplyC2df['Sumsupply_C2'].tolist()
+                
+                self_sufficiencyC2 = [a / b * 100 for a, b in \
+                                      zip(sumSupplyC2l, sumLoadC2l)]
+                
+     # C3
+
+                sumLoadC3l=sumLoadC3df['Sumload_C3'].tolist()
+                sumSupplyC3l=sumSupplyC3df['Sumsupply_C3'].tolist()
+                
+                self_sufficiencyC3 = [a / b * 100 for a, b in \
+                                      zip(sumSupplyC3l, sumLoadC3l)]
+                
+     # C4
+
+                sumLoadC4l=sumLoadC4df['Sumload_C4'].tolist()
+                sumSupplyC4l=sumSupplyC4df['Sumsupply_C4'].tolist()
+                
+                self_sufficiencyC4 = [a / b * 100 for a, b in \
+                                      zip(sumSupplyC4l, sumLoadC4l)]
+
+    # B1
+
+                sumLoadB1l=cellB1.Sumloaddf['Sumload_B1'].tolist()
+                sumSupplyB1l=cellB1.SumSupplydf['Sumsupply_B1'].tolist()
+                
+                self_sufficiencyB1 = [a / b * 100 for a, b in \
+                                      zip(sumSupplyB1l, sumLoadB1l)]
+                
+    # B2
+
+                sumLoadB2l=cellB2.Sumloaddf['Sumload_B2'].tolist()
+                sumSupplyB2l=cellB2.SumSupplydf['Sumsupply_B2'].tolist()
+                
+                self_sufficiencyB2 = [a / b * 100 for a, b in \
+                                      zip(sumSupplyB2l, sumLoadB2l)]
+
+    # A1
+
+                sumLoadA1l=cellA1.Sumloaddf['Sumload_A1'].tolist()
+                sumSupplyA1l=cellA1.SumSupplydf['Sumsupply_A1'].tolist()
+                
+                self_sufficiencyA1 = [a / b * 100 for a, b in \
+                                      zip(sumSupplyA1l, sumLoadA1l)]
+                                
+    # plot C1                                                    
+                
+                y_selfSufficiencyC1=self_sufficiencyC1
+                    
+                x_time=[15]
+                x_time=x_time*len(gridPrices)
+                x_time=[sum(x_time[:y]) for y in range(1, len(x_time) + 1)]
+                
+                x_time = [i * (1/60) for i in x_time]
+                               
+                plt.plot(x_time, y_selfSufficiencyC1)
+                plt.legend(['self sufficiency C1'])
+                plt.grid(True)
+                
+                plt.xlabel('Time [h]', fontsize=14)
+                plt.ylabel('self sufficiency [%]', fontsize=14)
+                
+                plt.show()
+
+    # plot C2                                                    
+                
+                y_selfSufficiencyC2=self_sufficiencyC2
+                    
+                x_time=[15]
+                x_time=x_time*len(gridPrices)
+                x_time=[sum(x_time[:y]) for y in range(1, len(x_time) + 1)]
+                
+                x_time = [i * (1/60) for i in x_time]
+                               
+                plt.plot(x_time, y_selfSufficiencyC2)
+                plt.legend(['self sufficiency C2'])
+                plt.grid(True)
+                
+                plt.xlabel('Time [h]', fontsize=14)
+                plt.ylabel('self sufficiency [%]', fontsize=14)
+                
+                plt.show()
+
+    # plot C3                                                    
+                
+                y_selfSufficiencyC3=self_sufficiencyC3
+                    
+                x_time=[15]
+                x_time=x_time*len(gridPrices)
+                x_time=[sum(x_time[:y]) for y in range(1, len(x_time) + 1)]
+                
+                x_time = [i * (1/60) for i in x_time]
+                               
+                plt.plot(x_time, y_selfSufficiencyC3)
+                plt.legend(['self sufficiency C3'])
+                plt.grid(True)
+                
+                plt.xlabel('Time [h]', fontsize=14)
+                plt.ylabel('self sufficiency [%]', fontsize=14)
+                
+                plt.show()
+                
+    # plot C4                                                    
+                
+                y_selfSufficiencyC4=self_sufficiencyC4
+                    
+                x_time=[15]
+                x_time=x_time*len(gridPrices)
+                x_time=[sum(x_time[:y]) for y in range(1, len(x_time) + 1)]
+                
+                x_time = [i * (1/60) for i in x_time]
+                               
+                plt.plot(x_time, y_selfSufficiencyC4)
+                plt.legend(['self sufficiency C4'])
+                plt.grid(True)
+                
+                plt.xlabel('Time [h]', fontsize=14)
+                plt.ylabel('self sufficiency [%]', fontsize=14)
+                
+                plt.show()
+                
+    # plot B1                                                    
+                
+                y_selfSufficiencyB1=self_sufficiencyB1
+                    
+                x_time=[15]
+                x_time=x_time*len(gridPrices)
+                x_time=[sum(x_time[:y]) for y in range(1, len(x_time) + 1)]
+                
+                x_time = [i * (1/60) for i in x_time]
+                               
+                plt.plot(x_time, y_selfSufficiencyB1)
+                plt.legend(['self sufficiency B1'])
+                plt.grid(True)
+                
+                plt.xlabel('Time [h]', fontsize=14)
+                plt.ylabel('self sufficiency [%]', fontsize=14)
+                
+                plt.show()
+                
+    # plot B2                                                    
+                
+                y_selfSufficiencyB2=self_sufficiencyB2
+                    
+                x_time=[15]
+                x_time=x_time*len(gridPrices)
+                x_time=[sum(x_time[:y]) for y in range(1, len(x_time) + 1)]
+                
+                x_time = [i * (1/60) for i in x_time]
+                               
+                plt.plot(x_time, y_selfSufficiencyB2)
+                plt.legend(['self sufficiency B2'])
+                plt.grid(True)
+                
+                plt.xlabel('Time [h]', fontsize=14)
+                plt.ylabel('self sufficiency [%]', fontsize=14)
+                
+                plt.show()
+                
+    # plot A1                                                    
+                
+                y_selfSufficiencyA1=self_sufficiencyA1
+                    
+                x_time=[15]
+                x_time=x_time*len(gridPrices)
+                x_time=[sum(x_time[:y]) for y in range(1, len(x_time) + 1)]
+                
+                x_time = [i * (1/60) for i in x_time]
+                               
+                plt.plot(x_time, y_selfSufficiencyA1)
+                plt.legend(['self sufficiency A1'])
+                plt.grid(True)
+                
+                plt.xlabel('Time [h]', fontsize=14)
+                plt.ylabel('self sufficiency [%]', fontsize=14)
+                
+                plt.show()
+                
+    # self sufficiency list to data frame
+    
+    # C1:
+    
+                selfSufficiencyC1df=pd.DataFrame\
+                (index=energy_cutA1df.index)
+                selfSufficiencyC1df['selfSufficiencyC1']=self_sufficiencyC1
+                
+                selfSufficiencyC1df.to_csv('Results/SufficiencyC1.csv',\
+                                           sep=',', encoding='utf-8')
+                
+    # C2:
+    
+                selfSufficiencyC2df=pd.DataFrame\
+                (index=energy_cutA1df.index)
+                selfSufficiencyC2df['selfSufficiencyC2']=self_sufficiencyC2
+                
+                selfSufficiencyC2df.to_csv('Results/SufficiencyC2.csv',\
+                                           sep=',', encoding='utf-8')
+                
+    # C3:
+    
+                selfSufficiencyC3df=pd.DataFrame\
+                (index=energy_cutA1df.index)
+                selfSufficiencyC3df['selfSufficiencyC3']=self_sufficiencyC3
+                
+                selfSufficiencyC3df.to_csv('Results/SufficiencyC3.csv',\
+                                           sep=',', encoding='utf-8')
+                
+    # C4:
+    
+                selfSufficiencyC4df=pd.DataFrame\
+                (index=energy_cutA1df.index)
+                selfSufficiencyC4df['selfSufficiencyC4']=self_sufficiencyC4
+                
+                selfSufficiencyC4df.to_csv('Results/SufficiencyC4.csv',\
+                                           sep=',', encoding='utf-8')
+                
+    # B1:
+    
+                selfSufficiencyB1df=pd.DataFrame\
+                (index=energy_cutA1df.index)
+                selfSufficiencyB1df['selfSufficiencyB1']=self_sufficiencyB1
+                
+                selfSufficiencyB1df.to_csv('Results/SufficiencyB1.csv',\
+                                           sep=',', encoding='utf-8')
+                
+    # B2:
+    
+                selfSufficiencyB2df=pd.DataFrame\
+                (index=energy_cutA1df.index)
+                selfSufficiencyB2df['selfSufficiencyB2']=self_sufficiencyB2
+                
+                selfSufficiencyB2df.to_csv('Results/SufficiencyB2.csv',\
+                                           sep=',', encoding='utf-8')
+
+    # A1:
+    
+                selfSufficiencyA1df=pd.DataFrame\
+                (index=energy_cutA1df.index)
+                selfSufficiencyA1df['selfSufficiencyA1']=self_sufficiencyA1
+                
+                selfSufficiencyA1df.to_csv('Results/SufficiencyA1.csv',\
+                                           sep=',', encoding='utf-8')
+            
      ##########################################################################
             
 #                y_priceDifference=\
