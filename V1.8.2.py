@@ -37,8 +37,7 @@ class powerLine:
     def __init__(self, name, bonus, tax, capacity):
         
         self.name=name
-        self.bonus=bonus
-        self.tax=tax
+#       self.tax=tax
         self.capacity=capacity
 
         
@@ -47,9 +46,10 @@ class cellTypeA:
     
     level=1
     
-    def __init__(self, name):
+    def __init__(self, name, bonus):
         
         self.name=name
+        self.bonus=bonus
         self.excessLoad=[]
         self.excessSupply=[]
         
@@ -236,6 +236,8 @@ class cellTypeA:
 # to value
         
         self.LastpriceSupplyv=self.Supplyaccdf.iloc[0][-1]
+        self.LastpriceSupplyv= self.LastpriceSupplyv*self.bonus
+        
         self.FirstpriceLoadv=self.Loadaccdf.iloc[0][0]
 
 # to dict
@@ -263,17 +265,17 @@ class cellTypeB(cellTypeA):
     
     level=2
     
-    def __init__(self, name):
+    def __init__(self, name, bonus) :
         
-        super().__init__(name)
+        super().__init__(name, bonus)
         
 class cellTypeC(cellTypeA):
     
     level=3
     
-    def __init__(self, name):
+    def __init__(self, name, bonus):
         
-        super().__init__(name)
+        super().__init__(name, bonus)
 
 
 
@@ -281,13 +283,17 @@ class cellTypeC(cellTypeA):
         
 # cells
 
-cellA1=cellTypeA('A1')
-cellB1=cellTypeB('B1')
-cellB2=cellTypeB('B2')
-cellC1=cellTypeC('C1')
-cellC2=cellTypeC('C2')
-cellC3=cellTypeC('C3')
-cellC4=cellTypeC('C4')
+cellA1=cellTypeA('A1',0.8)
+cellB1=cellTypeB('B1',0.8)
+cellB2=cellTypeB('B2',0.8)
+cellC1=cellTypeC('C1',0.8)
+cellC2=cellTypeC('C2',0.8)
+cellC3=cellTypeC('C3',0.8)
+cellC4=cellTypeC('C4',0.8)
+
+#  for grid and bonus for decentral energy production
+
+tax=5.0
 
 # grid
 
@@ -481,7 +487,10 @@ ExcessloadC3C4B2df=pd.DataFrame({'ExcessloadC3C4B2':ExcessloadC3C4B2l}).set_inde
 # to value
         
 LastpriceSupplyC1C2B1v=SupplyC1C2B1accdf.iloc[0][-1]
+#LastpriceSupplyC1C2B1v=LastpriceSupplyC1C2B1v
+
 LastpriceSupplyC3C4B2v=SupplyC3C4B2accdf.iloc[0][-1]
+#LastpriceSupplyC3C4B2v=LastpriceSupplyC3C4B2v
 
 FirstpriceLoadC1C2B1v=LoadC1C2B1accdf.iloc[0][0]
 FirstpriceLoadC3C4B2v=LoadC3C4B2accdf.iloc[0][0]
@@ -611,9 +620,16 @@ ExcesssupplyC4df=cellC4.Excesssupplydf
 ExcesssupplyC4df.drop(ExcesssupplyC4df.index[0], inplace=True)
 
 LastpriceSupplyC1=cellC1.LastpriceSupplydf.iloc[0,0]
+#LastpriceSupplyC1=LastpriceSupplyC1*bonus
+
 LastpriceSupplyC2=cellC2.LastpriceSupplydf.iloc[0,0]
+#LastpriceSupplyC2=LastpriceSupplyC2*bonus
+
 LastpriceSupplyC3=cellC3.LastpriceSupplydf.iloc[0,0]
+#LastpriceSupplyC3=LastpriceSupplyC3*bonus
+
 LastpriceSupplyC4=cellC4.LastpriceSupplydf.iloc[0,0]
+#LastpriceSupplyC4=LastpriceSupplyC4*bonus
 
 ###############################################################################
 
@@ -698,10 +714,6 @@ q=0
 # counter for time steps
 
 z=0
-
-# tax for grid
-
-tax=1.25
     
 while marketPrice[q+1] != marketPrice[q]:
     
@@ -2499,7 +2511,6 @@ while marketPrice[q+1] != marketPrice[q]:
                 
                 y_gridPrice=[i * tax for i in y_gridPrice]
                 
-                
                 x_time=[15]
                 x_time=x_time*len(gridPrices)
                 x_time=[sum(x_time[:y]) for y in range(1, len(x_time) + 1)]
@@ -2870,6 +2881,16 @@ while marketPrice[q+1] != marketPrice[q]:
                 
                 selfSufficiencyA1df.to_csv('Results/SufficiencyA1.csv',\
                                            sep=',', encoding='utf-8')
+                
+                plot, =plt.plot(x_supplyacc,y_supplyacc)
+                plot, =plt.plot(x_load,y_load)
+                plot, =plt.plot(energyMarketequilibrium,price_offerA1,'yo')
+                plot, =plt.plot(Fxi,Fyi,"--")
+                
+                plt.xlabel('Energy A1')    
+                plt.ylabel('Price A1')
+                        
+                plt.show()  
             
      ##########################################################################
             
