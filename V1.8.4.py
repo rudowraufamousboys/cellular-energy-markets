@@ -283,17 +283,17 @@ class cellTypeC(cellTypeA):
         
 # cells
 
-cellA1=cellTypeA('A1',0.8)
-cellB1=cellTypeB('B1',0.8)
-cellB2=cellTypeB('B2',0.8)
-cellC1=cellTypeC('C1',0.8)
-cellC2=cellTypeC('C2',0.8)
-cellC3=cellTypeC('C3',0.8)
-cellC4=cellTypeC('C4',0.8)
+cellA1=cellTypeA('A1',0.5)
+cellB1=cellTypeB('B1',0.5)
+cellB2=cellTypeB('B2',0.5)
+cellC1=cellTypeC('C1',0.5)
+cellC2=cellTypeC('C2',0.5)
+cellC3=cellTypeC('C3',0.5)
+cellC4=cellTypeC('C4',0.5)
 
 #  for grid and bonus for decentral energy production
 
-tax=1.5
+tax=1
 
 # grid
 
@@ -638,7 +638,7 @@ LastpriceSupplyC4=cellC4.LastpriceSupplydf.iloc[0,0]
 
 # line capacities:
 
-layoutFactor=float(2)
+layoutFactor=2.5
 
 LineCapacityC1B1=cellC1.Sumloaddf['Sumload_C1'].tolist() 
 LineCapacityC1B1=max(LineCapacityC1B1)*layoutFactor
@@ -694,6 +694,7 @@ price_offerC4=float(0)
 marketPrice=[0,1]
 
 marketPricequilibrium=[]
+energyMarketequilibriuml=[]
 
 # lists for energy cut:
 
@@ -701,6 +702,8 @@ energy_cutA1l=[]
 energy_cutnameA1l=[]
 grid_supplyl=[]
 grid_cutl=[]
+last_xValuel=[]
+lineCutl=[]
 
 energy_cutB1l=[]
 energy_cutB2l=[]
@@ -733,6 +736,10 @@ while marketPrice[q+1] != marketPrice[q]:
             x_values=SupplyB1B2A1df.iloc[z+1].values.tolist()
             
             # adding grid capacity, energyoffer_B1 and energyoffer_B2 to supply:
+            
+            if lineCapacities[z] > LineCapacityA1G:
+                
+                lineCapacities[z]=LineCapacityA1G
             
             x_values.append(lineCapacities[z])
                                    
@@ -844,8 +851,8 @@ while marketPrice[q+1] != marketPrice[q]:
                          #   print(x_supplyacc[-Z])
                 
                         break
-    
-    
+                    
+                
             energy_offerA1reset=energy_offerA1
             price_offerA1reset=price_offerA1
 #            
@@ -862,7 +869,19 @@ while marketPrice[q+1] != marketPrice[q]:
 #            plt.show()
                   
     ################################LEVEL A to B1##############################
-                                    
+
+            if energy_offerA1 > LineCapacityB1A1:
+                
+                lineCutB1A1=energy_offerA1-LineCapacityB1A1
+                
+                energy_offerA1=LineCapacityB1A1
+                
+            else:
+                
+                lineCutB1A1=0.0
+                                
+    ###########################################################################
+            
             x_values=SupplyC1C2B1df.iloc[z+1].values.tolist()
                 
         # adding energyoffer_A1 to supply /
@@ -1015,6 +1034,18 @@ while marketPrice[q+1] != marketPrice[q]:
 #            plt.show()
                 
     ################################LEVEL A to B2##############################
+
+            if energy_offerA1 > LineCapacityB2A1:
+                
+                lineCutB2A1=energy_offerA1-LineCapacityB2A1                
+            
+                energy_offerA1=LineCapacityB2A1
+                
+            else:
+                
+                lineCutB2A1=0.0
+                
+    ###########################################################################
                                     
             x_values=SupplyC3C4B2df.iloc[z+1].values.tolist()
                 
@@ -1167,7 +1198,19 @@ while marketPrice[q+1] != marketPrice[q]:
 #            plt.show()
                   
     ################################LEVEL B1 to C1#############################
-            
+           
+            if energy_offerB1 > LineCapacityC1B1:
+
+                lineCutB1C1=energy_offerB1-LineCapacityC1B1
+                
+                energy_offerB1=LineCapacityC1B1
+                
+            else:
+                
+                lineCutB1C1=0.0
+                
+    ###########################################################################
+                    
             x_values=SupplyC1df.iloc[z+1].values.tolist()
             
         # adding energyoffer_B1 to supply /
@@ -1313,6 +1356,18 @@ while marketPrice[q+1] != marketPrice[q]:
 #            plt.show()
            
     ################################LEVEL B1 to C2#############################
+
+            if energy_offerB1 > LineCapacityC2B1:
+
+                lineCutC2B1=energy_offerB1-LineCapacityC2B1                
+                
+                energy_offerB1=LineCapacityC2B1
+                
+            else:
+                
+                lineCutC2B1=0.0
+                
+    ###########################################################################
             
             x_values=SupplyC2df.iloc[z+1].values.tolist()
             
@@ -1458,7 +1513,19 @@ while marketPrice[q+1] != marketPrice[q]:
 #            plt.show()
     
     ################################LEVEL B2 to C3#############################
-            
+ 
+            if energy_offerB2 > LineCapacityC3B2:
+
+                lineCutC3B2=energy_offerB2-LineCapacityC3B2                
+                
+                energy_offerB2=LineCapacityC3B2
+                
+            else:
+                
+                lineCutC3B2=0.0
+
+    ###########################################################################
+           
             x_values=SupplyC3df.iloc[z+1].values.tolist()
             
             ExcesssupplyC3=ExcesssupplyC3df['ExcesssupplyC3'].tolist()
@@ -1601,7 +1668,19 @@ while marketPrice[q+1] != marketPrice[q]:
 #            plt.show()
             
     ################################LEVEL B2 to C4#############################
-            
+  
+            if energy_offerB2 > LineCapacityC4B2:
+
+                lineCutC4B2=energy_offerB2-LineCapacityC4B2                
+                
+                energy_offerB2=LineCapacityC4B2
+                
+            else:
+                
+                lineCutC4B2=0.0
+                
+    ###########################################################################
+          
             x_values=SupplyC4df.iloc[z+1].values.tolist()
             
             ExcesssupplyC3=ExcesssupplyC3df['ExcesssupplyC3'].tolist()
@@ -1746,6 +1825,30 @@ while marketPrice[q+1] != marketPrice[q]:
     ###########################################################################
     
     ##########################LEVEL C1 / C2 to B1##############################
+
+            if energy_offerC1 > LineCapacityC1B1:
+
+                lineCutC1B1=energy_offerC1-LineCapacityC1B1  
+                
+                energy_offerC1=LineCapacityC1B1
+                
+            else:
+                
+                lineCutC1B1=0.0
+                                
+    ###########################################################################
+                
+            if energy_offerC2 > LineCapacityC2B1:
+
+                lineCutC2B1=energy_offerC2-LineCapacityC2B1  
+                
+                energy_offerC2=LineCapacityC2B1
+                
+            else:
+                
+                lineCutC2B1=0.0
+
+    ###########################################################################
         
             ExcesssupplyC1C2B1=ExcesssupplyC1C2B1df['ExcesssupplyC1C2B1']\
             .tolist()
@@ -1925,7 +2028,31 @@ while marketPrice[q+1] != marketPrice[q]:
 #            plt.show()
             
     ###########################LEVEL C3 / C4 to B2#############################
-        
+
+            if energy_offerC3 > LineCapacityC3B2:
+
+                lineCutC3B2=energy_offerC3-LineCapacityC3B2
+            
+                energy_offerC3=LineCapacityC3B2
+                
+            else:
+                
+                lineCutC3B2=0.0
+                                
+    ###########################################################################
+                
+            if energy_offerC4 > LineCapacityC4B2:
+
+                lineCutC4B2=energy_offerC4-LineCapacityC4B2
+                
+                energy_offerC4=LineCapacityC4B2
+                
+            else:
+                
+                lineCutC4B2=0.0
+              
+    ###########################################################################
+                
             ExcesssupplyC1C2B1=ExcesssupplyC1C2B1df['ExcesssupplyC1C2B1']\
             .tolist()
             ExcesssupplyC3C4B2=ExcesssupplyC3C4B2df['ExcesssupplyC3C4B2']\
@@ -2106,8 +2233,31 @@ while marketPrice[q+1] != marketPrice[q]:
             
             
     ###########################LEVEL B1 / B2 to A1#############################
-    # energy_offerB1 + energy_offcerB2 + linecapacity + gridPrice
-    
+
+            if energy_offerB1 > LineCapacityB1A1:
+                
+                lineCutB1A1=energy_offerB1-LineCapacityB1A1
+            
+                energy_offerB1=LineCapacityB1A1
+                
+            else:
+                
+                lineCutB1A1=0.0
+                
+    ###########################################################################
+                
+            if energy_offerB2 > LineCapacityB2A1:
+                
+                lineCutB2A1=energy_offerB2-LineCapacityB2A1
+                
+                energy_offerB2=LineCapacityB2A1
+                
+            else:
+                
+                lineCutB2A1=0.0
+                
+    ###########################################################################
+            
             x_values=SupplyB1B2A1df.iloc[z+1].values.tolist()
             
             offer_names=list(SupplyB1B2A1df.columns.values)
@@ -2261,11 +2411,14 @@ while marketPrice[q+1] != marketPrice[q]:
             if gridPrices[z]== price_offerA1:
                 
                 grid_cut=x_values[i_delete]- energyMarketequilibrium
-                grid_supply=x_values[i_delete]- grid_cut
                 
-            else:
+            if grid_cut > lineCapacities[z]:
                 
-                pass
+                grid_cut= lineCapacities[z]
+            
+            grid_supply= lineCapacities[z] - grid_cut
+            
+#            grid_supply=x_values[i_delete]- grid_cut
             
             if gridPrices[z] > price_offerA1:
                 
@@ -2303,22 +2456,26 @@ while marketPrice[q+1] != marketPrice[q]:
                 
                 pass
             
-
-                        
-            for Z in range (1, len(x_values)):
+            if energyMarketequilibrium < x_values[-1]:
+                    
+                energy_cutA1= x_values[-1]- energyMarketequilibrium - grid_cut\
+                +lineCutC1B1+lineCutC2B1+lineCutC3B2+lineCutC4B2+lineCutB1A1+\
+                lineCutB2A1                                               
                 
-                if energyMarketequilibrium == x_values[-Z]:
-                    
-                    energy_cutA1= x_values[-1]- x_values[-Z]- grid_cut
-                    #energy_cutnameA1= offer_names[-Z:-1]
-                                        
-                else:
-                    
-                    pass
+#            for Z in range (1, len(x_values)):
+#                
+#                if energyMarketequilibrium == x_values[-Z]:
+#                    
+#                    energy_cutA1= x_values[-1]- x_values[-Z]- grid_cut
+#                    #energy_cutnameA1= offer_names[-Z:-1]
+#                                        
+#                else:
+#                    
+#                    pass
                 
-                if energyMarketequilibrium < x_values[-1]:
-                    
-                    energy_cutA1= x_values[-1]- energyMarketequilibrium- grid_cut
+#                if energyMarketequilibrium < x_values[-1]:
+#                    
+#                    energy_cutA1= x_values[-1]- energyMarketequilibrium- grid_cut
                 
 #                if energyMarketequilibrium < x_values[-Z] and \
 #                energyMarketequilibrium > x_values[-Z-1]:
@@ -2379,6 +2536,17 @@ while marketPrice[q+1] != marketPrice[q]:
             
             q=q+1
             
+            plot, =plt.plot(x_supplyacc,y_supplyacc)
+            plot, =plt.plot(x_load,y_load)
+            plot, =plt.plot(energyMarketequilibrium,price_offerA1,'yo')
+            plot, =plt.plot(Fxi,Fyi,"--")
+            
+            plt.xlabel('Energy A1')    
+            plt.ylabel('Price A1')
+                    
+            plt.show()   
+            print(cellC1.Excesssupplydf.index[z])
+            
             if marketPrice[q+1] == marketPrice[q]:
                 
                 q= 0
@@ -2386,25 +2554,19 @@ while marketPrice[q+1] != marketPrice[q]:
                 z+=1
                 
                 energy_cutA1l.append(energy_cutA1)                
-                energy_cutnameA1l.append(energy_cutnameA1)
+                #energy_cutnameA1l.append(energy_cutnameA1)
                 grid_supplyl.append(grid_supply)
                 
                 grid_cutl.append(grid_cut)
-
-#                energy_cutB1l.append(energy_cutB1)
-#                energy_cutB2l.append(energy_cutB2)
-#                
-#                energy_cutC1l.append(energy_cutC1)
-#                energy_cutC2l.append(energy_cutC2)
-#                energy_cutC3l.append(energy_cutC3)
-#                energy_cutC4l.append(energy_cutC4)
+                last_xValuel.append(x_values[-1])
+                energyMarketequilibriuml.append(energyMarketequilibrium)
                 
                 marketPricequilibrium.append(marketPrice[-1])
                 
                 marketPrice=[0,1]
                 
             if z == len(gridPrices):
-                
+
                 for item in energy_cutA1l:
                     
                     if item < 0:
@@ -2440,7 +2602,7 @@ while marketPrice[q+1] != marketPrice[q]:
                                              , inplace=True)
                 
                 energy_cutA1df['energy_cutA1']=energy_cutA1l
-                energy_cutA1df['names']=energy_cutnameA1l
+                #energy_cutA1df['names']=energy_cutnameA1l
                 
                 energy_cutA1df.to_csv('Results/energy cut.csv',\
                                            sep=',', encoding='utf-8')
@@ -2937,15 +3099,17 @@ while marketPrice[q+1] != marketPrice[q]:
                 selfSufficiencyA1df.to_csv('Results/SufficiencyA1.csv',\
                                            sep=',', encoding='utf-8')
                 
-                plot, =plt.plot(x_supplyacc,y_supplyacc)
-                plot, =plt.plot(x_load,y_load)
-                plot, =plt.plot(energyMarketequilibrium,price_offerA1,'yo')
-                plot, =plt.plot(Fxi,Fyi,"--")
+    ###########################################################################
                 
-                plt.xlabel('Energy A1')    
-                plt.ylabel('Price A1')
-                        
-                plt.show()  
+#                plot, =plt.plot(x_supplyacc,y_supplyacc)
+#                plot, =plt.plot(x_load,y_load)
+#                plot, =plt.plot(energyMarketequilibrium,price_offerA1,'yo')
+#                plot, =plt.plot(Fxi,Fyi,"--")
+#                
+#                plt.xlabel('Energy A1')    
+#                plt.ylabel('Price A1')
+#                        
+#                plt.show()  
             
      ##########################################################################
             
