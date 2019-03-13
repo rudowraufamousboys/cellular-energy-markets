@@ -293,7 +293,7 @@ cellC4=cellTypeC('C4',0.8)
 
 #  for grid and bonus for decentral energy production
 
-tax=5.0
+tax=1.5
 
 # grid
 
@@ -577,6 +577,9 @@ SumloadB1B2A1df.rename(columns={0:'SumofLoad'}, inplace=True)
 #gridPricesdf=grid.Energyprices
 
 gridPrices=grid.Energyprices.iloc[:,0].tolist()
+
+gridPrices = [i * tax for i in gridPrices]
+
 lineCapacities=grid.Linecapacity['gridsupply'].tolist()
 
 # delete first value in list for it is the price
@@ -697,6 +700,7 @@ marketPricequilibrium=[]
 energy_cutA1l=[]
 energy_cutnameA1l=[]
 grid_supplyl=[]
+grid_cutl=[]
 
 energy_cutB1l=[]
 energy_cutB2l=[]
@@ -736,7 +740,7 @@ while marketPrice[q+1] != marketPrice[q]:
             
             # adding grid price, price_offerB1 and price_offerB2 to supply:
             
-            y_values.append(gridPrices[z]*tax)
+            y_values.append(gridPrices[z])
             
     #        if price_offerB1 > 0:
     #            
@@ -2133,7 +2137,7 @@ while marketPrice[q+1] != marketPrice[q]:
             
             # adding grid price, price_offerB1 and price_offerB2 to supply:
             
-            y_values.append(gridPrices[z]*tax)
+            y_values.append(gridPrices[z])
             
             if energy_offerB1 > 0:
                 
@@ -2152,6 +2156,8 @@ while marketPrice[q+1] != marketPrice[q]:
                 pass
     
             x_values= [x for _,x in sorted(zip(y_values,x_values))]
+            
+            x_energycut=x_values
             
             offer_names= [x for _,x in sorted(zip(y_values,offer_names))]
             
@@ -2247,38 +2253,115 @@ while marketPrice[q+1] != marketPrice[q]:
 #            energy_offerA1reset=energy_offerA1
 #            price_offerA1reset=price_offerA1
             
-    ###############################energy cut##################################
-
-            for Z in range (1,len(x_values)):
-                
-                if x_values[-Z]> energyMarketequilibrium:
-                    
-                    energy_cutnameA1= offer_names[-Z]
-                
-                    if (x_values[-Z]-x_values[-Z-1])< (x_values[-Z]-\
-                       energyMarketequilibrium):
-                        
-                        energy_cutA1=x_values[-Z]- x_values[-Z-1]
-                        
-                    else:
-                        
-                        energy_cutA1=x_values[-Z]- energyMarketequilibrium
-        
-                                
-            if x_values[0]> energyMarketequilibrium:
-                
-                energy_cutnameA1= offer_names[0]  
-                    
-                energy_cutA1= x_values[0]-energyMarketequilibrium
+     ###############################energy cut#################################
+     #grid cut and supply:
+     
+            i_delete= offer_names.index('grid')
             
-            if energy_cutnameA1 == 'grid':
-
-                grid_supply=energy_cutA1                
-                energy_cutA1=0
+            if gridPrices[z]== price_offerA1:
+                
+                grid_cut=x_values[i_delete]- energyMarketequilibrium
+                grid_supply=x_values[i_delete]- grid_cut
                 
             else:
                 
-                grid_supply=0
+                pass
+            
+            if gridPrices[z] > price_offerA1:
+                
+                grid_cut= x_energycut[i_delete]
+                grid_supply= 0.0
+                
+            else:
+                
+                pass
+            
+            if gridPrices[z] < price_offerA1:
+                
+                grid_cut= 0.0
+                grid_supply= x_energycut[i_delete]
+ 
+                
+      #########################################################################
+      # energy cut:
+      
+            if energyMarketequilibrium > x_values[-1]:
+                
+                energy_cutA1=0.0
+                energy_cutnameA1='NaN'
+                
+            else:
+                
+                pass
+                
+            if energyMarketequilibrium == x_values[-1]:
+                
+                energy_cutA1=0.0
+                energy_cutnameA1='NaN'
+                
+            else:
+                
+                pass
+            
+
+                        
+            for Z in range (1, len(x_values)):
+                
+                if energyMarketequilibrium == x_values[-Z]:
+                    
+                    energy_cutA1= x_values[-1]- x_values[-Z]- grid_cut
+                    #energy_cutnameA1= offer_names[-Z:-1]
+                                        
+                else:
+                    
+                    pass
+                
+                if energyMarketequilibrium < x_values[-1]:
+                    
+                    energy_cutA1= x_values[-1]- energyMarketequilibrium- grid_cut
+                
+#                if energyMarketequilibrium < x_values[-Z] and \
+#                energyMarketequilibrium > x_values[-Z-1]:
+#                    
+#                    energy_cutA1 = x_values[-Z] - energyMarketequilibrium - grid_cut
+#                    energy_cutnameA1=offer_names[-Z-1:-1]
+#                    
+#                else:
+#                    
+#                    pass
+                
+                    
+#            for Z in range (1,len(x_values)):
+#                
+#                if x_values[-Z]> energyMarketequilibrium:
+#                    
+#                    energy_cutnameA1= offer_names[-Z:len(x_values)]
+#                
+#                    if (x_values[-Z]-x_values[-Z-1])< (x_values[-Z]-\
+#                       energyMarketequilibrium):
+#                        
+#                        energy_cutA1=x_values[-Z]- energyMarketequilibrium - grid_cut
+#                        
+#                    else:
+#                        
+#                        energy_cutA1=x_values[-Z]- energyMarketequilibrium - grid_cut
+#                        
+#
+#                                
+#            if x_values[0]> energyMarketequilibrium:
+#                
+#                energy_cutnameA1= offer_names[0]  
+#                    
+#                energy_cutA1= x_values[0]-energyMarketequilibrium - grid_cut
+#            
+#            if energy_cutnameA1 == 'grid':
+#
+#                grid_supply=energy_cutA1                
+#                energy_cutA1=0
+#                
+#            else:
+#                
+#                grid_supply=0
                                             
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!        
             
@@ -2305,6 +2388,8 @@ while marketPrice[q+1] != marketPrice[q]:
                 energy_cutA1l.append(energy_cutA1)                
                 energy_cutnameA1l.append(energy_cutnameA1)
                 grid_supplyl.append(grid_supply)
+                
+                grid_cutl.append(grid_cut)
 
 #                energy_cutB1l.append(energy_cutB1)
 #                energy_cutB2l.append(energy_cutB2)
@@ -2319,6 +2404,16 @@ while marketPrice[q+1] != marketPrice[q]:
                 marketPrice=[0,1]
                 
             if z == len(gridPrices):
+                
+                for item in energy_cutA1l:
+                    
+                    if item < 0:
+                        
+                        item = 0
+                        
+                    else:
+                        
+                        pass
                 
                 # market equilibrium price to df:
                 
@@ -2360,7 +2455,20 @@ while marketPrice[q+1] != marketPrice[q]:
                 
                 grid_supplydf['grid_supply']=grid_supplyl
                 
-                grid_supplydf.to_csv('Results/grid supply.csv',\
+                grid_supplydf.to_csv('Results/grid_supply.csv',\
+                                           sep=',', encoding='utf-8')
+                
+                ###############################################################
+                                
+                grid_cutdf=pd.DataFrame\
+                (index=ExcesssupplyC1C2B1df.index)
+                
+                grid_cutdf.drop(grid_supplydf.index[0]\
+                                             , inplace=True)
+                
+                grid_cutdf['grid_cut']=grid_cutl
+                
+                grid_cutdf.to_csv('Results/grid_cut.csv',\
                                            sep=',', encoding='utf-8')
                 
                 ###############################################################                
@@ -2430,7 +2538,7 @@ while marketPrice[q+1] != marketPrice[q]:
     
                 y_gridPrice=gridPrices
                 
-                y_gridPrice=[i * tax for i in y_gridPrice]
+#                y_gridPrice=[i * tax for i in y_gridPrice]
                 
                 x_time=[15]
                 x_time=x_time*len(gridPrices)
@@ -2457,7 +2565,7 @@ while marketPrice[q+1] != marketPrice[q]:
      # energy cut
           
                 y_energycut=energy_cutA1df['energy_cutA1'].tolist()
-                    
+                                
                 x_time=[15]
                 x_time=x_time*len(gridPrices)
                 x_time=[sum(x_time[:y]) for y in range(1, len(x_time) + 1)]
@@ -2497,7 +2605,33 @@ while marketPrice[q+1] != marketPrice[q]:
                 plt.xlabel('Time [h]', fontsize=14)
                 plt.ylabel('Energy [kWh]', fontsize=14)
                 
-                plt.savefig('plots/grid supply', dpi=None, \
+                plt.savefig('plots/grid_supply', dpi=None, \
+                facecolor='w', edgecolor='w',\
+                orientation='portrait', papertype=None, format=None,\
+                transparent=False, bbox_inches=None, pad_inches=0.1,\
+                frameon=None, metadata=None)
+                
+                plt.show()
+
+     ##########################################################################
+     # grid cut
+           
+                y_gridcut=grid_cutdf['grid_cut'].tolist()
+                    
+                x_time=[15]
+                x_time=x_time*len(gridPrices)
+                x_time=[sum(x_time[:y]) for y in range(1, len(x_time) + 1)]
+                
+                x_time = [i * (1/60) for i in x_time]
+                               
+                plt.plot(x_time, y_gridcut)
+                plt.legend(['grid_cut'])
+                plt.grid(True)
+                
+                plt.xlabel('Time [h]', fontsize=14)
+                plt.ylabel('Energy [kWh]', fontsize=14)
+                
+                plt.savefig('plots/grid_cut', dpi=None, \
                 facecolor='w', edgecolor='w',\
                 orientation='portrait', papertype=None, format=None,\
                 transparent=False, bbox_inches=None, pad_inches=0.1,\
