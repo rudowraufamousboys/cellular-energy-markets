@@ -1100,7 +1100,7 @@ while marketPrice[q+1] != marketPrice[q]:
            
             # load curve:
     
-            x_load=SumloadC1C2B1df.iloc[z].tolist()
+            x_load=SumloadB1B2A1df.iloc[z].tolist()
             y_load=[0,40]*len(x_load)
     
             x_load=x_load*2
@@ -2644,7 +2644,7 @@ while marketPrice[q+1] != marketPrice[q]:
            
             # load curve:
     
-            x_load=SumloadC1C2B1df.iloc[z].tolist()
+            x_load=SumloadB1B2A1df.iloc[z].tolist()
             y_load=[0,40]*len(x_load)
     
             x_load=x_load*2
