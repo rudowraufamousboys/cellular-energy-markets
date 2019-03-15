@@ -284,13 +284,13 @@ class cellTypeC(cellTypeA):
         
 # cells
 
-cellA1=cellTypeA('A1',0.8)
-cellB1=cellTypeB('B1',0.8)
-cellB2=cellTypeB('B2',0.8)
-cellC1=cellTypeC('C1',0.8)
-cellC2=cellTypeC('C2',0.8)
-cellC3=cellTypeC('C3',0.8)
-cellC4=cellTypeC('C4',0.8)
+cellA1=cellTypeA('A1',0.5)
+cellB1=cellTypeB('B1',0.5)
+cellB2=cellTypeB('B2',0.5)
+cellC1=cellTypeC('C1',0.5)
+cellC2=cellTypeC('C2',0.5)
+cellC3=cellTypeC('C3',0.5)
+cellC4=cellTypeC('C4',0.5)
 
 #  for grid and bonus for decentral energy production
 
@@ -2931,6 +2931,8 @@ while marketPrice[q+1] != marketPrice[q]:
                 
                 plt.xlabel('Time [h]', fontsize=14)
                 plt.ylabel('Price [€Cent/ kWh]', fontsize=14)
+                plt.axis([0,max(x_time),\
+                          0,40])
                 
                 plt.savefig('plots/market_price_grid_price', dpi=None, \
                 facecolor='w', edgecolor='w',\
@@ -2960,6 +2962,8 @@ while marketPrice[q+1] != marketPrice[q]:
                 
                 plt.xlabel('Time [h]', fontsize=14)
                 plt.ylabel('Energy [kWh]', fontsize=14)
+                plt.axis([0,max(x_time),\
+                          0,20000])
                 
                 plt.savefig('plots/energy cut', dpi=None, \
                 facecolor='w', edgecolor='w',\
@@ -2989,6 +2993,9 @@ while marketPrice[q+1] != marketPrice[q]:
                 
                 plt.xlabel('Time [h]', fontsize=14)
                 plt.ylabel('Energy [kWh]', fontsize=14)
+                plt.axis([0,max(x_time),\
+                          0,1000])
+                
                 
                 plt.savefig('plots/grid_supply', dpi=None, \
                 facecolor='w', edgecolor='w',\
@@ -3018,6 +3025,8 @@ while marketPrice[q+1] != marketPrice[q]:
                 
                 plt.xlabel('Time [h]', fontsize=14)
                 plt.ylabel('Energy [kWh]', fontsize=14)
+                plt.axis([0,max(x_time),\
+                          0,1500])
                 
                 plt.savefig('plots/grid_cut', dpi=None, \
                 facecolor='w', edgecolor='w',\
@@ -3109,6 +3118,8 @@ while marketPrice[q+1] != marketPrice[q]:
                 
                 plt.xlabel('Time [h]', fontsize=14)
                 plt.ylabel('self sufficiency [%]', fontsize=14)
+                plt.axis([0,max(x_time),\
+                          0,1000])
                 
                 plt.savefig('plots/selfSufficiencyC1', dpi=None, \
                 facecolor='w', edgecolor='w',\
@@ -3137,6 +3148,8 @@ while marketPrice[q+1] != marketPrice[q]:
                 
                 plt.xlabel('Time [h]', fontsize=14)
                 plt.ylabel('self sufficiency [%]', fontsize=14)
+                plt.axis([0,max(x_time),\
+                          0,1000])
                 
                 plt.savefig('plots/selfSufficiencyC2', dpi=None, \
                 facecolor='w', edgecolor='w',\
@@ -3165,6 +3178,8 @@ while marketPrice[q+1] != marketPrice[q]:
                 
                 plt.xlabel('Time [h]', fontsize=14)
                 plt.ylabel('self sufficiency [%]', fontsize=14)
+                plt.axis([0,max(x_time),\
+                          0,1000])
                 
                 plt.savefig('plots/selfSufficiencyC3', dpi=None, \
                 facecolor='w', edgecolor='w',\
@@ -3193,6 +3208,8 @@ while marketPrice[q+1] != marketPrice[q]:
                 
                 plt.xlabel('Time [h]', fontsize=14)
                 plt.ylabel('self sufficiency [%]', fontsize=14)
+                plt.axis([0,max(x_time),\
+                          0,1000])
                 
                 plt.savefig('plots/selfSufficiencyC4', dpi=None, \
                 facecolor='w', edgecolor='w',\
@@ -3221,6 +3238,8 @@ while marketPrice[q+1] != marketPrice[q]:
                 
                 plt.xlabel('Time [h]', fontsize=14)
                 plt.ylabel('self sufficiency [%]', fontsize=14)
+                plt.axis([0,max(x_time),\
+                          0,1000])
                 
                 plt.savefig('plots/selfSufficiencyB1', dpi=None, \
                 facecolor='w', edgecolor='w',\
@@ -3249,6 +3268,8 @@ while marketPrice[q+1] != marketPrice[q]:
                 
                 plt.xlabel('Time [h]', fontsize=14)
                 plt.ylabel('self sufficiency [%]', fontsize=14)
+                plt.axis([0,max(x_time),\
+                          0,1000])
                 
                 plt.savefig('plots/selfSufficiencyB2', dpi=None, \
                 facecolor='w', edgecolor='w',\
@@ -3277,6 +3298,8 @@ while marketPrice[q+1] != marketPrice[q]:
                 
                 plt.xlabel('Time [h]', fontsize=14)
                 plt.ylabel('self sufficiency [%]', fontsize=14)
+                plt.axis([0,max(x_time),\
+                          0,1000])
                 
                 plt.savefig('plots/selfSufficiencyA1', dpi=None, \
                 facecolor='w', edgecolor='w',\
@@ -3358,7 +3381,8 @@ while marketPrice[q+1] != marketPrice[q]:
     #delta price describes the diffrence between the last price of cell level
     #A and the price corrected by a bonus which is part of the class "cell"
     
-                bonus=[a -b for a,b in zip(energy_offerA1l, grid_supplyl)]
+                bonus=[a -b for a,b in zip(energyMarketequilibriuml,\
+                                           grid_supplyl)]
                 
                 deltaPrice=cellA1.LastpriceSupplyv/cellA1.bonus-\
                 cellA1.LastpriceSupplyv
@@ -3392,6 +3416,8 @@ while marketPrice[q+1] != marketPrice[q]:
                 
                 plt.xlabel('Time [h]', fontsize=14)
                 plt.ylabel('bonus [€]', fontsize=14)
+                plt.axis([0,max(x_time),\
+                          0,100])
                 
                 plt.savefig('plots/bonus ', dpi=None, \
                 facecolor='w', edgecolor='w',\
